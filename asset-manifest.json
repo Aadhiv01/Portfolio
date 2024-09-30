@@ -1,0 +1,21 @@
+{
+  "files": {
+    "main.css": "/react-gh-pages/static/css/main.a7ca4506.css",
+    "main.js": "/react-gh-pages/static/js/main.4a01f946.js",
+    "static/media/Profile_Picture.jpg": "/react-gh-pages/static/media/Profile_Picture.0afdb4ed538557022ea1.jpg",
+    "static/media/InterVariable-Italic.woff2": "/react-gh-pages/static/media/InterVariable-Italic.e295f70fe3e2df296c7b.woff2",
+    "static/media/InterVariable.woff2": "/react-gh-pages/static/media/InterVariable.a0e477f2f1f9d2376fde.woff2",
+    "static/media/hours_tracker.png": "/react-gh-pages/static/media/hours_tracker.4498c7f8c393a34bd132.png",
+    "static/media/neighbor_nexus.jpeg": "/react-gh-pages/static/media/neighbor_nexus.445488e2c911425e85f9.jpeg",
+    "static/media/aws_logo.png": "/react-gh-pages/static/media/aws_logo.316da603b6d42393e022.png",
+    "static/media/quiz_master.avif": "/react-gh-pages/static/media/quiz_master.b0772170d01b0b9e91ed.avif",
+    "static/media/Oracle_Logo.png": "/react-gh-pages/static/media/Oracle_Logo.9156326c725803e9b7ba.png",
+    "index.html": "/react-gh-pages/index.html",
+    "main.a7ca4506.css.map": "/react-gh-pages/static/css/main.a7ca4506.css.map",
+    "main.4a01f946.js.map": "/react-gh-pages/static/js/main.4a01f946.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.a7ca4506.css",
+    "static/js/main.4a01f946.js"
+  ]
+}
