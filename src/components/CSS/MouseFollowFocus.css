@@ -1,0 +1,19 @@
+/* Mouse-following focus element */
+.focus {
+  width: 94vb; /* Set the width of the spotlight */
+  height: 94vh; /* Set the height of the spotlight */
+  position: fixed;
+  pointer-events: none; /* Prevent the spotlight from capturing events */
+  mix-blend-mode: overlay; /* Blend the spotlight with the background */
+  transition: width 0.2s, height 0.2s; /* Add a smooth transition effect */
+  background-image: radial-gradient(
+    circle at center,
+    rgba(255, 255, 255, 0.642) 0%, /* Adjust the percentage to control the fading */
+    rgba(255, 255, 255, 0) 60%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  border-radius: 50%; /* Rounded shape to make it circular */
+  transform: translate(-50%, -50%);
+  z-index: 4000;
+  }
+  

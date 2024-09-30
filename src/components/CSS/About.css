@@ -1,0 +1,44 @@
+.about-page {
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+    line-height: 1.6;
+    color: inherit;
+}
+
+.about-section,
+.story-section,
+.skills-section,
+.philosophy-section,
+.3d-section,
+.contact-section {
+    margin-bottom: 40px;
+}
+
+.about-section h1,
+.story-section h2,
+.skills-section h2,
+.philosophy-section h2,
+.3d-section h2,
+.contact-section h2 {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    color: inherit;
+}
+
+.about-section p,
+.story-section p,
+.skills-section p,
+.philosophy-section p,
+.contact-section p {
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+}
+
+.skills-section {
+    text-align: center;
+}
+
+.3d-section {
+    text-align: center;
+}

@@ -1,0 +1,179 @@
+
+/* Reset CSS */
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+  border: 0 solid #e5e7eb;
+  padding: 0;
+  margin: 0;
+}
+
+/* Common Styles */
+
+.hide {
+  display: none;
+}
+
+.page__style {
+  background: #0a172c;
+  transition: #3E5151 0.3s ease;
+  line-height: 1.5;
+  -webkit-text-size-adjust: 100%;
+  -moz-tab-size: 4;
+  -o-tab-size: 4;
+  tab-size: 4;
+  font-family: var(--font-inter), ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  font-feature-settings: "ss03", "cv02", "cv11";
+  font-variation-settings: normal;
+  color: #fff;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  margin: auto;
+  overflow: hidden;
+  z-index: 1 !important;
+}
+
+abbr:where([title]) {
+  -webkit-text-decoration: underline dotted;
+  text-decoration: underline dotted;
+}
+
+.page__description {
+  color: #ffffff;
+  font-weight: 300;
+  text-align: center;
+}
+
+h1 {
+  font-weight: 300;
+  margin-top: 200px;
+  margin-bottom: 30px;
+}
+
+.nav-item:hover ~ .line-top {
+  transform: translateY(0);
+}
+
+.active_link {
+  color: #9c8410;
+}
+
+a {
+  text-decoration: none;
+  color: #fff;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* Animation class */
+.animate_content {
+  animation: animate 2s ease;
+}
+
+@keyframes animate {
+  10% {
+    transform: scale(1, 0.002);
+  }
+  35% {
+    transform: scale(0.2, 0.002);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(0.2, 0.002);
+    opacity: 0;
+  }
+  85% {
+    transform: scale(1, 0.002);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1, 1);
+  }
+}
+
+.fadeIn {
+  z-index: 10;
+}
+
+/* Home */
+.home {
+  background: #5DA9E9;
+}
+
+/* Projects */
+.projects {
+  background: #BD5DE9;
+}
+
+/* Skills */
+.skills {
+  background: #5DE974;
+}
+
+/* About */
+.about {
+  background: #FB9B33;
+}
+
+/* Contact */
+.contact {
+  background: #C9CDC0;
+}
+
+/* Mobile media-queries (max-width: 767px) */
+@media only screen and (max-width: 767px) {
+  .page__description h1 {
+    margin-top: 100px;
+  }
+}
+
+/* Button and Input Reset */
+[type=button],
+[type=reset],
+[type=submit],
+button {
+  -webkit-appearance: button;
+  background-color: transparent;
+  background-image: none;
+}
+
+/* Remove box-shadow on invalid input */
+:-moz-ui-invalid {
+  box-shadow: none;
+}
+
+/* Progress Bar */
+progress {
+  vertical-align: baseline;
+}
+
+/* Remove inner spin button */
+::-webkit-inner-spin-button,
+::-webkit-outer-spin-button {
+  height: auto;
+}
+
+/* Search Input */
+[type=search] {
+  -webkit-appearance: textfield;
+  outline-offset: -2px;
+}
+
+/* Remove search input decoration */
+::-webkit-search-decoration {
+  -webkit-appearance: none;
+}
+
+/* Remove file upload button decoration */
+::-webkit-file-upload-button {
+  -webkit-appearance: button;
+  font: inherit;
+}

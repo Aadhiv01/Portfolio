@@ -1,0 +1,229 @@
+
+@import url("https://fonts.googleapis.com/css?family=Lato");
+
+.page-container {
+  padding: 10px;
+  font-family: var(--font-inter), ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  z-index: 100 !important; 
+}
+
+.navbar {
+  background-color: rgba(0, 0, 0, 0.4);
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
+  box-shadow: 0 0.5rem 1rem rgba(57, 56, 56, 0.259);
+  color: #fff;
+  position: absolute;
+  padding: 10px;
+}
+
+.visible {
+  background-color: rgba(0, 0, 0, 0.4);
+  height: 100%;
+}
+
+.navbar-brand {
+  display: flex;
+  position: relative;
+}
+
+.navbar-brand:active,
+.navbar-brand:hover {
+  color: #fff;
+}
+
+.menu-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #fff;
+  position: relative;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  z-index: 50;
+}
+
+ul li {
+  text-align: center;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: white;
+  cursor: pointer;
+  display: inline-block;
+  letter-spacing: 3.5px;
+  transition: all 0.5s ease-out;
+}
+
+.btn {
+  color: #fff;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 45px;
+  margin: 0 0;
+  max-width: 160px;
+  position: relative;
+  text-decoration: none;
+  text-transform: uppercase;
+  font-weight: bold;
+  width: 100%;
+
+  @media (min-width: 600px) {
+    margin: 0 1em;
+  }
+
+  &:hover {
+    text-decoration: none;
+  }
+}
+
+.btn-2 {
+  letter-spacing: 0;
+  font-size: 5rem;
+  padding: 1.2rem;
+}
+
+.btn-2:hover,
+.btn-2:active {
+  letter-spacing: 5px;
+}
+
+.btn-2:after,
+.btn-2:before {
+  backface-visibility: hidden;
+  bottom: 0px;
+  content: " ";
+  display: block;
+  margin: 0 auto;
+  position: relative;
+  transition: all 280ms ease-in-out;
+  width: 0;
+}
+
+.btn-2:hover:after,
+.btn-2:hover:before {
+  backface-visibility: hidden;
+  transition: width 350ms ease-in-out;
+  width: 70%;
+}
+
+.btn-2:hover:before {
+  bottom: auto;
+  top: 0;
+  width: 70%;
+}
+
+.menuValue {
+  color: #fff;
+}
+
+.closeValue {
+  color: rgb(148, 138, 138);
+}
+
+.menuValue:hover {
+  color: rgb(148, 138, 138);
+}
+
+.closeValue:hover {
+  color: #fff;
+}
+
+.menuValue .navbar-brand.btn h5 {
+  color: #fff;
+}
+
+.closeValue .navbar-brand.btn h5 {
+  color: rgb(148, 138, 138);
+}
+
+.menuValue .navbar-brand.btn:hover h5 {
+  color: rgb(148, 138, 138);
+}
+
+.closeValue .navbar-brand.btn:hover h5 {
+  color: #fff;
+}
+
+.menuValue .navbar-brand.btn p {
+  border-color: #fff !important;
+}
+
+.closeValue .navbar-brand.btn p {
+  border-color: rgb(148, 138, 138) !important;
+}
+
+.menuValue .navbar-brand.btn:hover p {
+  border-color: rgb(148, 138, 138) !important;
+}
+
+.closeValue .navbar-brand.btn:hover p {
+  border-color: #fff !important;
+}
+.navbar-nav {
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.6s ease-in-out;
+  transform: translateX(-100%);
+  align-items: center;
+  justify-content: center;
+  align-self: center;
+  opacity: 0;
+}
+
+.navbar-nav.open {
+  transform: translateX(0);
+  opacity: 1;
+}
+
+.navbar-nav li {
+  animation: slideIn 0.5s ease-in-out forwards;
+  transition: transform 0.6s ease-in-out forwards, opacity 0.6s ease-in-out;
+  opacity: 0;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(-24%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.navbar-nav.open li:nth-child(1) {
+  animation-delay: 0.05s;
+}
+
+.navbar-nav.open li:nth-child(2) {
+  animation-delay: 0.1s;
+}
+
+.navbar-nav.open li:nth-child(3) {
+  animation-delay: 0.15s;
+}
+
+.navbar-nav.open li:nth-child(4) {
+  animation-delay: 0.2s;
+}
+
+/* .nav-links-container {
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.3s ease-in-out;
+  transform: translateX(-100%);
+}
+
+.nav-links-container.open {
+  transform: translateX(0);
+} */
+
+.inactiveLink {
+  color: rgb(148, 138, 138);
+}
