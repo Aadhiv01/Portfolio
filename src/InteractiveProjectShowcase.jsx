@@ -216,16 +216,8 @@ const IneractiveProjectShowcase = () => {
   };
 
   return (
-    <div className="py-16 px-4 bg-gradient-to-b from-gray-900 via-gray-800 to-gray-900 min-h-screen">
-      <motion.h2 
-        className="text-4xl md:text-5xl font-bold text-center mb-12 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500"
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, delay: 0.2 }}
-      >
-        Featured Projects
-      </motion.h2>
-      <motion.div 
+    <div className="px-4 min-h-screen">
+      <motion.div
         className="flex flex-col gap-8 max-w-7xl mx-auto"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}

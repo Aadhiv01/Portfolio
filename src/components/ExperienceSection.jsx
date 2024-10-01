@@ -83,7 +83,7 @@ const ExperienceSection = () => {
 
   const SectionHeader = ({ children }) => (
     <motion.h2 
-      className="gradient-text text-4xl font-bold mb-6"
+      className="header"
       initial={{ opacity: 0, y: -50 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}

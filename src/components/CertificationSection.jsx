@@ -51,18 +51,17 @@ const CertificationsSection = () => {
     ];
 
     const SectionHeader = ({ children }) => (
-        <motion.h2 
-          className="gradient-text text-4xl font-bold mb-6"
-          initial={{ opacity: 0, y: -50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
+        <motion.h2
+            className="header"
+            initial={{ opacity: 0, y: -50 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
         >
           {children}
         </motion.h2>
       );
   
     return (
-      <section id="certifications" className="section certifications">
         <motion.div 
           className="certifications-content"
           initial={{ x: 100, opacity: 0 }}
@@ -76,7 +75,6 @@ const CertificationsSection = () => {
             ))}
           </div>
         </motion.div>
-      </section>
     );
   };
 

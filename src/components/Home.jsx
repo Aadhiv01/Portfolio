@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { motion, useScroll, useTransform } from 'framer-motion';
+import { motion, useScroll } from 'framer-motion';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGithub, faLinkedin } from '@fortawesome/free-brands-svg-icons';
-import { faEnvelope, faMoon, faSun, faServer, faDesktop, faCloud, faCodeBranch, faCogs, faDatabase, faCode, faProjectDiagram, faLightbulb, faRocket, faMountain, faPaperPlane } from '@fortawesome/free-solid-svg-icons';
+import { faEnvelope, faMoon, faSun, faServer, faCloud, faCodeBranch, faCogs, faDatabase, faCode, faProjectDiagram, faLightbulb, faRocket, faMountain, faPaperPlane } from '@fortawesome/free-solid-svg-icons';
 import InteractiveTimeline from './InteractiveTimeline';
 import profilePic from '../utilities/Profile_Picture.jpg';
 import InteractiveProjectShowcase from '../InteractiveProjectShowcase';
@@ -18,10 +18,6 @@ const Home = () => {
     const [activeSection, setActiveSection] = useState('home');
     const [darkMode, setDarkMode] = useState(true);
     const [isLandingVisible, setIsLandingVisible] = useState(true);
-  
-    const { scrollYProgress } = useScroll();
-    const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
-    const scale = useTransform(scrollYProgress, [0, 0.5], [1, 0.8]);
   
     const homeRef = useRef(null);
     const aboutRef = useRef(null);
@@ -63,6 +59,11 @@ const Home = () => {
       setDarkMode(!darkMode);
     };
 
+    const fadeInUpVariants = {
+        hidden: { opacity: 0, y: 20 },
+        visible: { opacity: 1, y: 0 }
+    }; 
+
   // Animated navigation item
   const NavItem = ({ section }) => (
     <motion.button 
@@ -78,31 +79,6 @@ const Home = () => {
     </motion.button>
   );
 
-  // Animated section header
-  const SectionHeader = ({ children }) => (
-    <motion.h2 
-      className="gradient-text text-4xl font-bold mb-6"
-      initial={{ opacity: 0, y: -50 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5 }}
-    >
-      {children}
-    </motion.h2>
-  );
-
-  // Animated expertise item
-  const ExpertiseItem = ({ name, icon, description }) => {
-    return (
-      <SectionAnimation>
-        <div className="expertise-item glass-effect">
-          <FontAwesomeIcon icon={icon} className="expertise-icon" />
-          <h3>{name}</h3>
-          <p>{description}</p>
-        </div>
-      </SectionAnimation>
-    );
-  };
-
   const ContactSection = () => (
     <section id="contact" ref={contactRef} className="section contact">
       <motion.div 
@@ -111,7 +87,14 @@ const Home = () => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
       >
-        <SectionHeader>Let's Connect</SectionHeader>
+        <motion.h2
+            className="header"
+            initial={{ opacity: 0, y: -50 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+        >
+            Let's Connect
+        </motion.h2>
         <p className="contact-intro">I'm always excited to collaborate on innovative projects, exchange ideas, or explore new opportunities. Feel free to reach out!</p>
         
         <div className="contact-grid">
@@ -274,102 +257,110 @@ const Home = () => {
       <MouseFollowFocus />
         <LandingSection profilePic={profilePic} />
 
-        <section id="about" ref={aboutRef} className="section about">
-          <motion.div 
-            className="about-content"
-            initial={{ opacity: 0, y: 50 }}
+        <section id="about" ref={aboutRef} className="section about text-white py-20">
+        <div className="container mx-auto px-4">
+          <motion.h2
+            className="header"
+            initial={{ opacity: 0, y: -50 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
           >
-            <SectionHeader>About Me</SectionHeader>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              <motion.div 
-                className="about-text"
-                initial={{ opacity: 0, x: -50 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.2, duration: 0.5 }}
-              >
-                <p className="mb-4 text-lg">
-                  As a passionate full-stack developer with over 3 years of experience, I thrive on turning complex problems into elegant, efficient solutions. My journey in tech is driven by an insatiable curiosity and a desire to push the boundaries of what's possible.
-                </p>
-                <p className="mb-4 text-lg">
-                  From crafting intuitive user interfaces to architecting robust backend systems, I bring a holistic approach to every project. My expertise spans across modern web technologies, cloud computing, and AI integration, allowing me to create comprehensive, scalable solutions that make a real impact.
-                </p>
-              </motion.div>
-              <motion.div 
-                className="about-highlights"
-                initial={{ opacity: 0, x: 50 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.4, duration: 0.5 }}
-              >
-                <h3 className="text-2xl font-semibold mb-4">What Drives Me</h3>
-                <ul className="space-y-4">
-                  {[
-                    { icon: faCode, text: "Crafting clean, efficient code that solves real-world problems" },
-                    { icon: faLightbulb, text: "Continuous learning and staying ahead of tech trends" },
-                    { icon: faRocket, text: "Pushing the boundaries of what's possible with technology" },
-                    { icon: faMountain, text: "Tackling complex challenges and turning them into opportunities" }
-                  ].map((item, index) => (
-                    <motion.li 
-                      key={index}
-                      className="flex items-center space-x-3"
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: 0.6 + index * 0.1, duration: 0.3 }}
-                    >
-                      <FontAwesomeIcon icon={item.icon} className="text-blue-400 text-xl" />
-                      <span>{item.text}</span>
-                    </motion.li>
-                  ))}
-                </ul>
-              </motion.div>
-            </div>
-          </motion.div>
-        </section>
+            About Me
+          </motion.h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+            <motion.div 
+              className="about-text space-y-6"
+              initial="hidden"
+              animate="visible"
+              variants={fadeInUpVariants}
+            >
+              <p className="text-lg leading-relaxed">
+                As a visionary full-stack developer with over 3 years of experience, I'm on a mission to transform complex challenges into elegant, efficient solutions. My journey in tech is fueled by an insatiable curiosity and a passion for innovation.
+              </p>
+              <p className="text-lg leading-relaxed">
+                I specialize in crafting seamless experiences from front-end to back-end, leveraging cutting-edge technologies to build scalable, robust applications that make a real impact. My expertise spans modern web frameworks, cloud computing, and AI integration, allowing me to create comprehensive solutions that push the boundaries of what's possible.
+              </p>
+            </motion.div>
+            <motion.div 
+              className="about-highlights bg-opacity-10 rounded-lg backdrop-filter backdrop-blur-lg"
+              initial="hidden"
+              animate="visible"
+              variants={fadeInUpVariants}
+            >
+              <h3 className="text-2xl font-semibold mb-6 text-teal-300">What Drives Me</h3>
+              <ul className="space-y-4">
+                {[
+                  { icon: faCode, text: "Architecting clean, efficient code that solves real-world problems" },
+                  { icon: faLightbulb, text: "Continuous learning and staying at the forefront of tech innovation" },
+                  { icon: faRocket, text: "Pushing the limits of technology to create groundbreaking solutions" },
+                  { icon: faMountain, text: "Embracing complex challenges as opportunities for growth" }
+                ].map((item, index) => (
+                  <motion.li 
+                    key={index}
+                    className="flex items-center space-x-3"
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.5 + index * 0.1 }}
+                  >
+                    <FontAwesomeIcon icon={item.icon} className="text-teal-300 text-xl" />
+                    <span>{item.text}</span>
+                  </motion.li>
+                ))}
+              </ul>
+            </motion.div>
+          </div>
+        </div>
+      </section>
 
-        <section id="expertise" ref={expertiseRef} className="section expertise">
-  <div className="expertise-content">
-    <SectionHeader>Areas of Expertise</SectionHeader>
-    <div className="expertise-grid">
-      <ExpertiseItem 
-        name="Backend Development" 
-        icon={faServer} 
-        description="Expertise in Python, Java, and C# for robust server-side applications." 
-      />
-      <ExpertiseItem 
-        name="Frontend Development" 
-        icon={faDesktop} 
-        description="Proficient in React.js, Angular, and Vue.js for responsive UIs." 
-      />
-      <ExpertiseItem 
-        name="Database Management" 
-        icon={faDatabase} 
-        description="Skilled in SQL and NoSQL databases like MySQL, PostgreSQL, and MongoDB." 
-      />
-      <ExpertiseItem 
-        name="Cloud Computing" 
-        icon={faCloud} 
-        description="Experience with AWS and GCP for scalable cloud solutions." 
-      />
-      <ExpertiseItem 
-        name="Version Control" 
-        icon={faCodeBranch} 
-        description="Git expert, managing complex workflows and team collaborations." 
-      />
-      <ExpertiseItem 
-        name="DevOps" 
-        icon={faCogs} 
-        description="Implementing CI/CD pipelines with Jenkins and Kubernetes." 
-      />
-    </div>
-  </div>
-</section>
+      <section id="expertise" ref={expertiseRef} className="section expertise py-20">
+        <div className="container mx-auto px-4">
+          <motion.h2 
+            className="header"
+            initial={{ opacity: 0, y: -50 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}    
+          >
+            Areas of Expertise
+          </motion.h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 text-white">
+            {[
+              { name: "Full-Stack Development", icon: faServer, description: "Mastery in end-to-end application development, from server-side logic to intuitive user interfaces." },
+              { name: "Cloud Architecture", icon: faCloud, description: "Designing and implementing scalable, resilient cloud solutions using AWS, GCP, and Azure." },
+              { name: "AI Integration", icon: faLightbulb, description: "Incorporating machine learning models and AI algorithms to enhance application intelligence." },
+              { name: "Database Optimization", icon: faDatabase, description: "Expertise in SQL and NoSQL databases, focusing on performance tuning and data modeling." },
+              { name: "DevOps & CI/CD", icon: faCogs, description: "Implementing robust CI/CD pipelines and DevOps practices for seamless deployment and operation." },
+              { name: "API Design & Microservices", icon: faCodeBranch, description: "Creating scalable, RESTful APIs and microservices architectures for modular, maintainable systems." }
+            ].map((item, index) => (
+              <motion.div 
+                key={index}
+                className="expertise-item bg-gradient-to-br from-gray-700 to-gray-800 rounded-lg p-6 shadow-lg hover:shadow-2xl transition-all duration-300 backdrop-filter backdrop-blur-lg"
+                initial="hidden"
+                animate="visible"
+                variants={fadeInUpVariants}
+                transition={{ delay: 0.2 * index }}
+                whileHover={{ scale: 1.05 }}
+              >
+                <FontAwesomeIcon icon={item.icon} className="text-5xl mb-4 text-purple-400" />
+                <h3 className="text-xl font-semibold mb-3 text-teal-300">{item.name}</h3>
+                <p className="text-gray-300">{item.description}</p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
 
         <section id="projects" ref={projectsRef} className='section projects'>
             <motion.id
                 className="projects-content"
             >
-                <SectionHeader>Projects</SectionHeader>
+                <motion.h2 
+                    className="header"
+                    initial={{ opacity: 0, y: -50 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5 }}
+                >
+                    Projects
+                </motion.h2>
                 <div>
                     <InteractiveProjectShowcase />
                 </div>
@@ -393,7 +384,14 @@ const Home = () => {
     animate={{ y: 0, opacity: 1 }}
     transition={{ duration: 0.5 }}
   >
-    <SectionHeader>Inspiration & Vision</SectionHeader>
+    <motion.h2
+        className="header"
+        initial={{ opacity: 0, y: -50 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+    >
+        Inspiration & Vision
+    </motion.h2>
     <div className="inspiration-grid">
       {[
         { icon: faLightbulb, title: "Innovating for Impact", description: "My goal is to create software solutions that not only solve complex problems but also positively impact people's lives. I'm driven by the potential of technology to transform industries and improve society." },
@@ -554,6 +552,29 @@ const Home = () => {
           font-size: 2.5rem;
           color: var(--accent-color);
           margin-bottom: 20px;
+        }
+
+        .header {
+            margin: 0;
+            padding-bottom: 4rem;
+            color: #4db1bc;
+            grid-column: 1;
+            grid-row: 1;
+            font-weight: 600;
+            z-index: 1;
+            font-size: 6vmin;
+            text-transform: uppercase;
+            animation: glow 2s ease-in-out infinite alternate;
+            text-align: center;
+        }
+
+        @keyframes glow {
+            from {
+            text-shadow: 0 0 20px #2d9da9;
+            }
+            to {
+            text-shadow: 0 0 30px #34b3c1, 0 0 10px #4dbbc7;
+            }
         }
 
         .tagline {
