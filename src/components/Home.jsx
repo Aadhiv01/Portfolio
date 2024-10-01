@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { motion, useScroll } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGithub, faLinkedin } from '@fortawesome/free-brands-svg-icons';
 import { faEnvelope, faMoon, faSun, faServer, faCloud, faCodeBranch, faCogs, faDatabase, faCode, faProjectDiagram, faLightbulb, faRocket, faMountain, faPaperPlane } from '@fortawesome/free-solid-svg-icons';
@@ -10,7 +10,6 @@ import { ExperienceSection } from './ExperienceSection';
 import { CertificationsSection } from './CertificationSection';
 import MouseFollowFocus from './MouseFollowFocus';
 import AIChatbot from './AIChatbot';
-import { SectionAnimation } from './SectionAnimation';
 import LandingSection from './LandingSection';
 import ResumeButton from './Resume_Button';
 
