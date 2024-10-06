@@ -5,53 +5,54 @@ import hours_tracker_pic from "./utilities/hours_tracker.png";
 import neighbor_nexus_pic from "./utilities/neighbor_nexus.jpeg";
 import quiz_master_pic from "./utilities/quiz_master.avif";
 
+
 const projectsData = [
-  {
-    title: "StudentFieldwork Tracker",
-    description: "Revolutionizing BCBA student fieldwork hour tracking with AI-powered insights.",
-    technologies: ["C#", ".NET", "Angular", "SQL Server", "Azure AI"],
-    features: [
-      "AI-driven hour prediction and optimization",
-      "Blockchain-based verification system",
-      "Real-time collaboration tools",
-      "Personalized learning pathways"
-    ],
-    impact: "Reduced administrative workload by 60% and improved student success rates by 35%.",
-    demoLink: "/projects/studentfieldwork-tracker",
-    codeLink: "https://github.com/yourusername/studentfieldwork-tracker",
-    image: hours_tracker_pic
-  },
-  {
-    title: "NeighborNexus",
-    description: "Empowering communities through a cutting-edge social platform and marketplace.",
-    technologies: ["Node.js", "GraphQL", "MongoDB", "React Native", "AWS"],
-    features: [
-      "AI-powered service matching algorithm",
-      "Augmented reality community mapping",
-      "Blockchain-based local currency system",
-      "Voice-activated emergency assistance"
-    ],
-    impact: "Increased community engagement by 120% and facilitated over $1M in local transactions.",
-    demoLink: "/projects/neighbornexus",
-    codeLink: "https://github.com/yourusername/neighbornexus",
-    image: neighbor_nexus_pic
-  },
-  {
-    title: "Quiz Master",
-    description: "Next-gen learning platform leveraging AI to create personalized quiz experiences.",
-    technologies: ["Python", "Flask", "SQLlite", "React"],
-    features: [
-      "AI-generated adaptive quizzes",
-      "Natural language processing for free-form answers",
-      "Real-time knowledge graph visualization",
-      "VR/AR immersive quiz environments"
-    ],
-    impact: "Boosted student engagement by 80% and improved test scores by an average of 40%.",
-    demoLink: "/projects/quiz-master-ai",
-    codeLink: "https://github.com/yourusername/quiz-master-ai",
-    image: quiz_master_pic
-  }
-];
+    {
+      title: "NeighborNexus",
+      description: "A centralized platform connecting community members with local service providers.",
+      technologies: ["React.js", "Node.js", "GraphQL", "MongoDB"],
+      features: [
+        "Comprehensive service provider profiles",
+        "User-friendly service booking system",
+        "Rating and review functionality",
+        "Schedule management for service providers"
+      ],
+      impact: "Streamlined local service discovery and booking, fostering stronger community connections.",
+      demoLink: "/projects/neighbornexus",
+      codeLink: "https://github.com/Aadhiv01/NeighborNexus",
+      image: neighbor_nexus_pic
+    },
+    {
+      title: "StudentFieldwork Tracker",
+      description: "Streamlining BCBA student fieldwork hour tracking with intelligent visualizations and real-time collaboration.",
+      technologies: ["C#", ".NET", "Angular", "REST", "SQL Server"],
+      features: [
+        "Real-time hour management and approval system",
+        "Intuitive visualizations for progress tracking",
+        "Bulk import for historical data",
+        "Collaborative editing for students and supervisors"
+      ],
+      impact: "Significantly improved efficiency in tracking and managing fieldwork hours, enhancing the BCBA certification process.",
+      demoLink: "/projects/studentfieldwork-tracker",
+      codeLink: "https://github.com/Aadhiv01/StudentTracker",
+      image: hours_tracker_pic
+    },
+    {
+      title: "Quiz Master",
+      description: "An innovative learning platform for efficient quiz management and student assessment.",
+      technologies: ["React", "Python", "Flask", "SQLite"],
+      features: [
+        "Intuitive quiz creation and management for professors",
+        "Category-based quiz organization",
+        "Multiple attempt functionality with grade thresholds",
+        "Comprehensive attempt history and performance tracking"
+      ],
+      impact: "Enhanced the quiz-taking experience for students while providing professors with powerful management tools.",
+      demoLink: "/projects/quiz-master",
+      codeLink: "https://github.com/Aadhiv01/QuizMaker",
+      image: quiz_master_pic
+    }
+  ];
 
 const ProjectCard = ({ project, isExpanded, toggleExpand, index }) => {
   const controls = useAnimation();
