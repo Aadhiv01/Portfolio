@@ -3,14 +3,14 @@ import { motion } from 'framer-motion';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCertificate, faCalendar, faGraduationCap } from '@fortawesome/free-solid-svg-icons';
 
-import aws_logo from "../utilities/aws_logo.png";
-import oracle_logo from "../utilities/Oracle_Logo.png";
+import aws_logo from "../../utilities/aws_logo.png";
+import oracle_logo from "../../utilities/Oracle_Logo.png";
 
 
 const CertificationItem = ({ name, issuer, year, logo }) => {
     return (
-      <motion.div 
-        className="certification-item glass-effect"
+      <motion.div
+        className="bg-gradient-to-br from-gray-800 to-gray-900 p-4 rounded-lg shadow-lg"
         initial={{ opacity: 0, y: 50 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}

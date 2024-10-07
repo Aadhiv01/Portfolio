@@ -1,17 +1,21 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
+import emailjs from 'emailjs-com';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGithub, faLinkedin } from '@fortawesome/free-brands-svg-icons';
-import { faEnvelope, faMoon, faSun, faServer, faCloud, faCodeBranch, faCogs, faDatabase, faCode, faProjectDiagram, faLightbulb, faRocket, faMountain, faPaperPlane } from '@fortawesome/free-solid-svg-icons';
-import InteractiveTimeline from './InteractiveTimeline';
+import { faEnvelope, faMoon, faSun, faServer, faCloud, faCodeBranch, faCogs, faDatabase, faCode, faProjectDiagram, faLightbulb, faRocket, faMountain, faPaperPlane, faChartBar } from '@fortawesome/free-solid-svg-icons';
+
+import ProjectSection from './sections/ProjectSection';
+import LandingSection from './sections/LandingSection';
+import InspirationSection from './sections/InspirationSection';
+import { ExperienceSection } from './sections/ExperienceSection';
+import { CertificationsSection } from './sections/CertificationSection';
+
 import profilePic from '../utilities/Profile_Picture.jpg';
-import InteractiveProjectShowcase from '../InteractiveProjectShowcase';
-import { ExperienceSection } from './ExperienceSection';
-import { CertificationsSection } from './CertificationSection';
-import MouseFollowFocus from './MouseFollowFocus';
-import AIChatbot from './AIChatbot';
-import LandingSection from './LandingSection';
 import ResumeButton from './Resume_Button';
+import AIChatbot from './AIChatbot';
+import MouseFollowFocus from './MouseFollowFocus';
+import AboutSection from './sections/AboutSection';
 
 const Home = () => {
     const [activeSection, setActiveSection] = useState('home');
@@ -26,6 +30,42 @@ const Home = () => {
     const certificationsRef = useRef(null);
     const contactRef = useRef(null);
     const inspirationRef = useRef(null);
+    const [formData, setFormData] = useState({
+      name: '',
+      email: '',
+      message: ''
+    });
+  
+    const [isSending, setIsSending] = useState(false);
+  
+    const handleChange = (e) => {
+      setFormData({
+        ...formData,
+        [e.target.name]: e.target.value
+      });
+    };
+  
+    const handleSubmit = (e) => {
+      e.preventDefault();
+      setIsSending(true);
+  
+      emailjs.send(
+        'service_ej0f1qq',
+        'template_7ib4kef',
+        formData,
+        '9mhJjKBAbto71FcxV'
+      )
+      .then((result) => {
+        alert('Message sent successfully!');
+        setFormData({ name: '', email: '', message: '' });
+        setIsSending(false);
+      })
+      .catch((error) => {
+        alert('Failed to send message, please try again later.');
+        console.error('EmailJS error:', error);
+        setIsSending(false);
+      });
+    };
   
     useEffect(() => {
         const handleScroll = () => {
@@ -123,21 +163,40 @@ const Home = () => {
           
           <motion.form 
             className="contact-form"
-            initial={{ opacity: 0, x: 50 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.3, duration: 0.5 }}
-          >
-            <input type="text" placeholder="Your Name" required />
-            <input type="email" placeholder="Your Email" required />
-            <textarea placeholder="Your Message" required></textarea>
-            <motion.button 
-              type="submit"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
+            onSubmit={handleSubmit}
             >
-              <FontAwesomeIcon icon={faPaperPlane} /> Send Message
+            <input
+                type="text" 
+                name="name"
+                placeholder="Your Name" 
+                value={formData.name}
+                onChange={handleChange}
+                required 
+            />
+            <input 
+                type="email" 
+                name="email"
+                placeholder="Your Email" 
+                value={formData.email}
+                onChange={handleChange}
+                required 
+            />
+            <textarea 
+                name="message"
+                placeholder="Your Message" 
+                value={formData.message}
+                onChange={handleChange}
+                required 
+            />
+            <motion.button 
+                type="submit"
+                disabled={isSending}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+            >
+                <FontAwesomeIcon icon={faPaperPlane} /> {isSending ? 'Sending...' : 'Send Message'}
             </motion.button>
-          </motion.form>
+            </motion.form>
         </div>
       </motion.div>
 
@@ -266,48 +325,7 @@ const Home = () => {
           >
             About Me
           </motion.h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-            <motion.div 
-              className="about-text space-y-6"
-              initial="hidden"
-              animate="visible"
-              variants={fadeInUpVariants}
-            >
-              <p className="text-lg leading-relaxed">
-                As a visionary full-stack developer with over 3 years of experience, I'm on a mission to transform complex challenges into elegant, efficient solutions. My journey in tech is fueled by an insatiable curiosity and a passion for innovation.
-              </p>
-              <p className="text-lg leading-relaxed">
-                I specialize in crafting seamless experiences from front-end to back-end, leveraging cutting-edge technologies to build scalable, robust applications that make a real impact. My expertise spans modern web frameworks, cloud computing, and AI integration, allowing me to create comprehensive solutions that push the boundaries of what's possible.
-              </p>
-            </motion.div>
-            <motion.div 
-              className="about-highlights bg-opacity-10 rounded-lg backdrop-filter backdrop-blur-lg"
-              initial="hidden"
-              animate="visible"
-              variants={fadeInUpVariants}
-            >
-              <h3 className="text-2xl font-semibold mb-6 text-teal-300">What Drives Me</h3>
-              <ul className="space-y-4">
-                {[
-                  { icon: faCode, text: "Architecting clean, efficient code that solves real-world problems" },
-                  { icon: faLightbulb, text: "Continuous learning and staying at the forefront of tech innovation" },
-                  { icon: faRocket, text: "Pushing the limits of technology to create groundbreaking solutions" },
-                  { icon: faMountain, text: "Embracing complex challenges as opportunities for growth" }
-                ].map((item, index) => (
-                  <motion.li 
-                    key={index}
-                    className="flex items-center space-x-3"
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: 0.5 + index * 0.1 }}
-                  >
-                    <FontAwesomeIcon icon={item.icon} className="text-teal-300 text-xl" />
-                    <span>{item.text}</span>
-                  </motion.li>
-                ))}
-              </ul>
-            </motion.div>
-          </div>
+          <AboutSection />
         </div>
       </section>
 
@@ -325,10 +343,10 @@ const Home = () => {
             {[
               { name: "Full-Stack Development", icon: faServer, description: "Mastery in end-to-end application development, from server-side logic to intuitive user interfaces." },
               { name: "Cloud Architecture", icon: faCloud, description: "Designing and implementing scalable, resilient cloud solutions using AWS, GCP, and Azure." },
-              { name: "AI Integration", icon: faLightbulb, description: "Incorporating machine learning models and AI algorithms to enhance application intelligence." },
               { name: "Database Optimization", icon: faDatabase, description: "Expertise in SQL and NoSQL databases, focusing on performance tuning and data modeling." },
+              { name: "API Design & Microservices", icon: faCodeBranch, description: "Creating scalable, RESTful APIs and microservices architectures for modular, maintainable systems." },
               { name: "DevOps & CI/CD", icon: faCogs, description: "Implementing robust CI/CD pipelines and DevOps practices for seamless deployment and operation." },
-              { name: "API Design & Microservices", icon: faCodeBranch, description: "Creating scalable, RESTful APIs and microservices architectures for modular, maintainable systems." }
+              { name: "Data Engineering & Analytics", icon: faChartBar, description: "Building robust data pipelines, architecting advanced real-time data processing systems, and crafting insightful visualizations" }
             ].map((item, index) => (
               <motion.div 
                 key={index}
@@ -361,13 +379,13 @@ const Home = () => {
                     Projects
                 </motion.h2>
                 <div>
-                    <InteractiveProjectShowcase />
+                    <ProjectSection />
                 </div>
             </motion.id>
         </section>
 
         <section id="experience" ref={experienceRef} className="section experience">
-          <ExperienceSection />
+            <ExperienceSection />
         </section>
 
 {/* Certifications Section */}
@@ -385,38 +403,13 @@ const Home = () => {
   >
     <motion.h2
         className="header"
-        initial={{ opacity: 0, y: -50 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
+        initial={{ y: -50, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ delay: 0.2, duration: 0.5 }}
     >
         Inspiration & Vision
     </motion.h2>
-    <div className="inspiration-grid">
-      {[
-        { icon: faLightbulb, title: "Innovating for Impact", description: "My goal is to create software solutions that not only solve complex problems but also positively impact people's lives. I'm driven by the potential of technology to transform industries and improve society." },
-        { icon: faCode, title: "Continuous Learning", description: "The ever-evolving tech landscape inspires me to continuously learn and adapt. I'm passionate about staying at the forefront of emerging technologies and methodologies to deliver cutting-edge solutions." },
-        { icon: faProjectDiagram, title: "Bridging AI and Software Engineering", description: "I'm excited about the potential of AI to revolutionize software development. My vision is to create intelligent systems that seamlessly integrate AI capabilities with robust software engineering practices." },
-      ].map((item, index) => (
-        <motion.div 
-          key={index}
-          className="inspiration-item glass-effect"
-          whileHover={{ scale: 1.05, boxShadow: "0px 10px 30px rgba(0,0,0,0.2)" }}
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: index * 0.1, duration: 0.5 }}
-        >
-          <motion.div
-            initial={{ scale: 0 }}
-            animate={{ scale: 1 }}
-            transition={{ delay: 0.2, type: "spring", stiffness: 260, damping: 20 }}
-          >
-            <FontAwesomeIcon icon={item.icon} className="inspiration-icon" />
-          </motion.div>
-          <h3>{item.title}</h3>
-          <p>{item.description}</p>
-        </motion.div>
-      ))}
-    </div>
+    <InspirationSection />
   </motion.div>
 </section>
 
@@ -709,6 +702,11 @@ const Home = () => {
         bottom: 0;
         width: 2px;
         background: var(--accent-color);
+        }
+
+        .vertical-timeline-element-date {
+        opacity: 1 !important;
+        padding: 0.8em 1em !important;
         }
 
         .skill-tag {

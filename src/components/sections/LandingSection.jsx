@@ -1,7 +1,6 @@
 import { motion, useAnimation, useInView } from "framer-motion";
 import { useEffect, useRef } from "react";
 import { TypeAnimation } from "react-type-animation";
-import { FaGithub, FaLinkedin, FaTwitter } from 'react-icons/fa';
 
 const LandingSection = ({ profilePic }) => {
     const controls = useAnimation();

@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence, useAnimation } from 'framer-motion';
 import { ArrowUpRight, Code, ChevronDown, Star, Award, Zap } from 'lucide-react';
-import hours_tracker_pic from "./utilities/hours_tracker.png";
-import neighbor_nexus_pic from "./utilities/neighbor_nexus.jpeg";
-import quiz_master_pic from "./utilities/quiz_master.avif";
+import hours_tracker_pic from "../../utilities/hours_tracker.png";
+import neighbor_nexus_pic from "../../utilities/neighbor_nexus.jpeg";
+import quiz_master_pic from "../../utilities/quiz_master.avif";
 
 
 const projectsData = [
@@ -179,23 +179,13 @@ const ProjectCard = ({ project, isExpanded, toggleExpand, index }) => {
             <motion.h4 className="font-semibold mb-3 text-xl flex items-center">
               <Award className="mr-2 text-green-400" /> Project Impact
             </motion.h4>
-            <motion.p className="mb-6 text-gray-300">{project.impact}</motion.p>
+            <motion.p className="mb-6 text-gray-300 text-md space-x-6 font-medium">{project.impact}</motion.p>
             <motion.div className="flex gap-4">
-              <motion.a 
-                href={project.demoLink} 
-                target="_blank" 
-                rel="noopener noreferrer" 
-                className="bg-gradient-to-r from-blue-500 to-purple-600 text-white px-6 py-3 rounded-lg flex items-center gap-2 font-semibold"
-                whileHover={{ scale: 1.05, y: -5 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                <ArrowUpRight size={20} /> Live Demo
-              </motion.a>
-              <motion.a 
+              <motion.a
                 href={project.codeLink} 
                 target="_blank" 
                 rel="noopener noreferrer" 
-                className="bg-gray-700 text-white px-6 py-3 rounded-lg flex items-center gap-2 font-semibold"
+                className="bg-gradient-to-r from-blue-500 to-purple-600 text-white px-6 py-3 rounded-lg flex items-center gap-2 font-semibold"
                 whileHover={{ scale: 1.05, y: -5 }}
                 whileTap={{ scale: 0.95 }}
               >
@@ -209,7 +199,7 @@ const ProjectCard = ({ project, isExpanded, toggleExpand, index }) => {
   );
 };
 
-const IneractiveProjectShowcase = () => {
+const ProjectSection = () => {
   const [expandedIndex, setExpandedIndex] = useState(null);
 
   const toggleExpand = (index) => {
@@ -240,4 +230,4 @@ const IneractiveProjectShowcase = () => {
   );
 };
 
-export default IneractiveProjectShowcase;
+export default ProjectSection;
