@@ -4,11 +4,18 @@ import { VerticalTimeline, VerticalTimelineElement } from 'react-vertical-timeli
 import 'react-vertical-timeline-component/style.min.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBriefcase, faBuilding } from '@fortawesome/free-solid-svg-icons';
+import uofu_logo from '../../utilities/uofu_logo.png';
+import grid_elevated_logo from '../../utilities/grid_elevated_logo.jpeg';
+import jpmc_logo from '../../utilities/jpmc_logo.jpeg';
+import john_wiley_and_sons_logo from '../../utilities/john_wiley_and_sons_logo.jpeg';
 
-const ExperienceItem = ({ company, position, duration, description, skills, isWork }) => {
+const ExperienceItem = ({ company, position, duration, description, skills, isWork, image }) => {
   const iconStyle = {
-    background: '#06D6A0',
-    color: '#fff',
+    flex: 'auto',
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: '4.4vw',
+    width: '5vw'
   };
 
   return (
@@ -22,9 +29,9 @@ const ExperienceItem = ({ company, position, duration, description, skills, isWo
       date={duration}
       dateClassName="text-lg font-semibold text-accent md:text-white"
       iconStyle={iconStyle}
-      icon={<FontAwesomeIcon icon={faBriefcase} />}
+      icon={<img src={image} alt="myLogo" style={{ borderRadius: '50%', height: '4.4vw', width: '5vw' }} />}
     >
-      <h3 className="vertical-timeline-element-title text-xl font-bold">{position}</h3>
+      <h3 className="vertical-timeline-element-title text-xl font-bold"><span><FontAwesomeIcon icon={faBriefcase} className="text-accent mr-2" /></span>{position}</h3>
       <h4 className="vertical-timeline-element-subtitle text-lg mt-2"><span><FontAwesomeIcon icon={faBuilding} className="text-accent mr-2" /></span>{company}</h4>
       <p className="mt-4">{description}</p>
       <div className="skills-container mt-4 flex flex-wrap">
@@ -47,7 +54,8 @@ const ExperienceSection = () => {
       description: `Designed an application to support easy scheduling of class meetings using Java, Spring Boot, Hibernate, React.js, and MySQL, reducing administrative workload by 40%. 
       Analyzed Zoom meeting interactions and related details using C++ web scraping techniques and OAuth 2.0 for secure access.`,
       skills: ["Java", "Spring Boot", "Hibernate", "React.js", "MySQL", "AWS DevOps", "OAuth 2.0"],
-      isWork: true
+      isWork: true,
+      image: uofu_logo
     },
     {
       company: "Grid Elevated",
@@ -56,7 +64,8 @@ const ExperienceSection = () => {
       description: `Deployed Apache Kafka for real-time data streaming, reducing data latency and improving processing. 
       Engineered SSL/TLS encryption standards to safeguard client data, ensuring zero data breaches over 6 months.`,
       skills: ["Apache Kafka", "Python", "SSL/TLS Encryption", "React.js", "Redux", "AWS RDS", "AWS EC2"],
-      isWork: true
+      isWork: true,
+      image: grid_elevated_logo
     },
     {
       company: "JPMorgan Chase & Co",
@@ -65,7 +74,8 @@ const ExperienceSection = () => {
       description: `Developed secure transaction processing workflows in Java Spring Boot Microservices, improving accuracy by 30%. 
       Enhanced system reliability through TDD practices, reducing production errors using JUnit and Mockito.`,
       skills: ["Java Spring Boot", "Microservices", "JUnit", "Mockito", "CI/CD", "Jenkins", "Kubernetes"],
-      isWork: true
+      isWork: true,
+      image: jpmc_logo
     },
     {
       company: "John Wiley & Sons, Inc.",
@@ -74,7 +84,8 @@ const ExperienceSection = () => {
       description: `Designed user-friendly interfaces with React.js, HTML5, CSS3, JavaScript, and jQuery while developing APIs in Java and Python. 
       Improved data retrieval efficiency by 40% through SQL and NoSQL optimizations.`,
       skills: ["React.js", "HTML5", "CSS3", "JavaScript", "jQuery", "Java", "Python", "SQL", "NoSQL"],
-      isWork: true
+      isWork: true,
+      image: john_wiley_and_sons_logo
     }
   ];
 

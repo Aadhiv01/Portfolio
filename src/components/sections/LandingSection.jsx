@@ -87,7 +87,7 @@ const LandingSection = ({ profilePic }) => {
             className="text-xl mb-8 max-w-2xl mx-auto"
             variants={itemVariants}
           >
-            Crafting innovative solutions at the intersection of AI and robust software engineering
+            Bridging creativity and technical mastery to craft immersive, end-to-end software solutions
           </motion.p>
           
           <motion.div className="flex justify-center space-x-4" variants={itemVariants}>

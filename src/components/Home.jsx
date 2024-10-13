@@ -315,7 +315,7 @@ const Home = () => {
       <MouseFollowFocus />
         <LandingSection profilePic={profilePic} />
 
-        <section id="about" ref={aboutRef} className="section about text-white py-20">
+        <section id="about" ref={aboutRef} className="section about text-white">
         <div className="container mx-auto px-4">
           <motion.h2
             className="header"
@@ -329,7 +329,7 @@ const Home = () => {
         </div>
       </section>
 
-      <section id="expertise" ref={expertiseRef} className="section expertise py-20">
+      <section id="expertise" ref={expertiseRef} className="section expertise">
         <div className="container mx-auto px-4">
           <motion.h2 
             className="header"
@@ -366,7 +366,7 @@ const Home = () => {
         </div>
       </section>
 
-        <section id="projects" ref={projectsRef} className='section projects'>
+        <section id="projects" ref={projectsRef} className='section projects mt-80'>
             <motion.id
                 className="projects-content"
             >
@@ -384,7 +384,7 @@ const Home = () => {
             </motion.id>
         </section>
 
-        <section id="experience" ref={experienceRef} className="section experience">
+        <section id="experience" ref={experienceRef} className="section experience mt-80">
             <ExperienceSection />
         </section>
 
@@ -394,7 +394,7 @@ const Home = () => {
 </section>
 
 {/* Inspiration Section */}
-<section id="inspiration" ref={inspirationRef} className="section inspiration">
+<section id="inspiration" ref={inspirationRef} className="section inspiration mt-64">
   <motion.div 
     className="inspiration-content"
     initial={{ y: 100, opacity: 0 }}
@@ -414,7 +414,7 @@ const Home = () => {
 </section>
 
 {/* Contact Section */}
-<section id="contact" ref={contactRef} className="section contact">
+<section id="contact" ref={contactRef} className="section contact mt-80">
   <ContactSection />
 </section>
       </main>
@@ -504,7 +504,6 @@ const Home = () => {
           justify-content: center;
           align-items: center;
           min-height: 100vh;
-          padding: 100px 50px;
           scroll-snap-align: start;
         }
 
@@ -537,13 +536,11 @@ const Home = () => {
         .home-content h1 {
           font-size: 3.5rem;
           color: var(--heading-color);
-          margin-bottom: 10px;
         }
 
         .title-main {
           font-size: 2.5rem;
           color: var(--accent-color);
-          margin-bottom: 20px;
         }
 
         .header {
@@ -622,7 +619,6 @@ const Home = () => {
         .about-text {
           font-size: 1.1rem;
           line-height: 1.6;
-          margin-bottom: 30px;
         }
 
         .tech-stack {
