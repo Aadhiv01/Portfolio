@@ -16,28 +16,28 @@ const InspirationSection = () => {
       icon: faLightbulb,
       title: "Innovating Beyond Boundaries",
       description:
-        "Pushing the envelope of what's possible in tech, I'm driven by the thrill of turning audacious ideas into groundbreaking solutions that reshape industries and elevate human experiences.",
+        "Pushing the envelope of what's possible in tech, I'm driven by the thrill of turning creative ideas into progessive solutions that reshape organizations and elevate iser experiences.",
       color: "#FFD700",
     },
     {
       icon: faRocket,
       title: "Pioneering the Unknown",
       description:
-        "Embracing the unknown is my catalyst for growth. Each challenge is an opportunity to pioneer new methodologies, pushing the boundaries of software engineering and leaving a lasting mark on the tech landscape.",
+        "Embracing the unknown is my motivation for growth. I view each challenge as an opportunity to employ new methodologies, pushing the boundaries of software engineering and leaving a memorable impact.",
       color: "#FF4500",
     },
     {
       icon: faProjectDiagram,
       title: "Architecting Tomorrow",
       description:
-        "With an eye on emerging technologies and a mind for scalable architectures, I'm dedicated to building the robust, flexible foundations that will support the next generation of transformative applications.",
+        "With a keen eye on emerging technologies and a mind for designing scalable architectures, I'm dedicated to building robust, flexible foundations that will support the next generation of transformative applications.",
       color: "#32CD32",
     },
     {
       icon: faBrain,
       title: "AI-Powered Evolution",
       description:
-        "Harnessing the synergy between human creativity and machine intelligence, I'm sculpting a future where AI seamlessly augments our capabilities, unlocking unprecedented potential in software development.",
+        "Harnessing the synergy between human creativity and machine intelligence, I'm excited to build futuristic products where AI seamlessly augments our capabilities, unlocking boundless potential in software development.",
       color: "#4B0082",
     },
   ];

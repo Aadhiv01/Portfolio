@@ -1,51 +1,52 @@
-import React, { useState } from 'react';
-import { motion } from 'framer-motion';
-import { faEnvelope, faPaperPlane } from '@fortawesome/free-solid-svg-icons';
-import { faGithub, faLinkedin } from '@fortawesome/free-brands-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import React, { useState } from "react";
+import { motion } from "framer-motion";
+import { faEnvelope, faPaperPlane } from "@fortawesome/free-solid-svg-icons";
+import { faGithub, faLinkedin } from "@fortawesome/free-brands-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import emailjs from "emailjs-com";
 
+import '../CSS/sectioncss/ContactSection.css';
+
 const ContactSection = () => {
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    message: "",
+  });
 
-    const [formData, setFormData] = useState({
-        name: "",
-        email: "",
-        message: "",
+  const [isSending, setIsSending] = useState(false);
+
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setIsSending(true);
+
+    emailjs
+      .send(
+        "service_ej0f1qq",
+        "template_7ib4kef",
+        formData,
+        "9mhJjKBAbto71FcxV"
+      )
+      .then((result) => {
+        alert("Message sent successfully!");
+        setFormData({ name: "", email: "", message: "" });
+        setIsSending(false);
+      })
+      .catch((error) => {
+        alert("Failed to send message, please try again later.");
+        console.error("EmailJS error:", error);
+        setIsSending(false);
       });
-    
-      const [isSending, setIsSending] = useState(false);
-    
-      const handleChange = (e) => {
-        setFormData({
-          ...formData,
-          [e.target.name]: e.target.value,
-        });
-      };
-    
-      const handleSubmit = (e) => {
-        e.preventDefault();
-        setIsSending(true);
-    
-        emailjs
-          .send(
-            "service_ej0f1qq",
-            "template_7ib4kef",
-            formData,
-            "9mhJjKBAbto71FcxV"
-          )
-          .then((result) => {
-            alert("Message sent successfully!");
-            setFormData({ name: "", email: "", message: "" });
-            setIsSending(false);
-          })
-          .catch((error) => {
-            alert("Failed to send message, please try again later.");
-            console.error("EmailJS error:", error);
-            setIsSending(false);
-          });
-      };
+  };
 
-    return (
+  return (
     <>
       <motion.div
         className="contact-content"
@@ -139,85 +140,8 @@ const ContactSection = () => {
           </motion.form>
         </div>
       </motion.div>
-
-      <style jsx>{`
-        .contact-content {
-          max-width: 1000px;
-          width: 100%;
-          margin: 0 auto;
-          padding: 50px 20px;
-        }
-
-        .contact-intro {
-          font-size: 1.2rem;
-          text-align: center;
-          margin-bottom: 40px;
-          color: var(--text-color);
-        }
-
-        .contact-grid {
-          display: grid;
-          grid-template-columns: 1fr 1fr;
-          gap: 40px;
-        }
-
-        .contact-info {
-          display: flex;
-          flex-direction: column;
-          gap: 20px;
-        }
-
-        .contact-icon {
-          font-size: 1.5rem;
-          color: var(--accent-color);
-        }
-
-        .contact-form {
-          display: flex;
-          flex-direction: column;
-          gap: 20px;
-        }
-
-        .contact-form input,
-        .contact-form textarea {
-          padding: 15px;
-          border-radius: 10px;
-          border: none;
-          background: rgba(255, 255, 255, 0.1);
-          color: var(--text-color);
-          font-size: 1rem;
-        }
-
-        .contact-form textarea {
-          min-height: 150px;
-          resize: vertical;
-        }
-
-        .contact-form button {
-          padding: 15px 30px;
-          border: none;
-          border-radius: 30px;
-          background: var(--accent-color);
-          color: var(--primary-color);
-          font-size: 1rem;
-          font-weight: bold;
-          cursor: pointer;
-          transition: all 0.3s ease;
-        }
-
-        .contact-form button:hover {
-          transform: translateY(-3px);
-          box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-
-        @media (max-width: 768px) {
-          .contact-grid {
-            grid-template-columns: 1fr;
-          }
-        }
-      `}</style>
-      </>
-    )
+    </>
+  );
 };
 
-export default ContactSection
+export default ContactSection;

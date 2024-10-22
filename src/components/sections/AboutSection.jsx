@@ -1,6 +1,5 @@
 import React from "react";
 import { motion } from "framer-motion";
-import { ArrowRight, Code2, Laptop, Server } from "lucide-react";
 
 const AboutSection = () => {
   const containerVariants = {
@@ -27,11 +26,6 @@ const AboutSection = () => {
 
   return (
     <div className="relative container mx-auto px-4 py-20">
-      {/* Background Elements */}
-      <div className="absolute inset-0 bg-gradient-to-br from-slate-50/5 via-transparent to-slate-100/10 pointer-events-none" />
-      <div className="absolute top-0 left-0 w-32 h-32 bg-blue-500/5 rounded-full blur-3xl" />
-      <div className="absolute bottom-0 right-0 w-40 h-40 bg-purple-500/5 rounded-full blur-3xl" />
-
       <motion.div
         initial="hidden"
         animate="visible"
@@ -47,50 +41,58 @@ const AboutSection = () => {
 
         <motion.div variants={itemVariants} className="space-y-8">
           <motion.div
-            className="relative p-6 bg-white/50 backdrop-blur-sm rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition-all duration-300"
+            className="bg-gradient-to-br from-gray-800 to-gray-900 p-4 rounded-lg shadow-lg text-white"
             whileHover={{ y: -5 }}
             transition={{ type: "spring", stiffness: 300 }}
           >
-            <p className="text-lg leading-relaxed text-gray-800">
+            <p className="text-lg leading-relaxed">
               My journey in software development began with a fascination for
-              the evolving digital landscape. Watching the transformation of
-              user experiences across the web ignited my curiosity about the
-              intricate systems powering modern technology. From writing my
-              first lines of code in school to now crafting comprehensive
-              software solutions, each step has been driven by an unwavering
-              desire to understand and create.
+              the evolving digital world. Watching the transformation of user
+              experiences across various platforms, thoroughly fascinated me and
+              fueled my curiosity about the intricacy of ideas and implmentation
+              powering modern technology. From writing my first lines of code in
+              school to now building comprehensive software solutions, each step
+              of my journey has been driven by an unwavering desire to innovate
+              and reach newer horizons.
             </p>
           </motion.div>
 
           <motion.div
-            className="relative p-6 bg-white/50 backdrop-blur-sm rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition-all duration-300"
+            className="bg-gradient-to-br from-gray-800 to-gray-900 p-4 rounded-lg shadow-lg text-white"
             whileHover={{ y: -5 }}
             transition={{ type: "spring", stiffness: 300 }}
           >
-            <p className="text-lg leading-relaxed text-gray-800">
+            <p className="text-lg leading-relaxed">
               As a full-stack developer, I thrive on transforming complex
-              challenges into elegant, user-centric solutions. I believe in
-              building software that not only meets current needs but
-              anticipates future demands. This forward-thinking approach has
-              guided me in creating scalable applications that deliver
-              meaningful impact while maintaining peak performance and security.
+              challenges into impactful, user-centric solutions. I believe in
+              building software that not only meets current needs but also
+              anticipates future demands. This progessive mindset has played a
+              vital role in my career, aiding me in delivering impressive
+              products that uphold peak performance whilst ensuring security and
+              reliability.
             </p>
           </motion.div>
 
           <motion.div
-            className="relative p-6 bg-white/50 backdrop-blur-sm rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition-all duration-300"
+            className="bg-gradient-to-br from-gray-800 to-gray-900 p-4 rounded-lg shadow-lg text-white"
             whileHover={{ y: -5 }}
             transition={{ type: "spring", stiffness: 300 }}
           >
-            <p className="text-lg leading-relaxed text-gray-800">
+            <p className="text-lg leading-relaxed">
               My vision extends beyond traditional development boundaries. I'm
-              actively exploring the synergies between software engineering,
-              data architecture, and cloud infrastructure. By integrating
-              advanced DevOps practices with modern development principles, I
-              aim to architect solutions that aren't just functional, but
-              transformative. This commitment to pushing technical boundaries
-              while maintaining a strong foundation in software craftsmanship
-              defines my approach to professional growth and innovation.
+              always looking to broaden my horizons and my opennes to learn
+              further fuels my perennial drive to excel. Some fields that i'm
+              constantly exploring and passionate about understanding their
+              convergence with software engineering include artificial
+              intelligence, data architecture, and advanced DevOps practices. In
+              particular, I have a strong enthusiasm to integrate AI-powered
+              solutions into scalable applications, creating more intelligent
+              and adaptive systems. By combining modern development principles
+              with emerging technologies, I aim to produce solutions that aren't
+              just functional, but truly transformative. This unwavering
+              commitment to pushing technical boundaries while embracing
+              innovative technologies defines my approach to professional growth
+              and continuous evolution in the ever-advancing tech landscape.
             </p>
           </motion.div>
         </motion.div>

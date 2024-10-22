@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence, useAnimation } from "framer-motion";
 import { Code, ChevronDown, Star, Award, Zap } from "lucide-react";
+
 import hours_tracker_pic from "../../utilities/hours_tracker.png";
 import neighbor_nexus_pic from "../../utilities/neighbor_nexus.jpeg";
 import quiz_master_pic from "../../utilities/quiz_master.avif";
@@ -10,7 +11,7 @@ const projectsData = [
     title: "NeighborNexus",
     description:
       "A centralized platform connecting community members with local service providers.",
-    technologies: ["React.js", "Node.js", "GraphQL", "MongoDB"],
+    technologies: ["React.js", "Node.js", "Express.js", "MongoDB"],
     features: [
       "Comprehensive service provider profiles",
       "User-friendly service booking system",
@@ -187,7 +188,7 @@ const ProjectCard = ({ project, isExpanded, toggleExpand, index }) => {
                   transition={{ delay: index * 0.1 }}
                 >
                   <Zap className="mr-2 text-blue-400 flex-shrink-0 mt-1" />
-                  <span>{feature}</span>
+                  <span className="text-left">{feature}</span>
                 </motion.li>
               ))}
             </motion.ul>
