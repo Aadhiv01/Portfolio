@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/static/css/main.c1827050.css",
-    "main.js": "/static/js/main.83b57796.js",
+    "main.css": "/static/css/main.76c70474.css",
+    "main.js": "/static/js/main.a2b4c995.js",
     "static/media/Profile_Picture.jpg": "/static/media/Profile_Picture.0afdb4ed538557022ea1.jpg",
     "static/media/InterVariable-Italic.woff2": "/static/media/InterVariable-Italic.e295f70fe3e2df296c7b.woff2",
     "static/media/InterVariable.woff2": "/static/media/InterVariable.a0e477f2f1f9d2376fde.woff2",
@@ -11,11 +11,11 @@
     "static/media/quiz_master.avif": "/static/media/quiz_master.b0772170d01b0b9e91ed.avif",
     "static/media/Oracle_Logo.png": "/static/media/Oracle_Logo.9156326c725803e9b7ba.png",
     "index.html": "/index.html",
-    "main.c1827050.css.map": "/static/css/main.c1827050.css.map",
-    "main.83b57796.js.map": "/static/js/main.83b57796.js.map"
+    "main.76c70474.css.map": "/static/css/main.76c70474.css.map",
+    "main.a2b4c995.js.map": "/static/js/main.a2b4c995.js.map"
   },
   "entrypoints": [
-    "static/css/main.c1827050.css",
-    "static/js/main.83b57796.js"
+    "static/css/main.76c70474.css",
+    "static/js/main.a2b4c995.js"
   ]
 }
