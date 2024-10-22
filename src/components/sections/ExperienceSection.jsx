@@ -15,7 +15,8 @@ const ExperienceItem = ({ company, position, duration, description, skills, isWo
     justifyContent: 'center',
     alignItems: 'center',
     height: '4.4vw',
-    width: '5vw'
+    width: '5vw',
+    borderColor: 'teal'
   };
 
   return (
@@ -27,7 +28,7 @@ const ExperienceItem = ({ company, position, duration, description, skills, isWo
                       boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)', 
                       color: '#fff' }}
       date={duration}
-      dateClassName="text-lg font-semibold text-accent md:text-white"
+      dateClassName="text-lg font-semibold text-accent text-white"
       iconStyle={iconStyle}
       icon={<img src={image} alt="myLogo" style={{ borderRadius: '50%', height: '4.4vw', width: '5vw' }} />}
     >
@@ -91,7 +92,7 @@ const ExperienceSection = () => {
 
   return (
     <motion.section 
-      id="experience" 
+      id="experience"
       className="section experience py-20"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}

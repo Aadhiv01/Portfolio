@@ -1,76 +1,63 @@
-import React, { Suspense, useState } from 'react';
-import { Canvas } from '@react-three/fiber';
-import { OrbitControls, useGLTF } from '@react-three/drei';
-import { motion } from 'framer-motion';
-// import SkillChart from './SkillChart';
+import React from "react";
+import { motion } from "framer-motion";
 
-import Navbar from './Navbar';
-import MouseFollowFocus from './MouseFollowFocus';
-import My3DModel from './My3DModel';
-import styles from './CSS/styles.module.css';
-import './CSS/About.css';
+const AboutSection = () => {
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.3
+      }
+    }
+  };
 
-function About() {
-
-  const [isNavCollapsed, setIsNavCollapsed] = useState(false);
-  const [isHovered, setIsHovered] = useState(false);
-
-  const toggleNav = () => {
-    setIsNavCollapsed(!isNavCollapsed);
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { 
+      opacity: 1, 
+      y: 0,
+      transition: {
+        duration: 0.6,
+        ease: "easeOut"
+      }
+    }
   };
 
   return (
-    <div className={`${styles.page__style} ${styles.animate_content}`}  style={{ overflowY: !isNavCollapsed ? 'scroll' : 'hidden' }}>
-      <div style={{ zIndex: '50' }}><Navbar toggleNav={toggleNav} isNavCollapsed={isNavCollapsed} /></div>
-      <MouseFollowFocus />
-      <div className="text-left home-container" style={{ overflowY: !isNavCollapsed ? 'scroll' : 'hidden', float: 'left', width: '50%', zIndex: '1' }}>
-      <div className="about-page">
-            <section className="about-section">
-                <h1>About Me</h1>
-                <p>
-                    Hey there! I’m [Your Name], a software alchemist turning lines of code into digital masterpieces. My playground? The ever-evolving world of tech, where I craft solutions that are as elegant as they are powerful. With a toolkit brimming with [mention key technologies, e.g., JavaScript, Python, React, Node.js], I’ve spent [X] years transforming ideas into experiences that resonate.
-                </p>
-            </section>
-            
-            <section className="story-section">
-                <h2>My Story</h2>
-                <p>
-                    Every great journey starts with curiosity, and mine was no different. It all began [a brief, engaging intro, e.g., "with a spark of fascination while dismantling my first computer," or "when I turned a simple 'Hello, World!' into a gateway to endless possibilities"]. Fast forward to today, and that curiosity has grown into a full-blown passion for coding, problem-solving, and creating digital wonders.
-                </p>
-                <p>
-                    I’ve had the privilege to collaborate with [mention types of clients or companies, e.g., forward-thinking startups, global enterprises, or visionary entrepreneurs], pushing the boundaries of what’s possible in the digital realm. Whether it’s breathing life into a web application or engineering a rock-solid backend, I thrive on the challenge of making the complex seem simple.
-                </p>
-            </section>
+    <div className="container mx-auto px-4 py-16 bg-gradient-to-b from-transparent to-slate-50/30">
+      <motion.div
+        initial="hidden"
+        animate="visible"
+        variants={containerVariants}
+        className="max-w-3xl mx-auto"
+      >
+        <motion.h2 
+          variants={itemVariants}
+          className="text-4xl font-bold mb-12 text-center"
+        >
+          About Me
+        </motion.h2>
 
-            {/* <section className="skills-section">
-                <h2>My Skills</h2>
-                <SkillChart />
-            </section> */}
+        <motion.div 
+          variants={itemVariants}
+          className="prose prose-lg max-w-none space-y-8"
+        >
+          <p className="text-lg leading-relaxed">
+            My journey in software development began with a fascination for the evolving digital landscape. Watching the transformation of user experiences across the web ignited my curiosity about the intricate systems powering modern technology. From writing my first lines of code in school to now crafting comprehensive software solutions, each step has been driven by an unwavering desire to understand and create.
+          </p>
 
-            <section className="philosophy-section">
-                <h2>My Philosophy</h2>
-                <p>
-                    I believe in more than just writing code—I believe in crafting solutions that are intuitive, impactful, and, above all, human. Agile methodologies keep my workflow dynamic, and a user-first mindset ensures the end product always hits the mark.
-                </p>
-            </section>
+          <p className="text-lg leading-relaxed">
+            As a full-stack developer, I thrive on transforming complex challenges into elegant, user-centric solutions. I believe in building software that not only meets current needs but anticipates future demands. This forward-thinking approach has guided me in creating scalable applications that deliver meaningful impact while maintaining peak performance and security.
+          </p>
 
-            <section className="3d-section">
-                <h2>Explore My World</h2>
-                <div style={{ height: '500px' }}>
-                    <My3DModel />
-                </div>
-            </section>
-
-            <section className="contact-section">
-                <h2>Let’s Create Something Incredible</h2>
-                <p>
-                    Got a challenge that needs a fresh perspective? An idea itching to be realized? Let’s connect and turn your vision into something extraordinary. Reach out [mention contact method, e.g., via the contact form, email, or LinkedIn], and let’s start building the future together.
-                </p>
-            </section>
-        </div>
-      </div>
+          <p className="text-lg leading-relaxed">
+            Looking ahead, I'm excited to push the boundaries of what's possible by exploring the convergence of software development with data engineering and advanced DevOps practices. This continuous evolution and adaptability reflect my commitment to growth and innovation in an ever-changing technological landscape.
+          </p>
+        </motion.div>
+      </motion.div>
     </div>
-  )
-}
+  );
+};
 
-export default About
+export default AboutSection;

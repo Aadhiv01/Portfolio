@@ -2,7 +2,7 @@ import { motion, useAnimation, useInView } from "framer-motion";
 import { useEffect, useRef } from "react";
 import { TypeAnimation } from "react-type-animation";
 
-const LandingSection = ({ profilePic }) => {
+const LandingSection = ({ profilePic, onButtonClick }) => {
     const controls = useAnimation();
     const homeRef = useRef(null);
     const isInView = useInView(homeRef, { once: true });
@@ -91,18 +91,18 @@ const LandingSection = ({ profilePic }) => {
           </motion.p>
           
           <motion.div className="flex justify-center space-x-4" variants={itemVariants}>
-            <a
-              href="#projects"
+            <motion.button
               className="cta-button primary"
+              onClick={() => onButtonClick("projects")}
             >
               View Projects
-            </a>
-            <a
-              href="#contact"
+            </motion.button>
+            <motion.button
               className="cta-button secondary"
+              onClick={() => onButtonClick("contact")}
             >
               Contact Me
-            </a>
+            </motion.button>
           </motion.div>
         </div>
       </motion.section>

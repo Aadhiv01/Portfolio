@@ -1,422 +1,178 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { motion } from 'framer-motion';
-import emailjs from 'emailjs-com';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faGithub, faLinkedin } from '@fortawesome/free-brands-svg-icons';
-import { faEnvelope, faMoon, faSun, faServer, faCloud, faCodeBranch, faCogs, faDatabase, faCode, faProjectDiagram, faLightbulb, faRocket, faMountain, faPaperPlane, faChartBar } from '@fortawesome/free-solid-svg-icons';
+import React, { useState, useEffect, useRef } from "react";
+import { motion } from "framer-motion";
 
-import ProjectSection from './sections/ProjectSection';
-import LandingSection from './sections/LandingSection';
-import InspirationSection from './sections/InspirationSection';
-import { ExperienceSection } from './sections/ExperienceSection';
-import { CertificationsSection } from './sections/CertificationSection';
+import LandingSection from "./sections/LandingSection";
+import AboutSection from "./sections/AboutSection";
+import ExpertiseSection from "./sections/ExpertiseSection";
+import { ExperienceSection } from "./sections/ExperienceSection";
+import ProjectSection from "./sections/ProjectSection";
+import { CertificationsSection } from "./sections/CertificationSection";
+import InspirationSection from "./sections/InspirationSection";
+import ContactSection from "./sections/ContactSection";
 
-import profilePic from '../utilities/Profile_Picture.jpg';
-import ResumeButton from './Resume_Button';
-import AIChatbot from './AIChatbot';
-import MouseFollowFocus from './MouseFollowFocus';
-import AboutSection from './sections/AboutSection';
+import Navbar from "./Navbar";
+import profilePic from "../utilities/Profile_Picture.jpg";
+import ResumeButton from "./Resume_Button";
+import MouseFollowFocus from "./MouseFollowFocus";
 
 const Home = () => {
-    const [activeSection, setActiveSection] = useState('home');
-    const [darkMode, setDarkMode] = useState(true);
-    const [isLandingVisible, setIsLandingVisible] = useState(true);
-  
-    const homeRef = useRef(null);
-    const aboutRef = useRef(null);
-    const expertiseRef = useRef(null);
-    const projectsRef = useRef(null);
-    const experienceRef = useRef(null);
-    const certificationsRef = useRef(null);
-    const contactRef = useRef(null);
-    const inspirationRef = useRef(null);
-    const [formData, setFormData] = useState({
-      name: '',
-      email: '',
-      message: ''
-    });
-  
-    const [isSending, setIsSending] = useState(false);
-  
-    const handleChange = (e) => {
-      setFormData({
-        ...formData,
-        [e.target.name]: e.target.value
-      });
-    };
-  
-    const handleSubmit = (e) => {
-      e.preventDefault();
-      setIsSending(true);
-  
-      emailjs.send(
-        'service_ej0f1qq',
-        'template_7ib4kef',
-        formData,
-        '9mhJjKBAbto71FcxV'
-      )
-      .then((result) => {
-        alert('Message sent successfully!');
-        setFormData({ name: '', email: '', message: '' });
-        setIsSending(false);
-      })
-      .catch((error) => {
-        alert('Failed to send message, please try again later.');
-        console.error('EmailJS error:', error);
-        setIsSending(false);
-      });
-    };
-  
-    useEffect(() => {
-        const handleScroll = () => {
-          const scrollPosition = window.scrollY;
-          const windowHeight = window.innerHeight;
-          const refs = [homeRef, aboutRef, expertiseRef, projectsRef, experienceRef, certificationsRef, inspirationRef, contactRef];
-          const sectionNames = ['home', 'about', 'expertise', 'projects', 'experience', 'certifications', 'inspiration', 'contact'];
-    
-          // Check if we're at the top of the page
-          if (scrollPosition < windowHeight / 2) {
-            setActiveSection('home');
-          } else {
-            for (let i = refs.length - 1; i >= 0; i--) {
-              const ref = refs[i];
-              if (ref.current && ref.current.offsetTop <= scrollPosition + windowHeight / 2) {
-                setActiveSection(sectionNames[i]);
-                break;
-              }
-            }
-          }
-    
-          setIsLandingVisible(scrollPosition < windowHeight);
-        };
-    
-        window.addEventListener('scroll', handleScroll);
-        return () => window.removeEventListener('scroll', handleScroll);
-      }, []);  
-  
-    const toggleDarkMode = () => {
-      setDarkMode(!darkMode);
-    };
+  const [activeSection, setActiveSection] = useState("home");
+  const [darkMode, setDarkMode] = useState(true);
+  const [isLandingVisible, setIsLandingVisible] = useState(true);
 
-    const fadeInUpVariants = {
-        hidden: { opacity: 0, y: 20 },
-        visible: { opacity: 1, y: 0 }
-    }; 
+  const sectionRefs = {
+    home: useRef(null),
+    about: useRef(null),
+    expertise: useRef(null),
+    projects: useRef(null),
+    experience: useRef(null),
+    certifications: useRef(null),
+    inspiration: useRef(null),
+    contact: useRef(null),
+  };
 
-  // Animated navigation item
-  const NavItem = ({ section }) => (
-    <motion.button 
-      onClick={() => {
-        setActiveSection(section);
-        document.getElementById(section).scrollIntoView({ behavior: 'smooth' });
-      }}
-      className={activeSection === section ? 'active' : ''}
-      whileHover={{ scale: 1.1 }}
-      whileTap={{ scale: 0.95 }}
-    >
-      {section.charAt(0).toUpperCase() + section.slice(1)}
-    </motion.button>
-  );
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollPosition = window.scrollY;
+      const windowHeight = window.innerHeight;
+      const refs = [
+        sectionRefs.home,
+        sectionRefs.about,
+        sectionRefs.expertise,
+        sectionRefs.projects,
+        sectionRefs.experience,
+        sectionRefs.certifications,
+        sectionRefs.inspiration,
+        sectionRefs.contact,
+      ];
+      const sectionNames = [
+        "home",
+        "about",
+        "expertise",
+        "projects",
+        "experience",
+        "certifications",
+        "inspiration",
+        "contact",
+      ];
 
-  const ContactSection = () => (
-    <section id="contact" ref={contactRef} className="section contact">
-      <motion.div 
-        className="contact-content"
-        initial={{ opacity: 0, y: 50 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-      >
-        <motion.h2
-            className="header"
-            initial={{ opacity: 0, y: -50 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-        >
-            Let's Connect
-        </motion.h2>
-        <p className="contact-intro">I'm always excited to collaborate on innovative projects, exchange ideas, or explore new opportunities. Feel free to reach out!</p>
-        
-        <div className="contact-grid">
-          <div className="contact-info">
-            {[
-              { icon: faEnvelope, text: "aadhithya.vijayakumar01@gmail.com", link: "mailto:aadhithya.vijayakumar01@gmail.com" },
-              { icon: faLinkedin, text: "LinkedIn Profile", link: "https://linkedin.com/in/aadhithya-vijayakumar-av" },
-              { icon: faGithub, text: "GitHub Repositories", link: "https://github.com/Aadhiv01" },
-            ].map((item, index) => (
-              <motion.a 
-                key={index}
-                href={item.link}
-                target="_blank" 
-                rel="noopener noreferrer" 
-                className="contact-item"
-                whileHover={{ scale: 1.05, x: 10 }}
-                whileTap={{ scale: 0.95 }}
-                initial={{ opacity: 0, x: -50 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: index * 0.1, duration: 0.3 }}
-              >
-                <FontAwesomeIcon icon={item.icon} className="contact-icon" />
-                <span>{item.text}</span>
-              </motion.a>
-            ))}
-          </div>
-          
-          <motion.form 
-            className="contact-form"
-            onSubmit={handleSubmit}
-            >
-            <input
-                type="text" 
-                name="name"
-                placeholder="Your Name" 
-                value={formData.name}
-                onChange={handleChange}
-                required 
-            />
-            <input 
-                type="email" 
-                name="email"
-                placeholder="Your Email" 
-                value={formData.email}
-                onChange={handleChange}
-                required 
-            />
-            <textarea 
-                name="message"
-                placeholder="Your Message" 
-                value={formData.message}
-                onChange={handleChange}
-                required 
-            />
-            <motion.button 
-                type="submit"
-                disabled={isSending}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-            >
-                <FontAwesomeIcon icon={faPaperPlane} /> {isSending ? 'Sending...' : 'Send Message'}
-            </motion.button>
-            </motion.form>
-        </div>
-      </motion.div>
-
-      <style jsx>{`
-        .contact-content {
-          max-width: 1000px;
-          width: 100%;
-          margin: 0 auto;
-          padding: 50px 20px;
-        }
-
-        .contact-intro {
-          font-size: 1.2rem;
-          text-align: center;
-          margin-bottom: 40px;
-          color: var(--text-color);
-        }
-
-        .contact-grid {
-          display: grid;
-          grid-template-columns: 1fr 1fr;
-          gap: 40px;
-        }
-
-        .contact-info {
-          display: flex;
-          flex-direction: column;
-          gap: 20px;
-        }
-
-        .contact-icon {
-          font-size: 1.5rem;
-          color: var(--accent-color);
-        }
-
-        .contact-form {
-          display: flex;
-          flex-direction: column;
-          gap: 20px;
-        }
-
-        .contact-form input,
-        .contact-form textarea {
-          padding: 15px;
-          border-radius: 10px;
-          border: none;
-          background: rgba(255, 255, 255, 0.1);
-          color: var(--text-color);
-          font-size: 1rem;
-        }
-
-        .contact-form textarea {
-          min-height: 150px;
-          resize: vertical;
-        }
-
-        .contact-form button {
-          padding: 15px 30px;
-          border: none;
-          border-radius: 30px;
-          background: var(--accent-color);
-          color: var(--primary-color);
-          font-size: 1rem;
-          font-weight: bold;
-          cursor: pointer;
-          transition: all 0.3s ease;
-        }
-
-        .contact-form button:hover {
-          transform: translateY(-3px);
-          box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-
-        @media (max-width: 768px) {
-          .contact-grid {
-            grid-template-columns: 1fr;
+      if (scrollPosition < windowHeight / 2) {
+        setActiveSection("home");
+      } else {
+        for (let i = refs.length - 1; i >= 0; i--) {
+          const ref = refs[i];
+          if (
+            ref.current &&
+            ref.current.offsetTop <= scrollPosition + windowHeight / 2
+          ) {
+            setActiveSection(sectionNames[i]);
+            break;
           }
         }
-      `}</style>
-    </section>
-  );
-  
+      }
+
+      setIsLandingVisible(scrollPosition < windowHeight);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  const toggleDarkMode = () => {
+    setDarkMode(!darkMode);
+  };
+
+  const handleNavClick = (section) => {
+    console.log("Nav button click section in home: ", section);
+    setActiveSection(section);
+    sectionRefs[section].current.scrollIntoView({ behavior: "smooth" });
+  };
 
   return (
-    <div className={`modern-portfolio ${darkMode ? 'dark-mode' : 'light-mode'}`}>
-      <nav className="portfolio-nav">
-        {['home', 'about', 'expertise', 'projects', 'experience', 'certifications', 'inspiration', 'contact'].map((section) => (
-          <NavItem key={section} section={section} />
-        ))}
-        <motion.button
-          onClick={toggleDarkMode}
-          whileHover={{ scale: 1.1 }}
-          whileTap={{ scale: 0.95 }}
-        >
-          <FontAwesomeIcon icon={darkMode ? faSun : faMoon} />
-        </motion.button>
-      </nav>
+    <div
+      className={`modern-portfolio ${darkMode ? "dark-mode" : "light-mode"}`}
+    >
+      <Navbar
+        activeSection={activeSection}
+        onNavClick={handleNavClick}
+        darkMode={darkMode}
+        toggleDarkMode={toggleDarkMode}
+      />
 
       <ResumeButton />
 
       <motion.div
         className="floating-name"
         initial={{ opacity: 0, x: -50 }}
-        animate={{ 
-          opacity: isLandingVisible ? 0 : 1, 
+        animate={{
+          opacity: isLandingVisible ? 0 : 1,
           x: isLandingVisible ? -50 : 0,
-          y: isLandingVisible ? 0 : 20
+          y: isLandingVisible ? 0 : 20,
         }}
         transition={{ duration: 0.3 }}
       >
         Aadhithya Vijayakumar
       </motion.div>
 
-
       <main>
-      <MouseFollowFocus />
-        <LandingSection profilePic={profilePic} />
+        <MouseFollowFocus />
+        <LandingSection profilePic={profilePic} onButtonClick={handleNavClick} />
 
-        <section id="about" ref={aboutRef} className="section about text-white">
-        <div className="container mx-auto px-4">
-          <motion.h2
-            className="header"
-            initial={{ opacity: 0, y: -50 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-          >
-            About Me
-          </motion.h2>
-          <AboutSection />
-        </div>
-      </section>
-
-      <section id="expertise" ref={expertiseRef} className="section expertise">
-        <div className="container mx-auto px-4">
-          <motion.h2 
-            className="header"
-            initial={{ opacity: 0, y: -50 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}    
-          >
-            Areas of Expertise
-          </motion.h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 text-white">
-            {[
-              { name: "Full-Stack Development", icon: faServer, description: "Mastery in end-to-end application development, from server-side logic to intuitive user interfaces." },
-              { name: "Cloud Architecture", icon: faCloud, description: "Designing and implementing scalable, resilient cloud solutions using AWS, GCP, and Azure." },
-              { name: "Database Optimization", icon: faDatabase, description: "Expertise in SQL and NoSQL databases, focusing on performance tuning and data modeling." },
-              { name: "API Design & Microservices", icon: faCodeBranch, description: "Creating scalable, RESTful APIs and microservices architectures for modular, maintainable systems." },
-              { name: "DevOps & CI/CD", icon: faCogs, description: "Implementing robust CI/CD pipelines and DevOps practices for seamless deployment and operation." },
-              { name: "Data Engineering & Analytics", icon: faChartBar, description: "Building robust data pipelines, architecting advanced real-time data processing systems, and crafting insightful visualizations" }
-            ].map((item, index) => (
-              <motion.div 
-                key={index}
-                className="expertise-item bg-gradient-to-br from-gray-700 to-gray-800 rounded-lg p-6 shadow-lg hover:shadow-2xl transition-all duration-300 backdrop-filter backdrop-blur-lg"
-                initial="hidden"
-                animate="visible"
-                variants={fadeInUpVariants}
-                transition={{ delay: 0.2 * index }}
-                whileHover={{ scale: 1.05 }}
-              >
-                <FontAwesomeIcon icon={item.icon} className="text-5xl mb-4 text-purple-400" />
-                <h3 className="text-xl font-semibold mb-3 text-teal-300">{item.name}</h3>
-                <p className="text-gray-300">{item.description}</p>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-        <section id="projects" ref={projectsRef} className='section projects mt-80'>
-            <motion.id
-                className="projects-content"
-            >
-                <motion.h2 
-                    className="header"
-                    initial={{ opacity: 0, y: -50 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5 }}
-                >
-                    Projects
-                </motion.h2>
-                <div>
-                    <ProjectSection />
-                </div>
-            </motion.id>
+        <section
+          id="about"
+          ref={sectionRefs.about}
+          className="section about"
+        >
+            <AboutSection />
         </section>
 
-        <section id="experience" ref={experienceRef} className="section experience mt-80">
-            <ExperienceSection />
+        <section
+          id="expertise"
+          ref={sectionRefs.expertise}
+          className="section expertise"
+        >
+          <ExpertiseSection />
         </section>
 
-{/* Certifications Section */}
-<section id="certifications" ref={certificationsRef} className="section certifications">
-  <CertificationsSection />
-</section>
+        <section
+          id="projects"
+          ref={sectionRefs.projects}
+          className="section projects mt-60"
+        >
+            <ProjectSection />
+        </section>
 
-{/* Inspiration Section */}
-<section id="inspiration" ref={inspirationRef} className="section inspiration mt-64">
-  <motion.div 
-    className="inspiration-content"
-    initial={{ y: 100, opacity: 0 }}
-    animate={{ y: 0, opacity: 1 }}
-    transition={{ duration: 0.5 }}
-  >
-    <motion.h2
-        className="header"
-        initial={{ y: -50, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ delay: 0.2, duration: 0.5 }}
-    >
-        Inspiration & Vision
-    </motion.h2>
-    <InspirationSection />
-  </motion.div>
-</section>
+        <section
+          id="experience"
+          ref={sectionRefs.experience}
+          className="section experience mt-60"
+        >
+          <ExperienceSection />
+        </section>
 
-{/* Contact Section */}
-<section id="contact" ref={contactRef} className="section contact mt-80">
-  <ContactSection />
-</section>
+        <section
+          id="certifications"
+          ref={sectionRefs.certifications}
+          className="section certifications"
+        >
+          <CertificationsSection />
+        </section>
+
+        <section
+          id="inspiration"
+          ref={sectionRefs.inspiration}
+          className="section inspiration mt-32"
+        >
+            <InspirationSection />
+        </section>
+
+        <section
+          id="contact"
+          ref={sectionRefs.contact}
+          className="section contact mt-60"
+        >
+          <ContactSection />
+        </section>
       </main>
 
       <style jsx>{`
@@ -433,27 +189,35 @@ const Home = () => {
         }
 
         .modern-portfolio.dark-mode {
-          --primary-color: #0A192F;
+          --primary-color: #0a192f;
           --secondary-color: #112240;
-          --text-color: #FFFFFF;
-          --heading-color: #CCD6F6;
-          --accent-color: #64FFDA;
-          --button-bg: #1E3A8A;
-          --button-hover: #2563EB;
-          --background-color: #0A192F;
-          background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+          --text-color: #ffffff;
+          --heading-color: #ccd6f6;
+          --accent-color: #64ffda;
+          --button-bg: #1e3a8a;
+          --button-hover: #2563eb;
+          --background-color: #0a192f;
+          background: linear-gradient(
+            135deg,
+            var(--primary-color) 0%,
+            var(--secondary-color) 100%
+          );
         }
 
         .modern-portfolio.light-mode {
           --primary-color: #f0f0f0;
           --secondary-color: #e0e0e0;
           --text-color: #333333;
-          --heading-color: #1E3A8A;
-          --accent-color: #3B82F6;
-          --button-bg: #2563EB;
-          --button-hover: #1D4ED8;
+          --heading-color: #1e3a8a;
+          --accent-color: #3b82f6;
+          --button-bg: #2563eb;
+          --button-hover: #1d4ed8;
           --background-color: #ffffff;
-          background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+          background: linear-gradient(
+            135deg,
+            var(--primary-color) 0%,
+            var(--secondary-color) 100%
+          );
         }
 
         .portfolio-nav {
@@ -486,6 +250,58 @@ const Home = () => {
           background: var(--accent-color);
           color: var(--primary-color);
           transform: translateY(-2px);
+        }
+
+        .portfolio-nav.mobile {
+          left: 20px;
+          right: auto;
+          transform: none;
+          padding: 10px;
+          border-radius: 10px;
+          flex-direction: row;
+          justify-content: space-between;
+          align-items: center;
+          width: calc(100% - 40px);
+          max-width: 400px;
+        }
+
+        .mobile-nav-container {
+          position: relative;
+        }
+
+        .portfolio-nav.mobile .hamburger {
+          font-size: 24px;
+          padding: 8px;
+        }
+
+        .mobile-menu {
+          position: absolute;
+          top: 100%;
+          left: 0;
+          background: var(--primary-color);
+          border-radius: 10px;
+          padding: 10px;
+          display: flex;
+          flex-direction: column;
+          gap: 10px;
+          box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+          min-width: 200px;
+        }
+
+        .theme-toggle {
+          margin-left: auto;
+        }
+
+        @media (max-width: 768px) {
+          .portfolio-nav {
+            flex-direction: row;
+            align-items: center;
+          }
+
+          .theme-toggle {
+            position: static;
+            margin-left: 0;
+          }
         }
 
         .floating-name {
@@ -544,26 +360,26 @@ const Home = () => {
         }
 
         .header {
-            margin: 0;
-            padding-bottom: 4rem;
-            color: #4db1bc;
-            grid-column: 1;
-            grid-row: 1;
-            font-weight: 600;
-            z-index: 1;
-            font-size: 6vmin;
-            text-transform: uppercase;
-            animation: glow 2s ease-in-out infinite alternate;
-            text-align: center;
+          margin: 0;
+          padding-bottom: 4rem;
+          color: #4db1bc;
+          grid-column: 1;
+          grid-row: 1;
+          font-weight: 600;
+          z-index: 1;
+          font-size: 6vmin;
+          text-transform: uppercase;
+          animation: glow 2s ease-in-out infinite alternate;
+          text-align: center;
         }
 
         @keyframes glow {
-            from {
+          from {
             text-shadow: 0 0 20px #2d9da9;
-            }
-            to {
+          }
+          to {
             text-shadow: 0 0 30px #34b3c1, 0 0 10px #4dbbc7;
-            }
+          }
         }
 
         .tagline {
@@ -665,11 +481,11 @@ const Home = () => {
 
         .expertise-item,
         .inspiration-item {
-            padding: 30px;
-            border-radius: 15px;
-            transition: all 0.3s ease;
-            text-align: center;
-            height: 100%;
+          padding: 30px;
+          border-radius: 15px;
+          transition: all 0.3s ease;
+          text-align: center;
+          height: 100%;
         }
 
         .expertise-icon,
@@ -686,64 +502,59 @@ const Home = () => {
         }
 
         .experience-timeline {
-        position: relative;
-        padding-left: 30px;
+          position: relative;
+          padding-left: 30px;
         }
 
         .experience-timeline::before {
-        content: '';
-        position: absolute;
-        left: 0;
-        top: 0;
-        bottom: 0;
-        width: 2px;
-        background: var(--accent-color);
-        }
-
-        .vertical-timeline-element-date {
-        opacity: 1 !important;
-        padding: 0.8em 1em !important;
+          content: "";
+          position: absolute;
+          left: 0;
+          top: 0;
+          bottom: 0;
+          width: 2px;
+          background: var(--accent-color);
         }
 
         .skill-tag {
-        display: inline-block;
-        background: var(--accent-color);
-        color: var(--primary-color);
-        padding: 5px 10px;
-        border-radius: 15px;
-        font-size: 0.8rem;
-        margin-right: 5px;
-        margin-bottom: 5px;
+          display: inline-block;
+          background: var(--accent-color);
+          color: var(--primary-color);
+          padding: 5px 10px;
+          border-radius: 15px;
+          font-size: 0.8rem;
+          margin-right: 5px;
+          margin-bottom: 5px;
         }
 
         .certifications-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-        gap: 30px;
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+          gap: 30px;
         }
 
         .certification-logo {
-        width: 80px;
-        height: 80px;
-        object-fit: contain;
+          width: 80px;
+          height: 80px;
+          object-fit: contain;
         }
 
         .glass-effect {
-        background: rgba(255, 255, 255, 0.1);
-        backdrop-filter: blur(10px);
-        border-radius: 15px;
-        padding: 20px;
-        transition: all 0.3s ease;
+          background: rgba(255, 255, 255, 0.1);
+          backdrop-filter: blur(10px);
+          border-radius: 15px;
+          padding: 20px;
+          transition: all 0.3s ease;
         }
 
         @media (max-width: 768px) {
-        .experience-timeline {
+          .experience-timeline {
             padding-left: 20px;
-        }
+          }
 
-        .certifications-grid {
+          .certifications-grid {
             grid-template-columns: 1fr;
-        }
+          }
         }
 
         .experience-item,
@@ -777,7 +588,7 @@ const Home = () => {
         }
 
         .contact-item::before {
-          content: '';
+          content: "";
           position: absolute;
           top: 0;
           left: -100%;
@@ -802,7 +613,7 @@ const Home = () => {
           transform: translateY(-2px);
         }
 
-        .contact-item:hover .contact-icon  {
+        .contact-item:hover .contact-icon {
           color: var(--primary-color) !important;
           transform: translateY(-2px);
         }

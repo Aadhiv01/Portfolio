@@ -1,9 +1,23 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faDownload } from '@fortawesome/free-solid-svg-icons';
 
 const ResumeButton = () => {
+
+    const [isMobile, setIsMobile] = useState(false);
+
+    useEffect(() => {
+        const checkMobile = () => {
+            setIsMobile(window.innerWidth <= 768);
+        };
+    
+        checkMobile();
+        window.addEventListener('resize', checkMobile);
+    
+        return () => window.removeEventListener('resize', checkMobile);
+      }, []);
+
   return (
     <motion.a
       href="../utilities/AADHITHYA_VIJAYAKUMAR_Resume.pdf"
@@ -15,8 +29,8 @@ const ResumeButton = () => {
       whileHover={{ scale: 1.05 }}
       whileTap={{ scale: 0.95 }}
     >
-      <FontAwesomeIcon icon={faDownload} className="mr-2" />
-      Download Resume
+      <FontAwesomeIcon icon={faDownload} className="" />
+      {!isMobile ? <>&nbsp;Download Resume</> : <></>}
       <style jsx>{`
         .download-resume-button {
           position: fixed;
