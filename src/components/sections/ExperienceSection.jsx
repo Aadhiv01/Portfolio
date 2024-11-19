@@ -8,6 +8,7 @@ import "react-vertical-timeline-component/style.min.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBriefcase, faBuilding } from "@fortawesome/free-solid-svg-icons";
 
+import gs_logo from "../../utilities/gs_logo.webp";
 import uofu_logo from "../../utilities/uofu_logo.png";
 import grid_elevated_logo from "../../utilities/grid_elevated_logo.jpeg";
 import jpmc_logo from "../../utilities/jpmc_logo.jpeg";
@@ -82,19 +83,37 @@ const ExperienceItem = ({
 const ExperienceSection = () => {
   const experiences = [
     {
-      company: "University of Utah",
-      position: "Web Software Developer",
-      duration: "Aug 2023 - Present",
-      description: `Designed an application to support easy scheduling of class meetings using Java, Spring Boot, Hibernate, React.js, and MySQL, reducing administrative workload by 40%. 
-      Analyzed Zoom meeting interactions and related details using C++ web scraping techniques and OAuth 2.0 for secure access.`,
+      company: "Goldman Sachs",
+      position: "Java Software Developer",
+      duration: "Aug 2024 - Present",
+      description: `Developed enterprise-wide risk management techniques through microservices architecture and automated deployment pipelines, strengthening real-time compliance monitoring across critical applications.`,
       skills: [
         "Java",
         "Spring Boot",
         "Hibernate",
-        "React.js",
-        "MySQL",
-        "AWS DevOps",
-        "OAuth 2.0",
+        "Dropwizard",
+        "SQL",
+        "JUnit",
+        "Gitlab CI/CD"
+      ],
+      isWork: true,
+      image: gs_logo,
+    },
+    {
+      company: "University of Utah",
+      position: "Web Software Developer",
+      duration: "Aug 2023 - Aug 2024",
+      description: `Designed integrated academic management ecosystems by building custom applications that streamline faculty scheduling, analyze educational engagement patterns, and track student field progress.`,
+      skills: [
+        "Java",
+        "C#",
+        "Spring Boot",
+        ".NET",
+        "Hibernate",
+        "React",
+        "Angular",
+        "SQL",
+        "AWS",
       ],
       isWork: true,
       image: uofu_logo,
@@ -103,8 +122,7 @@ const ExperienceSection = () => {
       company: "Grid Elevated",
       position: "Software Development Intern",
       duration: "Jan 2023 - Aug 2023",
-      description: `Deployed Apache Kafka for real-time data streaming, reducing data latency and improving processing. 
-      Engineered SSL/TLS encryption standards to safeguard client data, ensuring zero data breaches over 6 months.`,
+      description: `Designed secure, real-time enterprise data platforms that transformed how clients interact with and leverage their business data, combining robust data streaming capabilities with creative interfaces that significantly enhanced operational efficiency.`,
       skills: [
         "Apache Kafka",
         "Python",
@@ -121,8 +139,7 @@ const ExperienceSection = () => {
       company: "JPMorgan Chase & Co",
       position: "Software Engineering Consultant",
       duration: "Oct 2021 - Jul 2022",
-      description: `Developed secure transaction processing workflows in Java Spring Boot Microservices, improving accuracy by 30%. 
-      Enhanced system reliability through TDD practices, reducing production errors using JUnit and Mockito.`,
+      description: `Developed mission-critical payment processing microservices with comprehensive test automation and containerized deployments, delivering improved transaction accuracy while maintaining zero-downtime releases.`,
       skills: [
         "Java Spring Boot",
         "Microservices",
@@ -139,8 +156,7 @@ const ExperienceSection = () => {
       company: "John Wiley & Sons, Inc.",
       position: "Software Developer Intern",
       duration: "May 2021 - Oct 2021",
-      description: `Designed user-friendly interfaces with React.js, HTML5, CSS3, JavaScript, and jQuery while developing APIs in Java and Python. 
-      Improved data retrieval efficiency by 40% through SQL and NoSQL optimizations.`,
+      description: `Built and optimized comprehensive web platforms that integrated modern frontend technologies with robust backend services, while establishing automated testing frameworks to ensure seamless cross-browser functionality.`,
       skills: [
         "React.js",
         "HTML5",
