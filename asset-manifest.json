@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/static/css/main.c00ce3b1.css",
-    "main.js": "/static/js/main.85994cdf.js",
+    "main.js": "/static/js/main.50d6652f.js",
     "static/media/Profile_Picture.jpg": "/static/media/Profile_Picture.0afdb4ed538557022ea1.jpg",
     "static/media/InterVariable-Italic.woff2": "/static/media/InterVariable-Italic.e295f70fe3e2df296c7b.woff2",
     "static/media/InterVariable.woff2": "/static/media/InterVariable.a0e477f2f1f9d2376fde.woff2",
@@ -10,12 +10,13 @@
     "static/media/aws_logo.png": "/static/media/aws_logo.316da603b6d42393e022.png",
     "static/media/quiz_master.avif": "/static/media/quiz_master.b0772170d01b0b9e91ed.avif",
     "static/media/Oracle_Logo.png": "/static/media/Oracle_Logo.9156326c725803e9b7ba.png",
+    "static/media/gs_logo.webp": "/static/media/gs_logo.938b599270eeb2cbaa12.webp",
     "index.html": "/index.html",
     "main.c00ce3b1.css.map": "/static/css/main.c00ce3b1.css.map",
-    "main.85994cdf.js.map": "/static/js/main.85994cdf.js.map"
+    "main.50d6652f.js.map": "/static/js/main.50d6652f.js.map"
   },
   "entrypoints": [
     "static/css/main.c00ce3b1.css",
-    "static/js/main.85994cdf.js"
+    "static/js/main.50d6652f.js"
   ]
 }
