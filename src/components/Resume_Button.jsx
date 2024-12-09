@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faDownload } from '@fortawesome/free-solid-svg-icons';
+import resume from '../utilities/AADHITHYA_VIJAYAKUMAR_Resume.pdf';
 
 const ResumeButton = () => {
 
@@ -20,7 +21,7 @@ const ResumeButton = () => {
 
   return (
     <motion.a
-      href="../utilities/AADHITHYA_VIJAYAKUMAR_Resume.pdf"
+      href={resume}
       download
       className="download-resume-button"
       initial={{ opacity: 0, y: -50 }}
