@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/static/css/main.c00ce3b1.css",
-    "main.js": "/static/js/main.50d6652f.js",
+    "main.js": "/static/js/main.6e5118c9.js",
     "static/media/Profile_Picture.jpg": "/static/media/Profile_Picture.0afdb4ed538557022ea1.jpg",
     "static/media/InterVariable-Italic.woff2": "/static/media/InterVariable-Italic.e295f70fe3e2df296c7b.woff2",
     "static/media/InterVariable.woff2": "/static/media/InterVariable.a0e477f2f1f9d2376fde.woff2",
@@ -9,14 +9,15 @@
     "static/media/neighbor_nexus.jpeg": "/static/media/neighbor_nexus.445488e2c911425e85f9.jpeg",
     "static/media/aws_logo.png": "/static/media/aws_logo.316da603b6d42393e022.png",
     "static/media/quiz_master.avif": "/static/media/quiz_master.b0772170d01b0b9e91ed.avif",
+    "static/media/AADHITHYA_VIJAYAKUMAR_Resume.pdf": "/static/media/AADHITHYA_VIJAYAKUMAR_Resume.c09f0e362d7d54b8453d.pdf",
     "static/media/Oracle_Logo.png": "/static/media/Oracle_Logo.9156326c725803e9b7ba.png",
     "static/media/gs_logo.webp": "/static/media/gs_logo.938b599270eeb2cbaa12.webp",
     "index.html": "/index.html",
     "main.c00ce3b1.css.map": "/static/css/main.c00ce3b1.css.map",
-    "main.50d6652f.js.map": "/static/js/main.50d6652f.js.map"
+    "main.6e5118c9.js.map": "/static/js/main.6e5118c9.js.map"
   },
   "entrypoints": [
     "static/css/main.c00ce3b1.css",
-    "static/js/main.50d6652f.js"
+    "static/js/main.6e5118c9.js"
   ]
 }
