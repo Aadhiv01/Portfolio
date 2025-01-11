@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faDownload } from '@fortawesome/free-solid-svg-icons';
-import resume from '../utilities/AADHITHYA_VIJAYAKUMAR_Resume.pdf';
 
 const ResumeButton = () => {
 
@@ -19,10 +18,28 @@ const ResumeButton = () => {
         return () => window.removeEventListener('resize', checkMobile);
       }, []);
 
+      const handleDownload = async () => {
+        try {
+          // Import the PDF file dynamically
+          const response = await import('../utilities/AADHITHYA_VIJAYAKUMAR_Resume.pdf');
+          
+          // Create a link element
+          const link = document.createElement('a');
+          link.href = response.default;
+          link.download = 'AADHITHYA_VIJAYAKUMAR_Resume.pdf';
+          
+          // Append to document, click, and remove
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+        } catch (error) {
+          console.error('Error downloading resume:', error);
+        }
+      };
+
   return (
     <motion.a
-      href={resume}
-      download="Aadhithya_Vijayakumar_Resume.pdf"
+      onClick={handleDownload}
       className="download-resume-button"
       initial={{ opacity: 0, y: -50 }}
       animate={{ opacity: 1, y: 0 }}
@@ -35,6 +52,7 @@ const ResumeButton = () => {
       <style jsx>{`
         .download-resume-button {
           position: fixed;
+          cursor: pointer;
           top: 20px;
           right: 20px;
           z-index: 1000;
