@@ -7,46 +7,49 @@ const AboutSection = () => {
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.4,
+        staggerChildren: 0.3,
+        delayChildren: 0.2
       },
     },
   };
 
   const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
+    hidden: { 
+      opacity: 0, 
+      y: 40,
+    },
     visible: {
       opacity: 1,
       y: 0,
       transition: {
-        duration: 0.7,
-        ease: "easeOut",
+        duration: 0.6,
+        ease: "easeOut"
       },
     },
   };
 
   return (
-    <div className="relative container mx-auto px-4 py-20">
-      <motion.div
-        initial="hidden"
-        animate="visible"
-        variants={containerVariants}
-        className="relative max-w-3xl mx-auto"
-      >
+    <div className="section about-content">
+      <div className="w-full max-w-4xl mx-auto px-4">
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          variants={containerVariants}
+          className="space-y-8"
+        >
         <motion.div
           variants={itemVariants}
           className="flex items-center justify-center gap-3 mb-16"
         >
           <h2 className="header">About Me</h2>
         </motion.div>
-
-        <motion.div variants={itemVariants} className="space-y-8">
-          <motion.div
-            className="bg-gradient-to-br from-gray-800 to-gray-900 p-4 rounded-lg shadow-lg text-white"
-            whileHover={{ y: -5 }}
-            transition={{ type: "spring", stiffness: 300 }}
+          <motion.div 
+            variants={itemVariants}
+            className="about-text"
           >
-            <p className="text-lg leading-relaxed">
-              My journey in software development began with a fascination for
+            <p className="text-lg text-gray-300 leading-relaxed mb-6 relative after:absolute after:bottom-0 after:left-0 after:w-20 after:h-1 after:bg-accent-color">
+            My journey in software development began with a fascination for
               the evolving digital world. Watching the transformation of user
               experiences across various platforms, thoroughly fascinated me and
               fueled my curiosity about the intricacy of ideas and implmentation
@@ -57,12 +60,11 @@ const AboutSection = () => {
             </p>
           </motion.div>
 
-          <motion.div
-            className="bg-gradient-to-br from-gray-800 to-gray-900 p-4 rounded-lg shadow-lg text-white"
-            whileHover={{ y: -5 }}
-            transition={{ type: "spring", stiffness: 300 }}
+          <motion.div 
+            variants={itemVariants}
+            className="about-text"
           >
-            <p className="text-lg leading-relaxed">
+            <p className="text-lg text-gray-300 leading-relaxed mb-6 relative after:absolute after:bottom-0 after:left-0 after:w-20 after:h-1 after:bg-accent-color">
               As a full-stack developer, I thrive on transforming complex
               challenges into impactful, user-centric solutions. I believe in
               building software that not only meets current needs but also
@@ -73,30 +75,20 @@ const AboutSection = () => {
             </p>
           </motion.div>
 
-          <motion.div
-            className="bg-gradient-to-br from-gray-800 to-gray-900 p-4 rounded-lg shadow-lg text-white"
-            whileHover={{ y: -5 }}
-            transition={{ type: "spring", stiffness: 300 }}
+          <motion.div 
+            variants={itemVariants}
+            className="about-text"
           >
-            <p className="text-lg leading-relaxed">
-              My vision extends beyond traditional development boundaries. I'm
-              always looking to broaden my horizons and my opennes to learn
-              further fuels my perennial drive to excel. Some fields that i'm
-              constantly exploring and passionate about understanding their
-              convergence with software engineering include artificial
-              intelligence, data architecture, and advanced DevOps practices. In
-              particular, I have a strong enthusiasm to integrate AI-powered
-              solutions into scalable applications, creating more intelligent
-              and adaptive systems. By combining modern development principles
-              with emerging technologies, I aim to produce solutions that aren't
-              just functional, but truly transformative. This unwavering
-              commitment to pushing technical boundaries while embracing
-              innovative technologies defines my approach to professional growth
-              and continuous evolution in the ever-advancing tech landscape.
+            <p className="text-lg text-gray-300 leading-relaxed relative after:absolute after:bottom-0 after:left-0 after:w-20 after:h-1 after:bg-accent-color">
+              My vision extends beyond conventional boundaries. I'm passionately 
+              exploring the convergence of artificial intelligence, advanced data 
+              architectures, and cutting-edge DevOps practices. My goal is to 
+              develop intelligent, scalable applications that redefine technological 
+              possibilities and push the boundaries of innovation.
             </p>
           </motion.div>
         </motion.div>
-      </motion.div>
+      </div>
     </div>
   );
 };

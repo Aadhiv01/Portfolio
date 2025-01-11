@@ -22,7 +22,7 @@ const ResumeButton = () => {
   return (
     <motion.a
       href={resume}
-      download
+      download="Aadhithya_Vijayakumar_Resume.pdf"
       className="download-resume-button"
       initial={{ opacity: 0, y: -50 }}
       animate={{ opacity: 1, y: 0 }}
