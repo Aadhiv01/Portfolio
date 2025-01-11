@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkpbortfolio=self.webpackChunkpbortfolio||[]).push([[759],{759:(e,p,s)=>{e.exports=s.p+"static/media/AADHITHYA_VIJAYAKUMAR_Resume.5ac53427e6f39941f23d.pdf"}}]);
