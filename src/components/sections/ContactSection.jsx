@@ -27,15 +27,22 @@ const ContactSection = () => {
     e.preventDefault();
     setIsSending(true);
 
+    const templateParams = {
+      from_name: formData.name,
+      from_email: formData.email,
+      message: formData.message,
+    };
+
     emailjs
       .send(
         "service_ej0f1qq",
         "template_7ib4kef",
-        formData,
+        templateParams,
         "9mhJjKBAbto71FcxV"
       )
       .then((result) => {
         alert("Message sent successfully!");
+        console.log("Sent message details list : ", templateParams)
         setFormData({ name: "", email: "", message: "" });
         setIsSending(false);
       })
@@ -63,32 +70,41 @@ const ContactSection = () => {
           Let's Connect
         </motion.h2>
         <p className="contact-intro">
-          I'm always excited to collaborate on innovative projects, exchange
-          ideas, or explore new opportunities. Feel free to reach out!
+          I'm actively seeking full-time software engineering roles where I can leverage my expertise 
+          in building scalable web applications and solving complex technical challenges. 
+          Whether you have a position that matches my profile or would like to discuss potential 
+          opportunities, I'd be delighted to connect.
         </p>
 
         <div className="contact-grid">
           <div className="contact-info">
+            <motion.a
+              href="mailto:aadhithya.vijayakumar01@gmail.com"
+              className="contact-item"
+              whileHover={{ scale: 1.05, x: 10 }}
+              whileTap={{ scale: 0.95 }}
+              initial={{ opacity: 0, x: -50 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0, duration: 0.3 }}
+            >
+              <FontAwesomeIcon icon={faEnvelope} className="contact-icon" />
+              <span>aadhithya.vijayakumar01@gmail.com</span>
+            </motion.a>
             {[
-              {
-                icon: faEnvelope,
-                text: "aadhithya.vijayakumar01@gmail.com",
-                link: "mailto:aadhithya.vijayakumar01@gmail.com",
-              },
               {
                 icon: faLinkedin,
                 text: "LinkedIn Profile",
-                link: "https://linkedin.com/in/aadhithya-vijayakumar-av",
+                href: "https://linkedin.com/in/aadhithya-vijayakumar-av",
               },
               {
                 icon: faGithub,
                 text: "GitHub Repositories",
-                link: "https://github.com/Aadhiv01",
+                href: "https://github.com/Aadhiv01",
               },
             ].map((item, index) => (
               <motion.a
                 key={index}
-                href={item.link}
+                href={item.href}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="contact-item"
