@@ -20,7 +20,6 @@ const ExperienceItem = ({
   duration,
   description,
   skills,
-  isWork,
   image,
 }) => {
   const iconStyle = {
@@ -91,7 +90,7 @@ const ExperienceSection = () => {
         "Java",
         "Spring Boot",
         "Hibernate",
-        "Dropwizard",
+        "JavaScript",
         "SQL",
         "JUnit",
         "Gitlab CI/CD"

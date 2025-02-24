@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 
 import LandingSection from "./sections/LandingSection";
-import AboutSection from "./sections/AboutSection";
+import { AboutSection, AboutSectionAlt, AboutSectionInteractive } from "./sections/AboutSection";
 import ExpertiseSection from "./sections/ExpertiseSection";
 import ExperienceSection from "./sections/ExperienceSection";
 import ProjectSection from "./sections/ProjectSection";
