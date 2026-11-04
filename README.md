@@ -1,70 +1,62 @@
-# Getting Started with Create React App
+# Portfolio v2
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Personal site for Aadhithya Vijayakumar: a static-first Next.js portfolio plus a
+**Router Lab** — a real cost-routed LLM demo with a classifier, provider failover,
+per-request telemetry, and a reproducible eval harness.
 
-## Available Scripts
+## Branch model
 
-In the project directory, you can run:
+| Branch | What it is |
+|---|---|
+| `main` | Legacy Create React App site, still the deployable version at aadhithyavijayakumar.com. Do not modify. |
+| `v2` | This rebuild. Not deployed. |
 
-### `npm start`
+Cutover happens only after the v2 site passes the definition of done in
+`CLAUDE.md`.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Stack
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+Next.js 16.4.5 (App Router) · React 19.3.0 · TypeScript 5.9 (strict) ·
+Tailwind CSS 4 · shadcn/ui (Phase 2) · Recharts (Phase 4) · Vitest
 
-### `npm test`
+## Commands
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+```bash
+npm run dev        # local dev server
+npm run build      # production build
+npm start          # serve the production build
+npm run lint       # ESLint
+npm run typecheck  # tsc --noEmit
+npm test           # content schema tests (Vitest)
+```
 
-### `npm run build`
+## Content
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+All copy lives in `content/` and is typed by `content/schema.ts`. Pages must
+never hardcode copy. Unknown or unverified facts are the literal marker
+`[[TODO: …]]`; never replace one with an invented value.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+Open placeholders:
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+```bash
+grep -rn "\[\[TODO" content
+```
 
-### `npm run eject`
+See `content/MIGRATION.md` for provenance, exclusions, and the security notes
+from the legacy site (including the committed API key that must be rotated).
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+## Structure
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+```
+app/          App Router routes and layout
+components/   UI (Phase 2)
+content/      Typed JSON/MDX, assets, voice guide, migration report
+lib/          Server-side routing/orchestration (Phase 3)
+scripts/      Eval harness (Phase 4)
+```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+## Rules
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Read `CLAUDE.md` before changing anything. Plan first for changes touching more
+than three files. No secrets in the client bundle; no new dependency without a
+stated reason.
