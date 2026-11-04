@@ -1,0 +1,18 @@
+[
+  {
+    "name": "AWS Certified Solutions Architect Associate",
+    "issuer": "Amazon Web Services",
+    "year": "2023",
+    "credentialUrl": null,
+    "credentialNote": "[[TODO: add the Credly verification URL and credential ID]]",
+    "logo": "assets/aws-logo.png"
+  },
+  {
+    "name": "Oracle Certified Java Associate",
+    "issuer": "Oracle",
+    "year": "2021",
+    "credentialUrl": null,
+    "credentialNote": "[[TODO: add the Oracle certification verification URL and credential ID]]",
+    "logo": "assets/oracle-logo.png"
+  }
+]

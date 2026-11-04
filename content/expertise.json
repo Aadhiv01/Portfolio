@@ -1,0 +1,26 @@
+[
+  {
+    "title": "Full-Stack Development",
+    "description": "Mastery in end-to-end application development, from server-side logic to intuitive user interfaces."
+  },
+  {
+    "title": "Cloud Architecture",
+    "description": "Designing and implementing scalable, resilient cloud solutions using AWS, GCP, and Azure."
+  },
+  {
+    "title": "Database Optimization",
+    "description": "Expertise in SQL and NoSQL databases, focusing on performance tuning and data modeling."
+  },
+  {
+    "title": "API Design & Microservices",
+    "description": "Creating scalable, RESTful APIs and microservices architectures for modular, maintainable systems."
+  },
+  {
+    "title": "DevOps & CI/CD",
+    "description": "Implementing robust CI/CD pipelines and DevOps practices for seamless deployment and operation."
+  },
+  {
+    "title": "Data Engineering & Analytics",
+    "description": "Building robust data pipelines, architecting advanced real-time data processing systems, and crafting insightful visualizations"
+  }
+]

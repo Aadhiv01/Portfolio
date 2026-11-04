@@ -1,0 +1,152 @@
+[
+  {
+    "company": "Goldman Sachs",
+    "role": "Java Software Developer",
+    "start": "Aug 2024",
+    "end": "Present",
+    "summary": "Developed enterprise-wide risk management techniques through microservices architecture and automated deployment pipelines, strengthening real-time compliance monitoring across critical applications.",
+    "highlights": [
+      {
+        "text": "Enhanced risk controls across critical team owned applications using Java/SpringBoot and Dropwizard frameworks integrated with relational databases, reducing risk exposure and improving real-time compliance monitoring.",
+        "source": "resume",
+        "verified": true
+      },
+      {
+        "text": "Streamlined deployment processes with CI/CD pipelines through GitLab and Bash automation scripts, reducing manual intervention, and increasing system reliability.",
+        "source": "resume",
+        "verified": true
+      }
+    ],
+    "skills": ["Java", "Spring Boot", "Hibernate", "JavaScript", "SQL", "JUnit", "Gitlab CI/CD"],
+    "logo": "assets/gs-logo.webp",
+    "notes": "[[TODO: confirm the title — the resume PDF says \"Java Software Developer (Contract)\", the legacy site says \"Java Software Developer\"]]"
+  },
+  {
+    "company": "University of Utah",
+    "role": "Web Software Developer",
+    "start": "Aug 2023",
+    "end": "Aug 2024",
+    "summary": "Designed integrated academic management ecosystems by building custom applications that streamline faculty scheduling, analyze educational engagement patterns, and track student field progress.",
+    "highlights": [
+      {
+        "text": "Designed an application to support easy scheduling of class meetings using advanced JavaScript and React functionalities supported by a Java SpringBoot, Hibernate backend, reducing administrative workload by 40%.",
+        "source": "resume",
+        "verified": false,
+        "note": "[[TODO: confirm the 40% figure and its measurement basis]]"
+      },
+      {
+        "text": "Analyzed Zoom meeting interactions and related details by establishing streamlined API connections, incorporating C++ web scraping techniques and utilizing OAuth 2.0 tokens for secure access.",
+        "source": "resume",
+        "verified": true
+      },
+      {
+        "text": "Engineered a Student Field Tracker app integrating AngularJS, C# and ASP.NET with GraphQL APIs and MS SQL Server, increasing data retrieval speed by 60%.",
+        "source": "resume",
+        "verified": false,
+        "note": "[[TODO: confirm the 60% figure and its measurement basis]]"
+      },
+      {
+        "text": "Collaborated with the cloud team to integrate the database and deploy the codebase using AWS DevOps pipelines, enhancing cloud application performance.",
+        "source": "resume",
+        "verified": true
+      }
+    ],
+    "skills": ["Java", "C#", "Spring Boot", ".NET", "Hibernate", "React", "Angular", "SQL", "AWS"],
+    "logo": "assets/uofu-logo.png",
+    "notes": "The legacy site and the resume PDF both end this role in Aug 2024. The unused AIChatbot dataset says \"Present\", but it is not a source of truth."
+  },
+  {
+    "company": "Grid Elevated",
+    "role": "Software Development Intern",
+    "start": "Jan 2023",
+    "end": "Aug 2023",
+    "summary": "Designed secure, real-time enterprise data platforms that transformed how clients interact with and leverage their business data, combining robust data streaming capabilities with creative interfaces that significantly enhanced operational efficiency.",
+    "highlights": [
+      {
+        "text": "Deployed Apache Kafka for real-time data streaming, reducing data latency and improving data processing.",
+        "source": "resume",
+        "verified": true
+      },
+      {
+        "text": "Engineered robust SSL/TLS encryption standards that safeguarded the transport of client data, resulting in zero data breaches reported over a 6-month period and bolstering client confidence in service reliability.",
+        "source": "resume",
+        "verified": false,
+        "note": "[[TODO: confirm the zero-breach, six-month claim and what period it covers]]"
+      },
+      {
+        "text": "Created a high-performance, client-accessible website with React.js, Redux, JavaScript, and Python, implementing reusable UI components and performance optimization techniques, driving a 40% surge in client engagement.",
+        "source": "resume",
+        "verified": false,
+        "note": "[[TODO: confirm the 40% engagement figure and how it was measured]]"
+      },
+      {
+        "text": "Integrated the database in AWS RDS and hosted the codebase in AWS EC2, thus improving scalability.",
+        "source": "resume",
+        "verified": true
+      }
+    ],
+    "skills": ["Apache Kafka", "Python", "SSL/TLS Encryption", "React.js", "Redux", "AWS RDS", "AWS EC2"],
+    "logo": "assets/grid-elevated-logo.jpeg"
+  },
+  {
+    "company": "JPMorgan Chase & Co",
+    "role": "Software Engineering Consultant",
+    "start": "Oct 2021",
+    "end": "Jul 2022",
+    "summary": "Developed mission-critical payment processing microservices with comprehensive test automation and containerized deployments, delivering improved transaction accuracy while maintaining zero-downtime releases.",
+    "highlights": [
+      {
+        "text": "Developed and optimized secure transaction processing workflows in Java Spring Boot Microservices and Spring MVC with Maven, streamlining payment processes for clients, enhancing transaction accuracy by 30%.",
+        "source": "resume",
+        "verified": false,
+        "note": "[[TODO: confirm the 30% transaction-accuracy figure and its measurement basis]]"
+      },
+      {
+        "text": "Enhanced system reliability through rigorous TDD practices, performing frequent unit tests with JUnit and Mockito, resulting in a decrease in production errors.",
+        "source": "resume",
+        "verified": true
+      },
+      {
+        "text": "Streamlined the CI/CD process through Jenkins and Kubernetes, achieving a reduction in deployment errors and maintaining seamless application availability across different release versions.",
+        "source": "resume",
+        "verified": true
+      },
+      {
+        "text": "Facilitated agile frameworks to construct and administer detailed user stories via Atlassian Jira and Confluence.",
+        "source": "resume",
+        "verified": true
+      }
+    ],
+    "skills": ["Java Spring Boot", "Microservices", "JUnit", "Mockito", "CI/CD", "Jenkins", "Kubernetes"],
+    "logo": "assets/jpmc-logo.jpeg",
+    "notes": "[[TODO: the legacy summary claims \"zero-downtime releases\"; the resume only claims fewer deployment errors and seamless availability across versions. Verify the stronger claim or soften it.]]"
+  },
+  {
+    "company": "John Wiley & Sons, Inc.",
+    "role": "Software Developer Intern",
+    "start": "May 2021",
+    "end": "Oct 2021",
+    "summary": "Built and optimized comprehensive web platforms that integrated modern frontend technologies with robust backend services, while establishing automated testing frameworks to ensure seamless cross-browser functionality.",
+    "highlights": [
+      {
+        "text": "Designed innovative user-friendly interfaces with technologies like React.js, HTML5 and CSS3, JavaScript and jQuery while simultaneously, developing robust server-side logic and APIs using Java, Python.",
+        "source": "resume",
+        "verified": true
+      },
+      {
+        "text": "Transformed complex data systems across SQL and NoSQL databases, boosting retrieval efficiency by 40%.",
+        "source": "resume",
+        "verified": false,
+        "note": "[[TODO: confirm the 40% retrieval-efficiency figure and its measurement basis]]"
+      },
+      {
+        "text": "Championed the development of 18 comprehensive automation test scenarios aimed at ensuring cross-browser compatibility, which resulted in a 90% success rate during the initial testing phase, enhancing user experience.",
+        "source": "resume",
+        "verified": false,
+        "note": "[[TODO: confirm the 18-scenario, 90%-success figures and what the initial testing phase covered]]"
+      }
+    ],
+    "skills": ["React.js", "HTML5", "CSS3", "JavaScript", "jQuery", "Java", "Python", "SQL", "NoSQL"],
+    "logo": "assets/john-wiley-logo.jpeg"
+  }
+]
