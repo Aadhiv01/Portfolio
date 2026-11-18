@@ -1,9 +1,12 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
   cacheComponents: true,
   partialPrefetching: true,
+  images: {
+    // 82 for the hero portrait; 75 stays for everything else.
+    qualities: [75, 82],
+  },
   turbopack: {
     rules: {
       "*.css": {

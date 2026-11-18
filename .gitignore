@@ -20,6 +20,9 @@
 # production
 /build
 
+# generated from content/assets by scripts/sync-assets.mjs
+/public/assets/
+
 # misc
 .DS_Store
 *.pem
