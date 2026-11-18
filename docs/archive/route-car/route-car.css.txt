@@ -1,0 +1,274 @@
+/* ---------------------------------------------------------------------------
+   The Route. A 3D car on a lane that zig-zags down the page, or — where WebGL,
+   a wide viewport or motion is unavailable — a 1px rail at the page edge with a
+   car that descends it. Both are decorative: pointer-events none, aria-hidden.
+   --------------------------------------------------------------------------- */
+
+.route-canvas {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  pointer-events: none;
+  /* Keep the header (65px) clear of the road. */
+  clip-path: inset(65px 0 0 0);
+}
+
+.route-canvas canvas {
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+/* The 2D route. The road is absolutely positioned in page coordinates, so it
+   scrolls natively with the content and never needs a per-frame repaint. Only
+   the car, which is fixed to the viewport, is moved from script. */
+.route-doc {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 40;
+  width: 100%;
+  pointer-events: none;
+}
+
+.route-doc svg {
+  display: block;
+}
+
+.road-band {
+  fill: none;
+  stroke: color-mix(in oklab, var(--ink) 6%, transparent);
+  stroke-width: 22;
+  stroke-linejoin: round;
+}
+
+.road-dash {
+  fill: none;
+  stroke: color-mix(in oklab, var(--ink) 30%, transparent);
+  stroke-width: 1;
+  stroke-dasharray: 5 7;
+  stroke-linejoin: round;
+}
+
+.road-travelled {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.station {
+  --station-ink: var(--quiet);
+  transition: opacity 0.3s ease;
+}
+
+.station[data-state="passed"] {
+  --station-ink: var(--accent);
+}
+
+.station[data-state="active"] {
+  --station-ink: var(--ink);
+}
+
+.station line,
+.station circle {
+  fill: var(--paper);
+  stroke: var(--station-ink);
+  stroke-width: 1.5;
+}
+
+.station line {
+  fill: none;
+}
+
+.station text {
+  fill: var(--station-ink);
+  font-family: var(--font-plex-mono), ui-monospace, monospace;
+  font-size: 10px;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  /* A halo in the page colour keeps the label legible when the road runs over
+     the inverted contact block, where the accent alone would wash out. */
+  paint-order: stroke;
+  stroke: var(--paper);
+  stroke-width: 3px;
+  stroke-linejoin: round;
+}
+
+.route-car {
+  --car-body: color-mix(in oklab, var(--ink) 9%, var(--paper));
+  --car-glass: #131a2a;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 40;
+  pointer-events: none;
+  will-change: transform;
+  filter: drop-shadow(0 6px 7px rgb(0 0 0 / 0.22));
+}
+
+.dark .route-car {
+  --car-glass: #05070b;
+  filter: drop-shadow(0 6px 9px rgb(0 0 0 / 0.55));
+}
+
+.car-wheels rect {
+  fill: color-mix(in oklab, var(--ink) 88%, var(--paper));
+  /* The paper-coloured underlay keeps the silhouette readable on the inverted
+     contact block, where ink on paper would otherwise vanish. */
+  stroke: var(--paper);
+  stroke-width: 1.4;
+  paint-order: stroke;
+}
+
+.car-body {
+  fill: var(--car-body);
+  stroke: var(--ink);
+  stroke-width: 1.4;
+  stroke-linejoin: round;
+}
+
+.car-glass {
+  fill: var(--car-glass);
+}
+
+.car-roof {
+  fill: var(--car-body);
+  stroke: color-mix(in oklab, var(--ink) 40%, transparent);
+  stroke-width: 0.8;
+}
+
+.car-seam {
+  stroke: color-mix(in oklab, var(--ink) 38%, transparent);
+  stroke-width: 0.8;
+}
+
+.car-light {
+  stroke: var(--accent);
+  stroke-width: 2.4;
+  stroke-linecap: round;
+}
+
+.car-tail {
+  fill: var(--accent);
+}
+
+.route-inspect {
+  position: fixed;
+  bottom: 16px;
+  left: 16px;
+  z-index: 45;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.route-inspect-toggle {
+  border: 1px solid var(--rule);
+  background: var(--paper);
+  padding: 6px 10px;
+  color: var(--quiet);
+  font-family: var(--font-plex-mono), ui-monospace, monospace;
+  font-size: 0.66rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  transition:
+    color 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.route-inspect-toggle:hover,
+.route-inspect-toggle[aria-pressed="true"] {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.route-inspect-card {
+  margin: 0;
+  min-width: 17.5rem;
+  border: 1px solid var(--rule);
+  background: var(--paper);
+  padding: 10px 12px;
+  color: var(--ink);
+  font-family: var(--font-plex-mono), ui-monospace, monospace;
+  font-size: 0.68rem;
+  line-height: 1.7;
+  font-variant-numeric: tabular-nums;
+  white-space: pre;
+}
+
+.route-rail {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 8px;
+  z-index: 40;
+  width: 1px;
+  pointer-events: none;
+}
+
+.route-rail-track,
+.route-rail-fill {
+  position: absolute;
+  inset: 0;
+  display: block;
+}
+
+.route-rail-track {
+  background: var(--rule);
+}
+
+.route-rail-fill {
+  background: var(--accent);
+  transform: scaleY(0);
+  transform-origin: 50% 0;
+}
+
+.route-rail-car {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  display: grid;
+  width: 16px;
+  height: 30px;
+  margin-left: -8px;
+  place-items: center;
+  background: var(--paper);
+  color: var(--accent);
+}
+
+.route-rail-car svg {
+  width: 16px;
+  height: 30px;
+}
+
+@supports (animation-timeline: scroll()) {
+  .route-rail-fill {
+    animation: rail-fill both linear;
+    animation-timeline: scroll(root block);
+  }
+
+  .route-rail-car {
+    animation: rail-drive both linear;
+    animation-timeline: scroll(root block);
+  }
+}
+
+@keyframes rail-fill {
+  to {
+    transform: scaleY(1);
+  }
+}
+
+@keyframes rail-drive {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(calc(100svh - 30px));
+  }
+}
+

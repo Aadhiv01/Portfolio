@@ -1,0 +1,458 @@
+"use client";
+
+import { useEffect, useRef, useState } from "react";
+
+import {
+  advanceLimited,
+  buildRoad,
+  flipsFromBands,
+  lateralAt,
+  pointAtS,
+  sAtY,
+  tangentAtS,
+  type Flip,
+  type RoadPoint,
+} from "@/lib/route-doc";
+
+/** The page column the lanes must stay out of: 1120px wide plus 32px padding. */
+const CONTENT_MAX_WIDTH = 1120;
+const CONTENT_PADDING = 32;
+/** Where the car sits on screen, as a fraction of the viewport height. */
+const READER_ANCHOR = 0.62;
+const CAR_RATIO = 2.1;
+/** The fastest the car may move sideways, in px per second. A lane change is
+ *  ~1,200px wide but only ~150px of scroll tall, so without a limit a single
+ *  wheel notch would fling the car across the screen. With it, the car drives
+ *  the turn at a believable pace and the page can scroll on ahead of it. */
+const MAX_LATERAL_SPEED = 1000;
+
+interface Station {
+  y: number;
+  x: number;
+  label: string;
+  /** Which side of the anchor the label sits on. */
+  align: "start" | "end";
+  kind: "section" | "stop";
+}
+
+interface Geometry {
+  width: number;
+  height: number;
+  leftX: number;
+  rightX: number;
+  carWidth: number;
+  flips: Flip[];
+  stations: Station[];
+  road: RoadPoint[];
+  d: string;
+}
+
+const clamp = (value: number, min: number, max: number) =>
+  Math.min(max, Math.max(min, value));
+
+const damp = (current: number, target: number, lambda: number, dt: number) =>
+  current + (target - current) * (1 - Math.exp(-lambda * dt));
+
+/** Content edges of a section: the container's box minus its own padding. */
+function contentEdges(section: HTMLElement) {
+  const container = (section.firstElementChild as HTMLElement | null) ?? section;
+  const rect = container.getBoundingClientRect();
+  const style = getComputedStyle(container);
+
+  return {
+    top: rect.top + window.scrollY + (parseFloat(style.paddingTop) || 0),
+    bottom:
+      rect.bottom + window.scrollY - (parseFloat(style.paddingBottom) || 0),
+  };
+}
+
+function measure(): Geometry | null {
+  const sections = Array.from(
+    document.querySelectorAll<HTMLElement>("#main > section"),
+  );
+  if (sections.length < 3) return null;
+
+  const width = document.documentElement.clientWidth;
+  const height = document.documentElement.scrollHeight;
+  const gutter = Math.max(0, (width - CONTENT_MAX_WIDTH) / 2) + CONTENT_PADDING;
+  const lane = gutter / 2;
+  const leftX = lane;
+  const rightX = width - lane;
+  const carWidth = clamp(gutter * 0.52, 34, 64);
+
+  // A lane change after every section except the first (the hero) and the last.
+  const pairs: [HTMLElement, HTMLElement][] = [];
+  for (let index = 1; index < sections.length - 1; index += 1) {
+    pairs.push([sections[index], sections[index + 1]]);
+  }
+
+  const bands = pairs.map(([above, below]) => ({
+    top: contentEdges(above).bottom,
+    bottom: contentEdges(below).top,
+  }));
+  const flips = flipsFromBands(bands);
+
+  const stations: Station[] = [];
+
+  pairs.forEach(([, below], index) => {
+    const label = below.dataset.waypoint;
+    if (!label) return;
+
+    const flip = flips[index];
+    const leftToRight = index % 2 === 0;
+    stations.push({
+      y: (flip.y0 + flip.y1) / 2,
+      x: width / 2,
+      label,
+      // The road descends toward the far lane, so the clear side is the one
+      // behind it.
+      align: leftToRight ? "end" : "start",
+      kind: "section",
+    });
+  });
+
+  document.querySelectorAll<HTMLElement>("[data-station]").forEach((element) => {
+    const y = element.getBoundingClientRect().top + window.scrollY + 10;
+    const onRight = lateralAt(y, flips) > 0.5;
+
+    stations.push({
+      y,
+      x: onRight ? rightX : leftX,
+      label: element.dataset.station ?? "",
+      align: onRight ? "end" : "start",
+      kind: "stop",
+    });
+  });
+
+  const road = buildRoad(flips, leftX, rightX, 0, height);
+  const d = road
+    .map((point, index) => `${index === 0 ? "M" : "L"}${Math.round(point.x * 10) / 10} ${Math.round(point.y * 10) / 10}`)
+    .join(" ");
+
+  return {
+    width,
+    height,
+    leftX,
+    rightX,
+    carWidth,
+    flips,
+    stations,
+    road,
+    d,
+  };
+}
+
+function Car() {
+  return (
+    <svg viewBox="0 0 40 84" fill="none" aria-hidden className="size-full">
+      <g className="car-wheels">
+        <rect x="0.5" y="12" width="7" height="15" rx="2" />
+        <rect x="32.5" y="12" width="7" height="15" rx="2" />
+        <rect x="0.5" y="57" width="7" height="15" rx="2" />
+        <rect x="32.5" y="57" width="7" height="15" rx="2" />
+      </g>
+      <path
+        className="car-body"
+        d="M9 2H31Q36 2 36 8V52C36 64 31 73 27 78Q20 84 13 78C9 73 4 64 4 52V8Q4 2 9 2Z"
+      />
+      <path
+        className="car-glass"
+        d="M10 30Q10 22 13 20H27Q30 22 30 30V50Q30 56 26 58H14Q10 56 10 50Z"
+      />
+      <rect className="car-roof" x="12" y="31" width="16" height="14" rx="3" />
+      <path className="car-seam" d="M8 64Q20 69 32 64" />
+      <path className="car-seam" d="M4 18H36" />
+      <rect className="car-body" x="0.8" y="53" width="4" height="3" rx="1" />
+      <rect className="car-body" x="35.2" y="53" width="4" height="3" rx="1" />
+      <path className="car-light" d="M9 72L15 75M31 72L25 75" />
+      <rect className="car-tail" x="11" y="3.2" width="18" height="1.6" rx="0.8" />
+    </svg>
+  );
+}
+
+export default function RouteDocument() {
+  const [geometry, setGeometry] = useState<Geometry | null>(null);
+  const [inspect, setInspect] = useState(false);
+
+  const geometryRef = useRef<Geometry | null>(null);
+  const carRef = useRef<HTMLDivElement>(null);
+  const clipRef = useRef<SVGRectElement>(null);
+  const svgRef = useRef<SVGSVGElement>(null);
+  const hudRef = useRef<HTMLPreElement>(null);
+  const inspectRef = useRef(false);
+  const nodeCountRef = useRef(0);
+  const wakeRef = useRef<() => void>(() => {});
+
+  useEffect(() => {
+    inspectRef.current = inspect;
+    wakeRef.current();
+  }, [inspect]);
+
+  useEffect(() => {
+    if (!/[?&]inspect=1(?:&|$)/.test(window.location.search)) return;
+
+    // Deferred: a synchronous setState in an effect body cascades renders.
+    const frameId = requestAnimationFrame(() => setInspect(true));
+    return () => cancelAnimationFrame(frameId);
+  }, []);
+
+  useEffect(() => {
+    let current = window.scrollY;
+    let travelled: number | null = null;
+    let yaw = 0;
+    let running = false;
+    let handle = 0;
+    let last = 0;
+    let lastHud = 0;
+    const intervals: number[] = [];
+    const stationState: string[] = [];
+
+    const writeHud = (state: string, docY: number, x: number, heading: number) => {
+      const hud = hudRef.current;
+      const geo = geometryRef.current;
+      if (!hud || !geo || !inspectRef.current) return;
+
+      const average = intervals.length
+        ? intervals.reduce((sum, value) => sum + value, 0) / intervals.length
+        : 0;
+      const range = Math.max(
+        1,
+        document.documentElement.scrollHeight - window.innerHeight,
+      );
+      const progress = ((current / range) * 100).toFixed(1);
+
+      hud.textContent = [
+        `STATE   ${state}`,
+        `FRAME   ${average ? average.toFixed(1) : "—"} ms`,
+        `SCROLL  ${Math.round(current).toLocaleString("en-US")} px  ${progress}%`,
+        `ROAD    y ${Math.round(docY).toLocaleString("en-US")}  x ${Math.round(x)}`,
+        `HEADING ${((heading * 180) / Math.PI).toFixed(1)}°`,
+        `PATH    ${geo.flips.length} turns  ${geo.stations.length} stops`,
+        `SVG     ${nodeCountRef.current} nodes`,
+      ].join("\n");
+    };
+
+    const frame = (time: number) => {
+      const geo = geometryRef.current;
+      const car = carRef.current;
+      if (!geo || !car) {
+        running = false;
+        return;
+      }
+
+      const rawDt = (time - last) / 1000;
+      last = time;
+      const dt = clamp(rawDt, 0, 0.05);
+      if (rawDt > 0) {
+        intervals.push(rawDt * 1000);
+        if (intervals.length > 30) intervals.shift();
+      }
+
+      const target = window.scrollY;
+      const viewport = window.innerHeight;
+
+      current = damp(current, target, 10, dt);
+      // A long jump (an anchor link) must not leave the car off screen.
+      current = clamp(current, target - viewport * 0.5, target + viewport * 0.5);
+      if (Math.abs(target - current) < 0.25) current = target;
+
+      const anchorY = clamp(current + viewport * READER_ANCHOR, 0, geo.height);
+      const wanted = sAtY(geo.road, anchorY);
+      if (travelled === null) travelled = wanted;
+
+      // Follow the road by arc length, capping sideways speed. On a straight
+      // the cap never binds, so vertical scrolling is followed exactly.
+      travelled = advanceLimited(
+        geo.road,
+        travelled,
+        wanted,
+        MAX_LATERAL_SPEED * dt,
+      );
+
+      // After a long jump (an anchor link) the speed cap alone would leave the
+      // car crossing lanes off screen. It may fall behind by up to the height
+      // of the screen above it, so a fast flick still shows it driving the
+      // turn, but never further than that.
+      travelled = clamp(
+        travelled,
+        sAtY(geo.road, Math.max(0, anchorY - viewport * READER_ANCHOR)),
+        sAtY(geo.road, Math.min(geo.height, anchorY + viewport * 0.3)),
+      );
+
+      const spot = pointAtS(geo.road, travelled);
+      const facing = tangentAtS(geo.road, travelled);
+      const docY = spot.y;
+      const x = spot.x;
+      const heading = -Math.atan2(facing.x, facing.y);
+
+      yaw = damp(yaw, heading, 14, dt);
+
+      const screenY = docY - target;
+      const carHeight = geo.carWidth * CAR_RATIO;
+      car.style.transform = `translate3d(${x - geo.carWidth / 2}px, ${
+        screenY - carHeight / 2
+      }px, 0) rotate(${yaw}rad)`;
+
+      clipRef.current?.setAttribute("height", String(docY));
+
+      const nodes = svgRef.current?.querySelectorAll<SVGGElement>(".station");
+      nodes?.forEach((node, index) => {
+        const station = geo.stations[index];
+        if (!station) return;
+
+        const distance = docY - station.y;
+        const next =
+          Math.abs(distance) < 36 ? "active" : distance > 0 ? "passed" : "ahead";
+
+        if (stationState[index] !== next) {
+          stationState[index] = next;
+          node.dataset.state = next;
+        }
+      });
+
+      const settled =
+        target === current &&
+        Math.abs(wanted - travelled) < 0.5 &&
+        Math.abs(yaw - heading) < 0.002;
+
+      if (time - lastHud > 120 || settled) {
+        lastHud = time;
+        writeHud(settled ? "ASLEEP" : "ACTIVE", docY, x, yaw);
+      }
+
+      if (settled) {
+        running = false;
+        return;
+      }
+
+      handle = requestAnimationFrame(frame);
+    };
+
+    const wake = () => {
+      if (running) return;
+      running = true;
+      last = performance.now();
+      handle = requestAnimationFrame(frame);
+    };
+    wakeRef.current = wake;
+
+    let measuring = 0;
+    const remeasure = () => {
+      cancelAnimationFrame(measuring);
+      measuring = requestAnimationFrame(() => {
+        const next = measure();
+        geometryRef.current = next;
+        setGeometry(next);
+        wake();
+      });
+    };
+
+    remeasure();
+    document.fonts?.ready.then(remeasure);
+
+    // Opening a skills band or resizing the window moves every section.
+    const observer = new ResizeObserver(remeasure);
+    observer.observe(document.body);
+
+    window.addEventListener("scroll", wake, { passive: true });
+    window.addEventListener("resize", remeasure);
+
+    return () => {
+      cancelAnimationFrame(handle);
+      cancelAnimationFrame(measuring);
+      observer.disconnect();
+      window.removeEventListener("scroll", wake);
+      window.removeEventListener("resize", remeasure);
+    };
+  }, []);
+
+  useEffect(() => {
+    nodeCountRef.current = svgRef.current?.querySelectorAll("*").length ?? 0;
+    wakeRef.current();
+  }, [geometry]);
+
+  if (!geometry) return null;
+
+  const carHeight = geometry.carWidth * CAR_RATIO;
+
+  return (
+    <>
+      <div
+        aria-hidden
+        className="route-doc"
+        style={{ height: geometry.height }}
+      >
+        <svg
+          ref={svgRef}
+          width={geometry.width}
+          height={geometry.height}
+          viewBox={`0 0 ${geometry.width} ${geometry.height}`}
+        >
+          <defs>
+            <clipPath id="route-travelled">
+              <rect ref={clipRef} x="0" y="0" width={geometry.width} height="0" />
+            </clipPath>
+          </defs>
+          <path d={geometry.d} className="road-band" />
+          <path d={geometry.d} className="road-dash" />
+          <g clipPath="url(#route-travelled)">
+            <path d={geometry.d} className="road-travelled" />
+          </g>
+          {geometry.stations.map((station) => (
+            <g
+              key={`${station.kind}-${station.y}-${station.label}`}
+              className="station"
+              data-kind={station.kind}
+              data-state="ahead"
+            >
+              {station.kind === "stop" ? (
+                <line
+                  x1={station.x - 9}
+                  x2={station.x + 9}
+                  y1={station.y}
+                  y2={station.y}
+                />
+              ) : (
+                <circle cx={station.x} cy={station.y} r="5" />
+              )}
+              <text
+                x={
+                  station.kind === "stop"
+                    ? station.x + (station.align === "start" ? 16 : -16)
+                    : station.x + (station.align === "start" ? 8 : -8)
+                }
+                y={station.kind === "stop" ? station.y + 3.5 : station.y + 36}
+                textAnchor={station.align}
+              >
+                {station.label}
+              </text>
+            </g>
+          ))}
+        </svg>
+      </div>
+
+      <div
+        ref={carRef}
+        aria-hidden
+        className="route-car"
+        style={{ width: geometry.carWidth, height: carHeight }}
+      >
+        <Car />
+      </div>
+
+      <div className="route-inspect">
+        {inspect ? (
+          <pre ref={hudRef} className="route-inspect-card" aria-label="Route telemetry" />
+        ) : null}
+        <button
+          type="button"
+          aria-pressed={inspect}
+          onClick={() => setInspect((value) => !value)}
+          className="route-inspect-toggle"
+        >
+          Inspect
+        </button>
+      </div>
+    </>
+  );
+}

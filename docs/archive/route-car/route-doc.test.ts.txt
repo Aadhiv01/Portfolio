@@ -1,0 +1,137 @@
+import { describe, expect, it } from "vitest";
+
+import {
+  advanceLimited,
+  buildRoad,
+  flipsFromBands,
+  lateralAt,
+  pathData,
+  pointAtS,
+  sAtY,
+  tangentAtS,
+  type Flip,
+} from "@/lib/route-doc";
+
+const flips: Flip[] = [
+  { y0: 1000, y1: 1160 },
+  { y0: 3000, y1: 3160 },
+  { y0: 5000, y1: 5160 },
+];
+
+describe("flipsFromBands", () => {
+  it("centres a full-length flip in a roomy band", () => {
+    const [flip] = flipsFromBands([{ top: 900, bottom: 1300 }]);
+    expect(flip.y1 - flip.y0).toBe(160);
+    expect((flip.y0 + flip.y1) / 2).toBe(1100);
+  });
+
+  it("shrinks to keep clear space either side in a tight band", () => {
+    const [flip] = flipsFromBands([{ top: 1000, bottom: 1176 }]);
+    expect(flip.y0).toBeGreaterThanOrEqual(1000 + 24);
+    expect(flip.y1).toBeLessThanOrEqual(1176 - 24);
+  });
+
+  it("never goes below the minimum, however small the band", () => {
+    const [flip] = flipsFromBands([{ top: 1000, bottom: 1040 }]);
+    expect(flip.y1 - flip.y0).toBe(64);
+  });
+});
+
+describe("lateralAt", () => {
+  it("starts on the left and alternates lanes", () => {
+    expect(lateralAt(0, flips)).toBe(0);
+    expect(lateralAt(2000, flips)).toBe(1);
+    expect(lateralAt(4000, flips)).toBe(0);
+    expect(lateralAt(9000, flips)).toBe(1);
+  });
+
+  it("only moves inside a flip", () => {
+    expect(lateralAt(999, flips)).toBe(0);
+    expect(lateralAt(1161, flips)).toBe(1);
+    expect(lateralAt(1080, flips)).toBeCloseTo(0.5, 5);
+  });
+
+  it("moves monotonically through a flip without overshoot", () => {
+    let previous = 0;
+    for (let y = 1000; y <= 1160; y += 4) {
+      const value = lateralAt(y, flips);
+      expect(value).toBeGreaterThanOrEqual(previous - 1e-9);
+      expect(value).toBeLessThanOrEqual(1);
+      previous = value;
+    }
+  });
+});
+
+describe("road by arc length", () => {
+  const road = buildRoad(flips, 96, 1344, 0, 9000);
+
+  it("starts at zero and grows monotonically", () => {
+    expect(road[0].s).toBe(0);
+    for (let index = 1; index < road.length; index += 1) {
+      expect(road[index].s).toBeGreaterThan(road[index - 1].s);
+    }
+  });
+
+  it("is longer than the page, because the turns add distance", () => {
+    expect(road[road.length - 1].s).toBeGreaterThan(9000 + 3 * 1100);
+  });
+
+  it("round-trips page-y through arc length", () => {
+    for (const y of [0, 500, 1080, 2000, 3080, 6000, 9000]) {
+      expect(pointAtS(road, sAtY(road, y)).y).toBeCloseTo(y, 3);
+    }
+  });
+
+  it("points straight down on a straight and sideways through a turn", () => {
+    const straight = tangentAtS(road, sAtY(road, 500));
+    expect(straight.x).toBeCloseTo(0, 6);
+    expect(straight.y).toBeCloseTo(1, 6);
+
+    const turn = tangentAtS(road, sAtY(road, 1080));
+    expect(turn.x).toBeGreaterThan(0.95);
+  });
+});
+
+describe("advanceLimited", () => {
+  const road = buildRoad(flips, 96, 1344, 0, 9000);
+  const turnStart = sAtY(road, 1000);
+  const turnEnd = sAtY(road, 1160);
+
+  it("takes the whole step on a straight, however long", () => {
+    const from = sAtY(road, 200);
+    const to = sAtY(road, 900);
+    expect(advanceLimited(road, from, to, 16)).toBe(to);
+  });
+
+  it("limits the sideways distance covered at the start of a turn", () => {
+    const next = advanceLimited(road, turnStart, turnEnd, 16);
+    expect(Math.abs(pointAtS(road, next).x - pointAtS(road, turnStart).x)).toBeLessThanOrEqual(16.5);
+    expect(next).toBeGreaterThan(turnStart);
+    expect(next).toBeLessThan(turnEnd);
+  });
+
+  it("reaches the end of a turn in roughly width / speed steps", () => {
+    let s = turnStart;
+    let steps = 0;
+    while (s < turnEnd && steps < 1000) {
+      s = advanceLimited(road, s, turnEnd, 16);
+      steps += 1;
+    }
+    expect(s).toBe(turnEnd);
+    expect(steps).toBeGreaterThan(70);
+    expect(steps).toBeLessThan(90);
+  });
+});
+
+describe("pathData", () => {
+  it("starts on the left lane and ends on the lane after the last flip", () => {
+    const d = pathData(flips, 96, 1344, 0, 9000);
+    expect(d.startsWith("M96 0")).toBe(true);
+    expect(d.endsWith("L1344 9000")).toBe(true);
+  });
+
+  it("samples every flip", () => {
+    const d = pathData(flips, 96, 1344, 0, 9000, 10);
+    expect(d.split("L").length - 1).toBe(1 + flips.length * 11);
+  });
+});

@@ -1,0 +1,212 @@
+/**
+ * Geometry for the document-anchored route.
+ *
+ * The road lives in page coordinates (y = pixels from the top of the document)
+ * and scrolls natively with the content, so a lane change that starts inside
+ * the blank band between two sections stays inside it at every scroll position.
+ * Nothing here touches the DOM, so the shape is unit-testable in node.
+ */
+
+/** The blank vertical gap between the content of two neighbouring sections. */
+export interface Band {
+  top: number;
+  bottom: number;
+}
+
+/** One lane change, as the page-y range it occupies. */
+export interface Flip {
+  y0: number;
+  y1: number;
+}
+
+const clamp = (value: number, min: number, max: number) =>
+  Math.min(max, Math.max(min, value));
+
+const smoothstep = (t: number) => t * t * (3 - 2 * t);
+
+/**
+ * Centres a lane change in each band. It is `length` px tall when the band is
+ * roomy and shrinks to keep `margin` px of clear space either side, but never
+ * below `min`, so a very tight band still reads as a turn.
+ */
+export function flipsFromBands(
+  bands: readonly Band[],
+  length = 160,
+  margin = 24,
+  min = 64,
+): Flip[] {
+  return bands.map((band) => {
+    const gap = Math.max(0, band.bottom - band.top);
+    const span = clamp(length, min, Math.max(min, gap - margin * 2));
+    const middle = (band.top + band.bottom) / 2;
+    return { y0: middle - span / 2, y1: middle + span / 2 };
+  });
+}
+
+/**
+ * Lane at page-y `y`: 0 is the left lane, 1 the right. The road starts on the
+ * left and each flip switches sides, easing in and out with no kink at either
+ * end.
+ */
+export function lateralAt(y: number, flips: readonly Flip[]): number {
+  let side = 0;
+
+  for (const flip of flips) {
+    if (y <= flip.y0) break;
+
+    const t = smoothstep(clamp((y - flip.y0) / (flip.y1 - flip.y0), 0, 1));
+    const next = 1 - side;
+
+    if (y < flip.y1) return side + (next - side) * t;
+    side = next;
+  }
+
+  return side;
+}
+
+/** A sampled point on the road with the arc length travelled to reach it. */
+export interface RoadPoint {
+  x: number;
+  y: number;
+  s: number;
+}
+
+/**
+ * The road as a polyline with cumulative arc length. The car follows this by
+ * arc length rather than by page-y, which is what lets its speed along a lane
+ * change be limited independently of how fast the page is scrolled.
+ */
+export function buildRoad(
+  flips: readonly Flip[],
+  leftX: number,
+  rightX: number,
+  top: number,
+  bottom: number,
+  samples = 28,
+): RoadPoint[] {
+  const laneX = (side: number) => (side === 0 ? leftX : rightX);
+  const raw: { x: number; y: number }[] = [{ x: leftX, y: top }];
+  let side = 0;
+
+  for (const flip of flips) {
+    raw.push({ x: laneX(side), y: flip.y0 });
+
+    for (let index = 1; index <= samples; index += 1) {
+      const t = index / samples;
+      raw.push({
+        x: laneX(side) + (laneX(1 - side) - laneX(side)) * smoothstep(t),
+        y: flip.y0 + (flip.y1 - flip.y0) * t,
+      });
+    }
+
+    side = 1 - side;
+  }
+
+  raw.push({ x: laneX(side), y: bottom });
+
+  let travelled = 0;
+  return raw.map((point, index) => {
+    if (index > 0) {
+      travelled += Math.hypot(point.x - raw[index - 1].x, point.y - raw[index - 1].y);
+    }
+    return { ...point, s: travelled };
+  });
+}
+
+/** Arc length at page-y `y`. The road only ever descends, so this is monotone. */
+export function sAtY(points: readonly RoadPoint[], y: number): number {
+  if (y <= points[0].y) return 0;
+  const last = points[points.length - 1];
+  if (y >= last.y) return last.s;
+
+  let low = 0;
+  let high = points.length - 1;
+  while (high - low > 1) {
+    const mid = (low + high) >> 1;
+    if (points[mid].y <= y) low = mid;
+    else high = mid;
+  }
+
+  const a = points[low];
+  const b = points[high];
+  const span = b.y - a.y;
+  return span === 0 ? a.s : a.s + ((y - a.y) / span) * (b.s - a.s);
+}
+
+function segmentAt(points: readonly RoadPoint[], s: number): [RoadPoint, RoadPoint, number] {
+  const last = points.length - 1;
+  const clamped = clamp(s, 0, points[last].s);
+
+  let low = 0;
+  let high = last;
+  while (high - low > 1) {
+    const mid = (low + high) >> 1;
+    if (points[mid].s <= clamped) low = mid;
+    else high = mid;
+  }
+
+  const a = points[low];
+  const b = points[high];
+  const span = b.s - a.s;
+  return [a, b, span === 0 ? 0 : (clamped - a.s) / span];
+}
+
+/** Position on the road after travelling `s` px along it. */
+export function pointAtS(points: readonly RoadPoint[], s: number): RoadPoint {
+  const [a, b, t] = segmentAt(points, s);
+  return { x: a.x + (b.x - a.x) * t, y: a.y + (b.y - a.y) * t, s: clamp(s, 0, points[points.length - 1].s) };
+}
+
+/** Unit direction of travel at `s`. Straight down on a straight. */
+export function tangentAtS(points: readonly RoadPoint[], s: number): { x: number; y: number } {
+  const [a, b] = segmentAt(points, s);
+  const length = Math.hypot(b.x - a.x, b.y - a.y);
+  return length === 0 ? { x: 0, y: 1 } : { x: (b.x - a.x) / length, y: (b.y - a.y) / length };
+}
+
+/**
+ * SVG path for the whole road, built from the same points the car follows so
+ * the line and the car can never disagree about where the road is.
+ */
+export function pathData(
+  flips: readonly Flip[],
+  leftX: number,
+  rightX: number,
+  top: number,
+  bottom: number,
+  samples = 28,
+): string {
+  const round = (value: number) => Math.round(value * 10) / 10;
+
+  return buildRoad(flips, leftX, rightX, top, bottom, samples)
+    .map((point, index) => `${index === 0 ? "M" : "L"}${round(point.x)} ${round(point.y)}`)
+    .join(" ");
+}
+
+/**
+ * Moves from arc length `from` toward `to`, stopping early if the sideways
+ * distance covered would exceed `maxSideways`. The limit has to be tested on
+ * the destination, not the current heading: at the start of a lane change the
+ * road still points straight down, so a limit scaled by the heading would
+ * allow a huge first step.
+ */
+export function advanceLimited(
+  points: readonly RoadPoint[],
+  from: number,
+  to: number,
+  maxSideways: number,
+): number {
+  const startX = pointAtS(points, from).x;
+  if (Math.abs(pointAtS(points, to).x - startX) <= maxSideways) return to;
+
+  let low = 0;
+  let high = 1;
+  for (let step = 0; step < 10; step += 1) {
+    const mid = (low + high) / 2;
+    const s = from + (to - from) * mid;
+    if (Math.abs(pointAtS(points, s).x - startX) <= maxSideways) low = mid;
+    else high = mid;
+  }
+
+  return from + (to - from) * low;
+}

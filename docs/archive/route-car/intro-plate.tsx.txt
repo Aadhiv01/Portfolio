@@ -1,0 +1,46 @@
+import { content } from "@/content";
+
+const [firstName, ...rest] = content.profile.name.split(" ");
+const lastName = rest.join(" ");
+
+/**
+ * The opening plate. It is pure CSS: the two halves part on their own, so the
+ * page still opens with JavaScript disabled, and it hides itself entirely under
+ * reduced motion. `app/layout.tsx` decides whether to play it at all — a
+ * returning visitor gets `.intro-seen` on <html> before first paint.
+ */
+export function IntroPlate() {
+  const wordmark = (
+    <>
+      <span className="block">{firstName.toUpperCase()}</span>
+      <span className="block italic text-accent">{lastName}</span>
+    </>
+  );
+
+  return (
+    <div id="intro" className="intro" aria-hidden="true">
+      <div className="intro-half intro-half-left" />
+      <div className="intro-half intro-half-right" />
+
+      <div className="intro-frame">
+        <div className="intro-row intro-top">
+          <span>Portfolio</span>
+          <span>2026</span>
+        </div>
+        <div className="intro-row intro-bottom">
+          <span>Enter</span>
+          <span aria-hidden>↓</span>
+        </div>
+      </div>
+
+      <div className="intro-seam" />
+
+      <div className="intro-wordmark intro-wordmark-left">
+        <div className="intro-mark">{wordmark}</div>
+      </div>
+      <div className="intro-wordmark intro-wordmark-right">
+        <div className="intro-mark">{wordmark}</div>
+      </div>
+    </div>
+  );
+}

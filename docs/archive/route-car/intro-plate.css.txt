@@ -1,0 +1,192 @@
+/* ---------------------------------------------------------------------------
+   Intro plate. Two paper halves part down a hairline seam, tearing the
+   wordmark in two as they go. Pure CSS, so it still opens with JavaScript off.
+   The `.intro-seen` (returning tab) and `.intro-done` (skipped) classes are set
+   before first paint by the boot script in app/layout.tsx.
+   --------------------------------------------------------------------------- */
+
+.intro {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  overflow: hidden;
+  color: var(--ink);
+  animation: intro-hide 0.001s 1.44s forwards;
+}
+
+.intro-seen .intro,
+.intro-done .intro {
+  display: none;
+}
+
+@keyframes intro-hide {
+  to {
+    visibility: hidden;
+    pointer-events: none;
+  }
+}
+
+.intro-half {
+  position: absolute;
+  inset-block: 0;
+  width: 50.2%;
+  background: var(--paper);
+  animation: intro-half-left-out 0.7s cubic-bezier(0.76, 0, 0.24, 1) 0.72s
+    forwards;
+}
+
+.intro-half-left {
+  left: 0;
+}
+
+.intro-half-right {
+  right: 0;
+  animation-name: intro-half-right-out;
+}
+
+@keyframes intro-half-left-out {
+  to {
+    transform: translateX(-101%);
+  }
+}
+
+@keyframes intro-half-right-out {
+  to {
+    transform: translateX(101%);
+  }
+}
+
+.intro-frame {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: clamp(1.25rem, 4vw, 2.5rem);
+  font-family: var(--font-plex-mono), ui-monospace, monospace;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--quiet);
+  animation: intro-fade-out 0.36s ease 0.72s forwards;
+}
+
+.intro-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  opacity: 0;
+  animation: intro-row-in 0.5s cubic-bezier(0.2, 0.7, 0.2, 1) 0.05s both;
+}
+
+.intro-top {
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--rule);
+}
+
+.intro-bottom {
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--rule);
+  animation-delay: 0.13s;
+}
+
+@keyframes intro-row-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes intro-fade-out {
+  to {
+    opacity: 0;
+  }
+}
+
+.intro-seam {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 1px;
+  background: var(--rule);
+  transform-origin: 50% 50%;
+  animation:
+    intro-seam-in 0.5s cubic-bezier(0.2, 0.7, 0.2, 1) 0.05s both,
+    intro-seam-out 0.3s ease 0.68s forwards;
+}
+
+@keyframes intro-seam-in {
+  from {
+    transform: scaleY(0);
+  }
+  to {
+    transform: scaleY(1);
+  }
+}
+
+@keyframes intro-seam-out {
+  to {
+    opacity: 0;
+  }
+}
+
+.intro-wordmark {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-content: center;
+  font-family: var(--font-source-serif), Georgia, serif;
+  font-size: clamp(2.4rem, 9.5vw, 7.5rem);
+  font-weight: 500;
+  line-height: 0.92;
+  letter-spacing: -0.035em;
+  text-align: center;
+  animation-duration: 0.7s;
+  animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+  animation-delay: 0.72s;
+  animation-fill-mode: forwards;
+}
+
+.intro-wordmark-left {
+  clip-path: inset(0 50% 0 0);
+  animation-name: intro-mark-left-out;
+}
+
+.intro-wordmark-right {
+  clip-path: inset(0 0 0 50%);
+  animation-name: intro-mark-right-out;
+}
+
+@keyframes intro-mark-left-out {
+  to {
+    transform: translateX(-101%);
+  }
+}
+
+@keyframes intro-mark-right-out {
+  to {
+    transform: translateX(101%);
+  }
+}
+
+.intro-mark {
+  opacity: 0;
+  animation: intro-mark-in 0.55s cubic-bezier(0.2, 0.7, 0.2, 1) 0.16s both;
+}
+
+@keyframes intro-mark-in {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+

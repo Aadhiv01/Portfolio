@@ -6,16 +6,20 @@
 |---|---|---|
 | 0 | Branch + Next.js scaffold + tooling | Done on `v2` |
 | 1 | Content migration + typed schema | Done on `v2` |
-| 2 | Design system, layout, sections, case-study pages | Next |
-| 3 | Router Lab: classifier, provider router, failover, telemetry, BYOK route | Not started |
+| 2 | Design system, layout, sections, case-study pages | Done on `v2` (working tree; commit pending) |
+| 3 | Router Lab: classifier, provider router, failover, telemetry, BYOK route | Done on `v2` (working tree; manual BYOK run pending) |
 | 4 | Eval harness + committed results + charts | Not started |
-| 5 | QA (Lighthouse, a11y, 375/1440) + Vercel/GoDaddy cutover | Not started |
+| 5 | QA (Lighthouse, a11y, 375/1440) + Vercel/GoDaddy cutover | 375/1440 visual + a11y checks done; Lighthouse and cutover pending |
 
 Phase 3 provider decision: Anthropic `claude-sonnet-5-5` (strong tier) and
-DeepSeek `deepseek-chat` (cheap tier), with cross-provider failover. `claude-3-5-sonnet`
-is retired and must not be used. `deepseek-reasoner` (R1) is reserved for
-math/logic only if the eval shows a reasoning model wins. Verify IDs and prices
-from the provider docs at build time; keep them in one server config file.
+DeepSeek `deepseek-flash` (cheap tier), with cross-provider failover. Both IDs
+and prices were verified on 2026-11-04. DeepSeek's pricing page no longer lists
+`deepseek-chat`; `deepseek-flash` is the current cheap model and its rates vary
+by UTC window (peak 01:00–04:00 and 06:00–10:00, Mon–Fri; off-peak is half).
+`claude-3-5-sonnet` is retired and must not be used. `deepseek-reasoner` (R1) is
+reserved for math/logic only if the eval shows a reasoning model wins. Verify
+IDs and prices from the provider docs at build time; keep them in
+`lib/server/lab/config.ts` with source URLs.
 
 ## Case-study template
 

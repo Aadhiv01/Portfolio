@@ -1,0 +1,57 @@
+import type { CSSProperties } from "react";
+
+import { content } from "@/content";
+
+/** Seconds each role stays on screen, including its enter and exit. */
+const SLOT_SECONDS = 3.5;
+
+/**
+ * Keyframes sized to the role count. Each role is visible only inside its own
+ * slot (a slot is 100 / count of the period) and is hidden again before the next
+ * slot begins, so the outgoing and incoming roles never overlap. A fixed
+ * percentage table could not do this: it only fits one particular count.
+ */
+function cycleKeyframes(count: number) {
+  const slot = 100 / count;
+  const at = (fraction: number) => `${(slot * fraction).toFixed(3)}%`;
+
+  return `@keyframes role-cycle{
+0%{visibility:visible;transform:translateY(8px)}
+${at(0.1)}{visibility:visible;transform:none}
+${at(0.88)}{visibility:visible;transform:none}
+${at(0.985)},100%{visibility:hidden;transform:translateY(-8px)}
+}`;
+}
+
+/**
+ * CSS-only rotating role line. The wrapper carries the full list for screen
+ * readers; the visual spans are decorative. Reduced motion swaps in a static
+ * list instead.
+ */
+export function RoleRotator({ className }: { className?: string }) {
+  const roles = content.profile.roles;
+  const style = {
+    "--role-slot": `${SLOT_SECONDS}s`,
+    "--role-period": `${SLOT_SECONDS * roles.length}s`,
+  } as CSSProperties;
+
+  return (
+    <div className={className}>
+      <style>{cycleKeyframes(roles.length)}</style>
+      <span className="sr-only">{roles.join(", ")}</span>
+      <div aria-hidden className="role-rotator h-[1.45em]" style={style}>
+        {roles.map((role, index) => (
+          <span
+            key={role}
+            aria-hidden
+            className="role-cycle block"
+            style={{ "--role-index": index } as CSSProperties}
+          >
+            {role}
+          </span>
+        ))}
+      </div>
+      <p className="roles-static">{roles.join(" · ")}</p>
+    </div>
+  );
+}

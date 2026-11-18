@@ -1,0 +1,95 @@
+"use client";
+
+import dynamic from "next/dynamic";
+import { useEffect, useState } from "react";
+
+import { RouteRail } from "@/components/route-rail";
+
+/* Both scenes are separate chunks, requested only once the page is idle and the
+   device qualifies, so neither is in the initial JavaScript graph. */
+const RouteDocument = dynamic(() => import("@/components/route-document"), {
+  ssr: false,
+});
+const RouteCanvas = dynamic(() => import("@/components/route-canvas"), {
+  ssr: false,
+});
+
+type Mode = "pending" | "document" | "canvas" | "rail";
+
+/** Below this the side gutters are too thin to hold a car without touching text. */
+const WIDE = "(min-width: 1280px)";
+const FINE_POINTER = "(hover: hover) and (pointer: fine)";
+const MOTION_OK = "(prefers-reduced-motion: no-preference)";
+
+function hasWebGL2() {
+  try {
+    return Boolean(document.createElement("canvas").getContext("webgl2"));
+  } catch {
+    return false;
+  }
+}
+
+/**
+ * Picks the traversal. The 2D road is the default on any wide screen. The 3D
+ * scene is kept for comparison and loads only with `?route=3d` on a wide,
+ * mouse-driven display that can render WebGL2. Everything else gets the
+ * zero-JavaScript CSS rail.
+ */
+function chooseMode(): Exclude<Mode, "pending"> {
+  if (!window.matchMedia(WIDE).matches) return "rail";
+  if (!window.matchMedia(MOTION_OK).matches) return "rail";
+
+  const wants3d = /[?&]route=3d(?:&|$)/.test(window.location.search);
+  if (wants3d && window.matchMedia(FINE_POINTER).matches && hasWebGL2()) {
+    return "canvas";
+  }
+
+  return "document";
+}
+
+export function RouteStage() {
+  const [mode, setMode] = useState<Mode>("pending");
+
+  useEffect(() => {
+    let idle: number | undefined;
+    let timer: number | undefined;
+    let frame = 0;
+
+    const start = () => setMode(chooseMode());
+
+    if (typeof window.requestIdleCallback === "function") {
+      idle = window.requestIdleCallback(start, { timeout: 2000 });
+    } else {
+      timer = window.setTimeout(start, 1200);
+    }
+
+    // Re-decide when the window crosses a breakpoint or motion preference flips.
+    const reevaluate = () => {
+      cancelAnimationFrame(frame);
+      frame = requestAnimationFrame(() =>
+        setMode((previous) => {
+          if (previous === "pending") return previous;
+          return chooseMode();
+        }),
+      );
+    };
+
+    const motion = window.matchMedia(MOTION_OK);
+    motion.addEventListener("change", reevaluate);
+    window.addEventListener("resize", reevaluate);
+
+    return () => {
+      if (idle !== undefined) window.cancelIdleCallback?.(idle);
+      if (timer !== undefined) window.clearTimeout(timer);
+      cancelAnimationFrame(frame);
+      motion.removeEventListener("change", reevaluate);
+      window.removeEventListener("resize", reevaluate);
+    };
+  }, []);
+
+  // The rail is the server-rendered default, so a narrow screen or a browser
+  // without JavaScript still gets the traversal.
+  if (mode === "document") return <RouteDocument />;
+  if (mode === "canvas") return <RouteCanvas />;
+  return <RouteRail />;
+}
