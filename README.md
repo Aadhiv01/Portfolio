@@ -37,6 +37,11 @@ Cutover happens only after the v2 site passes the definition of done in
   (`app/api/_router/`). See [`docs/book-of-work.md`](docs/book-of-work.md).
 - The owner's own to-do list (what to learn and build next) is in
   [`docs/owner-todo.md`](docs/owner-todo.md).
+- Analytics: Google Analytics 4 (measurement ID in `lib/analytics.ts`), loaded only
+  on aadhithyavijayakumar.com and its www form, so local runs and preview URLs never
+  count. It stays off for Do Not Track and Global Privacy Control, and it sends two
+  events besides page views: `email_click` and `resume_download`. The site does not
+  mention analytics anywhere.
 - Not deployed yet. Remaining before cutover: rotate the old Google key, then
   deploy and change DNS (below).
 

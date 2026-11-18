@@ -179,8 +179,10 @@ titles, dates and numbers must never contradict it.
   checked on 16 Nov 2026. Move AI calls behind a server route if they return.
 - **Move the DeepSeek token out of `~/.zshrc`** into a safer store such as the
   macOS Keychain. Never commit it.
-- **Analytics.** v1 uses Google Analytics; v2's footer says "No analytics". Decide
-  before cutover, because switching loses sight of who visits.
+- **Analytics: decided.** Google Analytics 4 is kept (same property as v1), loaded
+  only on the real domain, with Do Not Track and Global Privacy Control respected.
+  Visitors in the EU may expect a consent banner for GA cookies; add one if EU
+  traffic matters.
 - **Credly link** for the AWS certification (`credentialUrl` is null).
 - **Confirm the SonarQube bullet** (did a failed quality gate really block
   merges?) before it is added to Goldman. SonarQube is on the page as a skill only.

@@ -65,6 +65,7 @@ components/
   project-row.tsx         image + summary + GitHub link (no case-study link)
   pointer-glow.tsx        client: a soft highlight that follows the mouse site-wide, plus `.spot` cards
   copy-email.tsx          client: the big email copies to the clipboard, falling back to mailto
+  analytics.tsx           Google Analytics 4 loader (real domain only, honours Do Not Track)
   interest-glyph.tsx      the owner's six single-stroke drawings for the interest rows (decorative)
   router-lab.tsx          client lab: prompt, BYOK keys, streaming answer, ticker (not mounted)
   ui/button.tsx           shadcn primitive
@@ -81,6 +82,7 @@ content/
 lib/
   content-selectors.ts    display rules: current role, verified-only highlights, skill usage
   utils.ts                cn() re-export
+  analytics.ts            the GA4 measurement ID, allowed hosts, and the guarded script (tested)
   interest-glyph-names.ts the six drawing names the interest rows may use (tested)
   lab-protocol.ts         isomorphic SSE event types shared by client and server
   lab-sse.ts              incremental SSE frame parser (client + server)

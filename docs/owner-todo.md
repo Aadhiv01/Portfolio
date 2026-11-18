@@ -88,7 +88,7 @@ guardrails, observability, Claude Code, Codex, Cursor.
 - Delete the `angular php` résumé folder. Fix Hibernate to Hibernate/JPA on the
   senior full stack and tesla variants.
 - Confirm the SonarQube quality-gate wording before adding that bullet.
-- Decide on analytics, and add the Credly link for the AWS certification.
+- Add the Credly link for the AWS certification. (Analytics is decided: Google Analytics 4.)
 - Update LinkedIn to match the site headline, and pin the portfolio repo.
 
 ## What goes on the site, and when

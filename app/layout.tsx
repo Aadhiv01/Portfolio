@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { IBM_Plex_Mono, Source_Serif_4 } from "next/font/google";
 
+import { Analytics } from "@/components/analytics";
 import { PointerGlow } from "@/components/pointer-glow";
 import { SiteHeader } from "@/components/site-header";
 import { content } from "@/content";
@@ -67,6 +68,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       <body className="min-h-svh bg-paper text-ink antialiased">
         <script dangerouslySetInnerHTML={{ __html: bootScript }} />
         <PointerGlow />
+        <Analytics />
         <a
           href="#main"
           className="fixed left-4 top-4 z-[100] -translate-y-[200%] border border-accent bg-paper px-4 py-3 font-mono text-xs uppercase tracking-[0.16em] text-ink transition-transform duration-200 focus:translate-y-0"
