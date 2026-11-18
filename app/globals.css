@@ -1,26 +1,596 @@
 @import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@custom-variant dark (&:is(.dark *));
 
 @theme inline {
+  --font-sans: var(--font-source-serif);
+  --font-serif: var(--font-source-serif);
+  --font-mono: var(--font-plex-mono);
+
+  /* Chalk neutrals, one ultramarine signal. */
+  --color-paper: var(--paper);
+  --color-ink: var(--ink);
+  --color-quiet: var(--quiet);
+  --color-rule: var(--rule);
+  --color-accent: var(--accent);
+  --color-accent-invert: var(--accent-invert);
+  --color-invert: var(--invert);
+  --color-invert-foreground: var(--invert-foreground);
+
+  /* shadcn/ui semantic tokens */
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+:root {
+  --paper: #f4f5f7;
+  --ink: #0d1220;
+  --quiet: #4c5566;
+  --rule: #d8dce4;
+  --accent: #2447e0;
+  /* The contact block follows the theme like everything else, set one tone
+     apart from the page so it still reads as its own closing section. */
+  --accent-invert: #2447e0;
+  --invert: #e6e9f0;
+  --invert-foreground: #0d1220;
+
+  --background: var(--paper);
+  --foreground: var(--ink);
+  --card: #eceff4;
+  --card-foreground: var(--ink);
+  --popover: var(--paper);
+  --popover-foreground: var(--ink);
+  --primary: var(--accent);
+  --primary-foreground: var(--paper);
+  --secondary: #eaedf2;
+  --secondary-foreground: var(--ink);
+  --muted: #eaedf2;
+  --muted-foreground: var(--quiet);
+  --destructive: #b42318;
+  --border: var(--rule);
+  --input: var(--rule);
+  --ring: var(--accent);
+  --radius: 0.125rem;
+}
+
+.dark {
+  --paper: #0c0f16;
+  --ink: #edf0f5;
+  --quiet: #b0b7c4;
+  --rule: #232833;
+  --accent: #7c92ff;
+  --accent-invert: #7c92ff;
+  --invert: #141925;
+  --invert-foreground: #edf0f5;
+
+  --background: var(--paper);
+  --foreground: var(--ink);
+  --card: #101520;
+  --card-foreground: var(--ink);
+  --popover: #101520;
+  --popover-foreground: var(--ink);
+  --primary: var(--accent);
+  --primary-foreground: #0c0f16;
+  --secondary: #171d29;
+  --secondary-foreground: var(--ink);
+  --muted: #171d29;
+  --muted-foreground: var(--quiet);
+  --destructive: #ff6b6b;
+  --border: var(--rule);
+  --input: var(--rule);
+  --ring: var(--accent);
+}
+
+@layer base {
+  * {
+    border-color: var(--border);
+  }
+
+  html {
+    /* Painted on the root so rubber-banding never exposes the white canvas. */
+    background-color: var(--paper);
+    color-scheme: light;
+    scroll-behavior: smooth;
+    scroll-padding-top: 6rem;
+    overscroll-behavior-x: none;
+  }
+
+  .dark {
+    color-scheme: dark;
+  }
+
+  body {
+    background-color: var(--paper);
+    color: var(--ink);
+    font-family: var(--font-source-serif), Georgia, "Times New Roman", serif;
+    font-synthesis-weight: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    overscroll-behavior-x: none;
+  }
+
+  ::selection {
+    background: var(--accent);
+    color: var(--paper);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+  }
+
+  h1,
+  h2,
+  h3 {
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* ---------------------------------------------------------------------------
+   Pointer highlight
+   A faint light that follows the mouse across the whole page, and a local one on
+   any `.spot` element while the pointer is over it. Both are driven by CSS
+   variables that components/pointer-glow.tsx updates once per frame. They are
+   hidden on touch screens and under reduced motion.
+   --------------------------------------------------------------------------- */
+
+.pointer-glow {
+  position: fixed;
+  inset: 0;
+  z-index: 30;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  background: radial-gradient(
+    560px circle at var(--mx, 50vw) var(--my, 50vh),
+    color-mix(in oklab, var(--accent) var(--glow-alpha, 9%), transparent),
+    transparent 70%
+  );
+}
+
+/* On pale paper the same tint reads stronger, so it is dialled down. */
+:root:not(.dark) {
+  --glow-alpha: 6%;
+  --spot-alpha: 8%;
+}
+
+html[data-glow="on"] .pointer-glow {
+  opacity: 1;
+}
+
+.spot {
+  position: relative;
+  isolation: isolate;
+}
+
+.spot::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  background: radial-gradient(
+    380px circle at var(--sx, 50%) var(--sy, 50%),
+    color-mix(in oklab, var(--accent) var(--spot-alpha, 13%), transparent),
+    transparent 65%
+  );
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .spot:hover::before {
+    opacity: 1;
+  }
+}
+
+@media (hover: none), (pointer: coarse), (prefers-reduced-motion: reduce) {
+  .pointer-glow {
+    display: none;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Interest glyphs
+   Single-stroke drawings that play once when their card (.glyph-host) is
+   hovered or focused. Structure in muted ink, the moving part in the accent.
+   Under reduced motion every glyph shows its settled, final state.
+   --------------------------------------------------------------------------- */
+
+.glyph {
+  --glyph-ink: color-mix(in oklab, var(--ink) 50%, transparent);
+  --glyph-ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+  display: block;
+  width: 44px;
+  height: 44px;
+  overflow: visible;
+}
+
+.glyph .g-base,
+.glyph .g-accent {
+  fill: none;
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.glyph .g-base {
+  stroke: var(--glyph-ink);
+}
+
+.glyph .g-accent {
+  stroke: var(--accent);
+}
+
+.glyph .g-dot {
+  fill: var(--accent);
+}
+
+.glyph .g-dot-base {
+  fill: var(--glyph-ink);
+}
+
+/* Shared trigger: the card is hovered, or something inside it has focus. */
+/* stack: the dot travels down through the layers */
+.glyph-stack .g-stack-dot {
+  transition: transform 0.9s var(--glyph-ease);
+}
+
+.glyph-host:is(:hover, :focus-within) .glyph-stack .g-stack-dot {
+  transform: translateY(24px);
+}
+
+/* correctness: the right column lines up, then the check draws */
+.glyph-correctness .g-right {
+  transform: translateY(4px);
+  transition: transform 0.45s var(--glyph-ease);
+}
+
+.glyph-correctness .g-check {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  transition: stroke-dashoffset 0.4s var(--glyph-ease);
+}
+
+.glyph-host:is(:hover, :focus-within) .glyph-correctness .g-right {
+  transform: none;
+}
+
+.glyph-host:is(:hover, :focus-within) .glyph-correctness .g-check {
+  stroke-dashoffset: 0;
+  transition-delay: 0.35s;
+}
+
+/* stream: records flow along the line; one quietly disappears */
+.glyph-host:is(:hover, :focus-within) .glyph-stream .g-flow {
+  animation: glyph-flow 0.7s linear 3;
+}
+
+.glyph-stream .g-flow-delete {
+  transition: opacity 0.6s ease 0.3s;
+}
+
+.glyph-host:is(:hover, :focus-within) .glyph-stream .g-flow-delete {
+  opacity: 0.15;
+}
+
+@keyframes glyph-flow {
+  to {
+    transform: translateX(10px);
+  }
+}
+
+/* loop: one full turn */
+.glyph-loop .g-loop {
+  transform-box: view-box;
+  transform-origin: 24px 24px;
+  transition: transform 0.9s cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+.glyph-host:is(:hover, :focus-within) .glyph-loop .g-loop {
+  transform: rotate(360deg);
+}
+
+/* pulse: one blip travels along the line */
+.glyph-pulse .g-pulse {
+  stroke-dasharray: 16 120;
+  stroke-dashoffset: 16;
+}
+
+.glyph-host:is(:hover, :focus-within) .glyph-pulse .g-pulse {
+  animation: glyph-pulse 1.1s cubic-bezier(0.65, 0, 0.35, 1) 1;
+}
+
+@keyframes glyph-pulse {
+  to {
+    stroke-dashoffset: -100;
+  }
+}
+
+/* balance: the beam tips, then settles level */
+.glyph-balance .g-beam {
+  transform-box: view-box;
+  transform-origin: 24px 14px;
+}
+
+.glyph-host:is(:hover, :focus-within) .glyph-balance .g-beam {
+  animation: glyph-balance 1.2s var(--glyph-ease) 1;
+}
+
+@keyframes glyph-balance {
+  0% {
+    transform: rotate(0);
+  }
+  30% {
+    transform: rotate(-10deg);
+  }
+  58% {
+    transform: rotate(5deg);
+  }
+  80% {
+    transform: rotate(-2deg);
+  }
+  100% {
+    transform: rotate(0);
+  }
+}
+
+/* Reduced motion: no movement, settled states only. */
+@media (prefers-reduced-motion: reduce) {
+  .glyph *,
+  .glyph-host:is(:hover, :focus-within) .glyph * {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  .glyph-correctness .g-right {
+    transform: none;
+  }
+
+  .glyph-correctness .g-check {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Experience timeline
+   A rail down the left with a circular dot per role. Each role draws the rail
+   segment below its dot as it scrolls into view, and its dot takes the accent
+   ring. Scroll-driven, so there is no script. Browsers without scroll
+   timelines show the finished rail, which is the correct fallback.
+   --------------------------------------------------------------------------- */
+
+.timeline {
+  --dot: 2.75rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+@media (min-width: 768px) {
+  .timeline {
+    --dot: 4rem;
+  }
+}
+
+.timeline-item {
+  position: relative;
+  display: grid;
+  grid-template-columns: var(--dot) minmax(0, 1fr);
+  column-gap: 1rem;
+  padding-bottom: 2.5rem;
+}
+
+@media (min-width: 768px) {
+  .timeline-item {
+    column-gap: 1.75rem;
+    padding-bottom: 3rem;
+  }
+}
+
+.timeline-item:last-child {
+  padding-bottom: 0;
+}
+
+.timeline-item::before,
+.timeline-item::after {
+  content: "";
+  position: absolute;
+  top: var(--dot);
+  bottom: 0;
+  left: calc(var(--dot) / 2);
+  width: 1px;
+  transform-origin: top;
+}
+
+.timeline-item::before {
+  background: var(--rule);
+}
+
+.timeline-item::after {
+  background: var(--accent);
+}
+
+.timeline-item:last-child::before,
+.timeline-item:last-child::after {
+  display: none;
+}
+
+.timeline-dot {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  width: var(--dot);
+  height: var(--dot);
+  place-items: center;
+  overflow: hidden;
+  border: 2px solid var(--rule);
+  border-radius: 9999px;
+  background: #fff;
+  padding: 0.4rem;
+}
+
+.timeline-card {
+  min-width: 0;
+  max-width: 46rem;
+  border: 1px solid var(--rule);
+  padding: 1.25rem;
+  transition: border-color 0.3s ease;
+}
+
+@media (min-width: 768px) {
+  .timeline-card {
+    padding: 1.75rem;
+  }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .timeline-card:hover {
+    border-color: color-mix(in oklab, var(--accent) 40%, var(--rule));
+  }
+}
+
+@supports (animation-timeline: view()) {
+  .timeline-item::after {
+    animation: timeline-draw both linear;
+    animation-timeline: view();
+    animation-range: entry 30% entry 100%;
+  }
+
+  .timeline-dot {
+    animation: timeline-dot-in both linear;
+    animation-timeline: view();
+    animation-range: entry 10% entry 55%;
+  }
+}
+
+@keyframes timeline-draw {
+  from {
+    transform: scaleY(0);
+  }
+  to {
+    transform: scaleY(1);
+  }
+}
+
+@keyframes timeline-dot-in {
+  from {
+    border-color: var(--rule);
+    transform: scale(0.82);
+  }
+  to {
+    border-color: var(--accent);
+    transform: scale(1);
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Motion
+   One motion on the page: the scroll reveal. It is pure CSS (a scroll-driven
+   animation), and it collapses under prefers-reduced-motion.
+   --------------------------------------------------------------------------- */
+
+/* Each element fades and rises as it enters the viewport. Browsers without
+   scroll timelines show the content statically, which is the correct fallback. */
+@supports (animation-timeline: view()) {
+  [data-reveal] {
+    animation: reveal-in both linear;
+    animation-timeline: view();
+    animation-range: entry var(--reveal-from, 0%) entry
+      calc(var(--reveal-from, 0%) + 42%);
+  }
+}
+
+@keyframes reveal-in {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Router Lab: streaming caret and live dot. Both stop under reduced motion. */
+@keyframes lab-blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+.lab-caret {
+  display: inline-block;
+  width: 0.5ch;
+  height: 1.05em;
+  margin-left: 2px;
+  vertical-align: -0.15em;
+  background: var(--accent);
+  animation: lab-blink 1s steps(1, end) infinite;
+}
+
+@keyframes lab-pulse {
+  50% {
+    opacity: 0.35;
+  }
+}
+
+.lab-live {
+  animation: lab-pulse 1.4s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  [data-reveal] {
+    animation: none !important;
+    opacity: 1;
+    transform: none;
+  }
+
+  .timeline-item::after,
+  .timeline-dot {
+    animation: none !important;
+  }
+
+  .timeline-dot {
+    border-color: var(--accent);
+    transform: none;
+  }
 }
