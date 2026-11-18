@@ -80,7 +80,7 @@ export function SiteNav() {
 
   return (
     <>
-      <nav aria-label="Primary" className="hidden items-center md:flex">
+      <nav aria-label="Primary" className="hidden items-center lg:flex">
         {links.map((link) => (
           <Link
             key={link.id}
@@ -104,7 +104,7 @@ export function SiteNav() {
         ))}
       </nav>
 
-      <div className="ml-2 hidden items-center gap-2 md:flex">
+      <div className="ml-2 hidden items-center gap-2 lg:flex">
         <ThemeToggle />
         <Button asChild variant="outline" size="sm">
           <a
@@ -116,7 +116,7 @@ export function SiteNav() {
         </Button>
       </div>
 
-      <div className="flex items-center gap-2 md:hidden">
+      <div className="flex items-center gap-2 lg:hidden">
         <ThemeToggle />
         <button
           type="button"
@@ -124,7 +124,7 @@ export function SiteNav() {
           aria-expanded={menuOpen}
           aria-controls="mobile-nav"
           aria-label={menuOpen ? "Close menu" : "Open menu"}
-          className="grid size-10 place-items-center border border-rule text-ink transition-colors hover:border-accent hover:text-accent max-md:size-11"
+          className="grid size-10 place-items-center border border-rule text-ink transition-colors hover:border-accent hover:text-accent max-lg:size-11"
         >
           {menuOpen ? (
             <X aria-hidden className="size-4" />
@@ -137,7 +137,7 @@ export function SiteNav() {
       {menuOpen ? (
         <div
           id="mobile-nav"
-          className="absolute inset-x-0 top-full border-b border-rule bg-paper md:hidden"
+          className="absolute inset-x-0 top-full border-b border-rule bg-paper lg:hidden"
         >
           <nav aria-label="Mobile" className="px-5 py-4">
             <ul className="divide-y divide-rule">

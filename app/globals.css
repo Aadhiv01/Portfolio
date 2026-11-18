@@ -210,6 +210,29 @@ html[data-glow="on"] .pointer-glow {
   }
 }
 
+/* Touch screens have no hover, so a press has to give the feedback instead: a soft
+   tint under the finger and the accent colour while a link or button is held. */
+@media (hover: none), (pointer: coarse) {
+  html {
+    -webkit-tap-highlight-color: color-mix(in oklab, var(--accent) 22%, transparent);
+  }
+
+  :is(a, button, summary):not([data-variant="default"]):active {
+    color: var(--accent);
+    border-color: var(--accent);
+  }
+
+  :is(a, button)[data-variant="default"]:active {
+    background: var(--ink);
+    border-color: var(--ink);
+  }
+
+  [class*="invert-foreground"] :is(a, button):active {
+    color: var(--accent-invert);
+    border-color: var(--accent-invert);
+  }
+}
+
 @media (hover: none), (pointer: coarse), (prefers-reduced-motion: reduce) {
   .pointer-glow {
     display: none;

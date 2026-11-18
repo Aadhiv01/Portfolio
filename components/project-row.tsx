@@ -23,7 +23,7 @@ export function ProjectRow({ project, index }: ProjectRowProps) {
         <div className="relative aspect-[16/10] overflow-hidden">
           <Image
             src={assetUrl(project.image)}
-            alt={`${project.title} project screenshot`}
+            alt={`${project.title} illustration`}
             fill
             sizes="(min-width: 768px) 58vw, 100vw"
             className="object-cover"

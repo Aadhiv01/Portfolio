@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { IBM_Plex_Mono, Source_Serif_4 } from "next/font/google";
 
 import { Analytics } from "@/components/analytics";
+import { SITE_URL } from "@/lib/site";
 import { PointerGlow } from "@/components/pointer-glow";
 import { SiteHeader } from "@/components/site-header";
 import { content } from "@/content";
@@ -25,7 +26,8 @@ const mono = IBM_Plex_Mono({
 const description = content.profile.headline;
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://aadhithyavijayakumar.com"),
+  metadataBase: new URL(SITE_URL),
+  alternates: { canonical: "/" },
   title: {
     default: `${content.profile.name} — ${content.profile.roles[0]}`,
     template: `%s — ${content.profile.name}`,

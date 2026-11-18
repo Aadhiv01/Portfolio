@@ -37,12 +37,12 @@ export default function HomePage() {
         aria-labelledby="hero-title"
         className="relative overflow-hidden border-b border-rule"
       >
-        <div className="mx-auto grid w-full max-w-[1120px] gap-x-10 gap-y-8 px-5 py-16 md:px-8 md:py-24 lg:min-h-[calc(100svh-4rem)] lg:grid-cols-12 lg:content-center lg:gap-y-6 lg:py-24">
-          <p className="font-mono text-[0.72rem] font-medium uppercase tracking-[0.12em] text-quiet lg:col-span-7 lg:row-start-1">
+        <div className="mx-auto grid w-full max-w-[1120px] gap-x-10 gap-y-8 px-5 py-16 md:px-8 md:py-24 md:grid-cols-12 lg:min-h-[calc(100svh-4rem)] lg:content-center lg:gap-y-6 lg:py-24">
+          <p className="font-mono text-[0.72rem] font-medium uppercase tracking-[0.12em] text-quiet md:col-span-7 md:row-start-1">
             {currentRole.role} at {currentRole.company} · since {currentSince}
           </p>
 
-          <div className="lg:col-span-7 lg:row-start-2">
+          <div className="md:col-span-7 md:row-start-2">
             <h1
               id="hero-title"
               className="font-serif text-[clamp(3rem,8.5vw,6.5rem)] font-medium leading-[0.92] tracking-[-0.035em]"
@@ -86,14 +86,14 @@ export default function HomePage() {
 
           {/* A transparent cut-out over a flat backdrop, so the face keeps its natural
               brightness while only the backdrop follows the theme. */}
-          <div className="relative mx-auto min-h-[24rem] w-full max-w-sm overflow-hidden border border-rule bg-card dark:bg-[#171c27] lg:col-span-5 lg:col-start-8 lg:row-start-2 lg:mx-0 lg:min-h-0 lg:max-w-none">
+          <div className="relative min-h-[24rem] w-full max-w-sm overflow-hidden border border-rule bg-card dark:bg-[#171c27] md:col-span-5 md:col-start-8 md:row-start-2 md:min-h-0 md:max-w-none">
             <Image
               src={assetUrl(content.profile.photo)}
               alt={`${content.profile.name} portrait`}
               fill
               priority
               quality={85}
-              sizes="(min-width: 1024px) 36vw, 90vw"
+              sizes="(min-width: 768px) 36vw, 90vw"
               className="object-cover object-top"
             />
           </div>
