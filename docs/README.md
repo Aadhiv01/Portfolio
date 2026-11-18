@@ -4,8 +4,8 @@ Everything about this rebuild in one place: what it is, what it's made of, what
 is finished, what is deliberately unfinished, and why the choices were made.
 
 > **Last updated:** 2026-11-04
-> **Branch:** `v2` (not deployed). `main` is still the live legacy CRA site at
-> aadhithyavijayakumar.com and **must not be modified** until cutover.
+> **Branch:** `v2`, live at aadhithyavijayakumar.com since 18 Nov 2026. `main` is the
+> archived legacy CRA site (tag `v1-final`); do not deploy it.
 
 ---
 
@@ -33,7 +33,7 @@ code exists only where the Router Lab needs it.
 | 2 | Design system, layout, pages, motion, QA | **Done** (working tree; commit pending) |
 | 3 | Router Lab: classifier, router, failover, telemetry, BYOK route | **Done** (working tree; manual run with real keys pending) |
 | 4 | Eval harness + committed results + Recharts charts | Not started |
-| 5 | Lighthouse, deployment, DNS cutover | Visual/a11y QA and Lighthouse done; deploy and DNS pending |
+| 5 | Lighthouse, deployment, DNS cutover | Done: deployed on Vercel, DNS cut over 18 Nov 2026 |
 
 **In one sentence:** the site is built and passes its checks; the Router Lab —
 a real classify → route → stream → measure path behind BYOK — is built, tested
