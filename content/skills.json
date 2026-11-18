@@ -1,0 +1,92 @@
+[
+  {
+    "label": "Languages",
+    "items": [
+      "Java",
+      "Python",
+      "TypeScript",
+      "SQL",
+      "JavaScript",
+      "C#",
+      "Bash"
+    ]
+  },
+  {
+    "label": "Backend",
+    "items": [
+      "Spring Boot",
+      "REST APIs",
+      "Microservices",
+      "Flask",
+      "GraphQL",
+      "OAuth 2.0",
+      "Hibernate",
+      "Spring MVC",
+      "ASP.NET"
+    ]
+  },
+  {
+    "label": "Data and streaming",
+    "items": [
+      "Apache Kafka",
+      "Change data capture",
+      "Lakehouse",
+      "Autosys"
+    ]
+  },
+  {
+    "label": "Frontend",
+    "items": [
+      "React",
+      "Angular",
+      "NgRx",
+      "Next.js",
+      "Redux",
+      "HTML",
+      "CSS",
+      "Tailwind"
+    ]
+  },
+  {
+    "label": "Databases",
+    "items": [
+      "PostgreSQL",
+      "Oracle",
+      "MS SQL Server",
+      "MySQL",
+      "MongoDB",
+      "Cassandra",
+      "Sybase"
+    ]
+  },
+  {
+    "label": "Cloud and infrastructure",
+    "items": [
+      "AWS (S3, EC2, RDS)",
+      "Terraform",
+      "Kubernetes",
+      "Jenkins",
+      "GitLab CI/CD",
+      "Ansible",
+      "Grafana",
+      "Linux"
+    ]
+  },
+  {
+    "label": "Testing",
+    "items": [
+      "JUnit",
+      "pytest",
+      "Jest",
+      "Mockito",
+      "SonarQube"
+    ]
+  },
+  {
+    "label": "AI-assisted development",
+    "items": [
+      "Claude Code",
+      "GitHub Copilot"
+    ]
+  }
+]

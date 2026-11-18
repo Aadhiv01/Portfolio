@@ -15,6 +15,8 @@ export interface Claim {
   source: ClaimSource;
   verified: boolean;
   note?: string;
+  /** Optional theme heading the bullet is shown under (used for the longest role). */
+  group?: string;
 }
 
 export interface Phone {
@@ -34,9 +36,11 @@ export interface Profile {
   legacyTagline: string;
   roles: string[];
   summary: string[];
-  summaryStatus: "legacy";
-  summaryNote: string;
-  location: string;
+  summaryStatus: "legacy" | "current";
+  /** Present only while the summary is still legacy copy awaiting a rewrite. */
+  summaryNote?: string;
+  /** Optional: the owner is open to relocation, so no location is published. */
+  location?: string;
   email: string;
   phone: Phone;
   links: ProfileLinks;
@@ -47,8 +51,15 @@ export interface Profile {
 }
 
 export interface ExpertiseArea {
+  /** A lucide-react icon name, resolved by the page. Decorative only. */
+  icon: string;
   title: string;
   description: string;
+}
+
+export interface SkillGroup {
+  label: string;
+  items: string[];
 }
 
 export interface ExperienceEntry {
@@ -58,7 +69,6 @@ export interface ExperienceEntry {
   end: string;
   summary: string;
   highlights: Claim[];
-  skills: string[];
   logo: string;
   notes?: string;
 }
@@ -68,7 +78,6 @@ export interface Project {
   title: string;
   summary: string;
   features: string[];
-  impact: string;
   tech: string[];
   repo: string;
   demo: string | null;
@@ -76,10 +85,29 @@ export interface Project {
   claims: Claim[];
 }
 
+/** One bullet an impact card is condensed from. `text` must be a verified bullet, verbatim. */
+export interface ImpactSource {
+  company: string;
+  text: string;
+}
+
+/**
+ * One card in the home page's "Selected impact" block. `line` is the short
+ * display wording and `heading` is a short outcome with its figure inside it. Each source is
+ * the exact text of a verified highlight under its company in experience.json,
+ * which a test enforces, so a card can never claim more than the résumé bullets
+ * it is condensed from. Digits in `heading` must appear in a source.
+ */
+export interface ImpactItem {
+  capability: string;
+  heading: string;
+  line: string;
+  sources: ImpactSource[];
+}
+
 export interface Certification {
   name: string;
   issuer: string;
-  year: string;
   credentialUrl: string | null;
   credentialNote?: string;
   logo: string;
@@ -101,9 +129,11 @@ export interface VisionCard {
 
 export interface ContentBundle {
   profile: Profile;
+  skills: SkillGroup[];
   expertise: ExpertiseArea[];
   experience: ExperienceEntry[];
   projects: Project[];
+  impact: ImpactItem[];
   certifications: Certification[];
   education: EducationEntry[];
   vision: VisionCard[];
@@ -124,6 +154,7 @@ const isClaim = (value: unknown): value is Claim => {
   if (value.source !== "legacy-site" && value.source !== "resume") return false;
   if (typeof value.verified !== "boolean") return false;
   if (value.note !== undefined && !isNonEmptyString(value.note)) return false;
+  if (value.group !== undefined && !isNonEmptyString(value.group)) return false;
   return !(value.verified === false && !isNonEmptyString(value.note));
 };
 
@@ -138,9 +169,9 @@ const isProfile = (value: unknown): value is Profile => {
     isNonEmptyString(value.legacyTagline) &&
     isStringArray(value.roles) &&
     isStringArray(value.summary) &&
-    value.summaryStatus === "legacy" &&
-    isNonEmptyString(value.summaryNote) &&
-    isNonEmptyString(value.location) &&
+    (value.summaryStatus === "legacy" || value.summaryStatus === "current") &&
+    (value.summaryNote === undefined || isNonEmptyString(value.summaryNote)) &&
+    (value.location === undefined || isNonEmptyString(value.location)) &&
     isNonEmptyString(value.email) &&
     isRecord(value.phone) &&
     isNonEmptyString(value.phone.number) &&
@@ -156,8 +187,14 @@ const isProfile = (value: unknown): value is Profile => {
   );
 };
 
+const isSkillGroup = (value: unknown): value is SkillGroup =>
+  isRecord(value) &&
+  isNonEmptyString(value.label) &&
+  isStringArray(value.items);
+
 const isExpertiseArea = (value: unknown): value is ExpertiseArea =>
   isRecord(value) &&
+  isNonEmptyString(value.icon) &&
   isNonEmptyString(value.title) &&
   isNonEmptyString(value.description);
 
@@ -170,7 +207,6 @@ const isExperienceEntry = (value: unknown): value is ExperienceEntry => {
     isNonEmptyString(value.end) &&
     isNonEmptyString(value.summary) &&
     isClaimArray(value.highlights) &&
-    isStringArray(value.skills) &&
     isNonEmptyString(value.logo) &&
     (value.notes === undefined || isNonEmptyString(value.notes))
   );
@@ -183,7 +219,6 @@ const isProject = (value: unknown): value is Project => {
     isNonEmptyString(value.title) &&
     isNonEmptyString(value.summary) &&
     isStringArray(value.features) &&
-    isNonEmptyString(value.impact) &&
     isStringArray(value.tech) &&
     isNonEmptyString(value.repo) &&
     (value.demo === null || isNonEmptyString(value.demo)) &&
@@ -193,12 +228,23 @@ const isProject = (value: unknown): value is Project => {
   );
 };
 
+const isImpactSource = (value: unknown): value is ImpactSource =>
+  isRecord(value) && isNonEmptyString(value.company) && isNonEmptyString(value.text);
+
+const isImpactItem = (value: unknown): value is ImpactItem =>
+  isRecord(value) &&
+  isNonEmptyString(value.capability) &&
+  isNonEmptyString(value.heading) &&
+  isNonEmptyString(value.line) &&
+  Array.isArray(value.sources) &&
+  value.sources.length > 0 &&
+  value.sources.every(isImpactSource);
+
 const isCertification = (value: unknown): value is Certification => {
   if (!isRecord(value)) return false;
   return (
     isNonEmptyString(value.name) &&
     isNonEmptyString(value.issuer) &&
-    isNonEmptyString(value.year) &&
     (value.credentialUrl === null || isNonEmptyString(value.credentialUrl)) &&
     (value.credentialNote === undefined || isNonEmptyString(value.credentialNote)) &&
     isNonEmptyString(value.logo)
@@ -230,8 +276,12 @@ export function validateContent(input: unknown): string[] {
 
   if (!isProfile(input.profile)) errors.push("profile: invalid shape");
 
+  if (!Array.isArray(input.skills) || input.skills.length === 0 || !input.skills.every(isSkillGroup)) {
+    errors.push("skills: expected a non-empty array of {label, items}");
+  }
+
   if (!Array.isArray(input.expertise) || !input.expertise.every(isExpertiseArea)) {
-    errors.push("expertise: expected a non-empty array of {title, description}");
+    errors.push("expertise: expected a non-empty array of {icon, title, description}");
   }
 
   if (!Array.isArray(input.experience) || !input.experience.every(isExperienceEntry)) {
@@ -243,6 +293,10 @@ export function validateContent(input: unknown): string[] {
   } else {
     const slugs = input.projects.map((project) => (project as Project).slug);
     if (new Set(slugs).size !== slugs.length) errors.push("projects: duplicate slug");
+  }
+
+  if (!Array.isArray(input.impact) || input.impact.length === 0 || !input.impact.every(isImpactItem)) {
+    errors.push("impact: expected a non-empty array of {capability, heading, line, sources}");
   }
 
   if (!Array.isArray(input.certifications) || !input.certifications.every(isCertification)) {

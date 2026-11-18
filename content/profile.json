@@ -1,16 +1,17 @@
 {
   "name": "Aadhithya Vijayakumar",
-  "headline": "[[TODO: one-line headline — what I build, for whom, and the scale I operate at]]",
+  "headline": "Full-stack engineer. I build the product people use and the data that moves underneath it.",
   "legacyTagline": "Bridging creativity and technical mastery to craft immersive, end-to-end software solutions",
-  "roles": ["Full-Stack Developer", "AI Enthusiast", "Problem Solver"],
-  "summary": [
-    "My journey in software development began with a fascination for the evolving digital world. Watching the transformation of user experiences across various platforms, thoroughly fascinated me and fueled my curiosity about the intricacy of ideas and implementation powering modern technology.",
-    "As a full-stack developer, I thrive on transforming complex challenges into impactful, user-centric solutions. I believe in building software that not only meets current needs but also anticipates future demands.",
-    "My vision extends beyond conventional boundaries. I'm passionately exploring the convergence of artificial intelligence, advanced data architectures, and cutting-edge DevOps practices."
+  "roles": [
+    "Full Stack Engineer",
+    "Python & Flask",
+    "Java & Spring Boot",
+    "React & Angular"
   ],
-  "summaryStatus": "legacy",
-  "summaryNote": "Legacy copy from AboutSection.jsx, preserved exactly during migration. [[TODO: rewrite in first person, problem-first; remove \"passionately\" and \"cutting-edge\" (banned by the voice rules in CLAUDE.md)]]",
-  "location": "[[TODO: city, state — confirm what should be public]]",
+  "summary": [
+    "Most of my work sits where a product meets the data behind it. I care about both being right, and about the system staying right long after it ships."
+  ],
+  "summaryStatus": "current",
   "email": "aadhithya.vijayakumar01@gmail.com",
   "phone": {
     "number": "(385)-456-7908",
@@ -21,8 +22,8 @@
     "linkedin": "https://linkedin.com/in/aadhithya-vijayakumar-av",
     "github": "https://github.com/Aadhiv01"
   },
-  "photo": "assets/profile.jpg",
+  "photo": "assets/profile-cutout.webp",
   "resume": "assets/resume.pdf",
-  "contactIntro": "[[TODO: rewrite contact intro — the legacy copy says \"actively seeking full-time roles\", which conflicts with current employment and the senior-role target]]",
+  "contactIntro": "Open to senior full stack and backend roles.",
   "legacyContactIntro": "I'm actively seeking full-time software engineering roles where I can leverage my expertise in building scalable web applications and solving complex technical challenges. Whether you have a position that matches my profile or would like to discuss potential opportunities, I'd be delighted to connect."
 }

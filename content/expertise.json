@@ -1,26 +1,32 @@
 [
   {
-    "title": "Full-Stack Development",
-    "description": "Mastery in end-to-end application development, from server-side logic to intuitive user interfaces."
+    "icon": "stack",
+    "title": "Full stack software, end to end",
+    "description": "I like owning a feature the whole way, from the data model to the screen, and shaping it with the people who'll use it. The best part is when an interface makes a complicated system feel obvious."
   },
   {
-    "title": "Cloud Architecture",
-    "description": "Designing and implementing scalable, resilient cloud solutions using AWS, GCP, and Azure."
+    "icon": "correctness",
+    "title": "Software that has to be right",
+    "description": "I'm drawn to software where a mistake is costly and quiet, like money moving or records people rely on. I like designing it so that wrong answers are hard to produce, with clear invariants, idempotent operations and tests that fail the build."
   },
   {
-    "title": "Database Optimization",
-    "description": "Expertise in SQL and NoSQL databases, focusing on performance tuning and data modeling."
+    "icon": "stream",
+    "title": "Data in motion",
+    "description": "I like what happens to data after it leaves the system it was born in, and the edge cases that change the design, such as ordering, replays, schema changes and deletes. A snapshot cannot see a record that is gone."
   },
   {
-    "title": "API Design & Microservices",
-    "description": "Creating scalable, RESTful APIs and microservices architectures for modular, maintainable systems."
+    "icon": "loop",
+    "title": "Automating the tedious",
+    "description": "I like finding a manual, repetitive process and turning it into something that runs by itself, safely, whether that is a deployment, a provisioning request or a nightly job. The best version is the one nobody has to think about."
   },
   {
-    "title": "DevOps & CI/CD",
-    "description": "Implementing robust CI/CD pipelines and DevOps practices for seamless deployment and operation."
+    "icon": "pulse",
+    "title": "Life after launch",
+    "description": "Shipping is the middle of the story. I like the work that comes after, reading a system under stress, chasing the real cause instead of the symptom, and leaving runbooks and mentoring so the next engineer can carry it."
   },
   {
-    "title": "Data Engineering & Analytics",
-    "description": "Building robust data pipelines, architecting advanced real-time data processing systems, and crafting insightful visualizations"
+    "icon": "balance",
+    "title": "Language models that earn their place",
+    "description": "When something breaks overnight, someone has to work out what happened. I want to see where a language model earns its place in a working system, starting with the first pass on what broke, and measure it against plain rules on cost as well as accuracy."
   }
 ]

@@ -1,0 +1,66 @@
+[
+  {
+    "capability": "Streaming",
+    "heading": "Batch jobs → live change streams",
+    "line": "Kafka since 2023, from real-time streaming at Grid Elevated to change data capture for reconciliation jobs at Goldman Sachs.",
+    "sources": [
+      {
+        "company": "Goldman Sachs",
+        "text": "Engineered Kafka-based change data capture for the team's long-running reconciliation jobs, replacing scheduled batch extracts with change streams so downstream teams see data as it lands."
+      },
+      {
+        "company": "Grid Elevated",
+        "text": "Deployed Apache Kafka for real-time streaming, so downstream services consumed data as it was produced instead of waiting on scheduled batch runs."
+      }
+    ]
+  },
+  {
+    "capability": "Migrations",
+    "heading": "90+ TB moved off on-prem storage",
+    "line": "Archival to S3, and a lead role in moving sensitive, write-heavy data stores from the data lake to the lakehouse.",
+    "sources": [
+      {
+        "company": "Goldman Sachs",
+        "text": "Migrated 90+ TB of long-term records from on-premises storage to AWS S3 archival, reclaiming the capacity previously provisioned to hold them."
+      },
+      {
+        "company": "Goldman Sachs",
+        "text": "Led the migration of the team's sensitive, write-heavy data stores from the data lake to the lakehouse, coordinating the cutover with the teams that build dashboards and reports on them."
+      }
+    ]
+  },
+  {
+    "capability": "Product",
+    "heading": "~40% less admin work for faculty",
+    "line": "From a scheduling application for faculty, plus a student field tracker with ~60% faster retrieval.",
+    "sources": [
+      {
+        "company": "University of Utah",
+        "text": "Built a Java/Spring Boot, Hibernate, React, and PostgreSQL scheduling application for faculty, reducing administrative workload by ~40%."
+      },
+      {
+        "company": "University of Utah",
+        "text": "Shipped the Student Field Tracker in Angular, TypeScript, C#, ASP.NET, and SQL Server, with ~60% faster retrieval."
+      }
+    ]
+  },
+  {
+    "capability": "Payments",
+    "heading": "Payment flows, domestic and overseas",
+    "line": "Built in Java Spring Boot microservices, tested with JUnit and Mockito, and released through Jenkins and Kubernetes.",
+    "sources": [
+      {
+        "company": "JPMorgan Chase & Co",
+        "text": "Built domestic and overseas client payment flows in Java Spring Boot microservices and Spring MVC."
+      },
+      {
+        "company": "JPMorgan Chase & Co",
+        "text": "Tested transaction workflows with JUnit and Mockito before release, catching defects in review, not production."
+      },
+      {
+        "company": "JPMorgan Chase & Co",
+        "text": "Automated the release path with Jenkins and Kubernetes, cutting deployment errors across releases."
+      }
+    ]
+  }
+]

@@ -1,91 +1,126 @@
 [
   {
     "company": "Goldman Sachs",
-    "role": "Java Software Developer",
+    "role": "Software Engineer",
     "start": "Aug 2024",
     "end": "Present",
-    "summary": "Developed enterprise-wide risk management techniques through microservices architecture and automated deployment pipelines, strengthening real-time compliance monitoring across critical applications.",
+    "summary": "Storage platform work for application teams across the firm, from provisioning and backups to reconciliation and the move to a lakehouse.",
     "highlights": [
       {
-        "text": "Enhanced risk controls across critical team owned applications using Java/SpringBoot and Dropwizard frameworks integrated with relational databases, reducing risk exposure and improving real-time compliance monitoring.",
+        "text": "Led the migration of the team's sensitive, write-heavy data stores from the data lake to the lakehouse, coordinating the cutover with the teams that build dashboards and reports on them.",
         "source": "resume",
-        "verified": true
+        "verified": true,
+        "group": "Data movement"
       },
       {
-        "text": "Streamlined deployment processes with CI/CD pipelines through GitLab and Bash automation scripts, reducing manual intervention, and increasing system reliability.",
+        "text": "Engineered Kafka-based change data capture for the team's long-running reconciliation jobs, replacing scheduled batch extracts with change streams so downstream teams see data as it lands.",
         "source": "resume",
-        "verified": true
+        "verified": true,
+        "group": "Data movement"
+      },
+      {
+        "text": "Migrated 90+ TB of long-term records from on-premises storage to AWS S3 archival, reclaiming the capacity previously provisioned to hold them.",
+        "source": "resume",
+        "verified": true,
+        "group": "Data movement"
+      },
+      {
+        "text": "Developed the team's Python services behind the REST and GraphQL APIs for storage provisioning and management, replacing manual requests with automation.",
+        "source": "resume",
+        "verified": true,
+        "group": "Platform services"
+      },
+      {
+        "text": "Built and extended the backup management software in Java and Spring Boot, adding reconciliation jobs that check backups against the source and reworking legacy backup paths application teams depend on.",
+        "source": "resume",
+        "verified": true,
+        "group": "Platform services"
+      },
+      {
+        "text": "Handled production incidents on the team's on-call rotation, from stuck reconciliation jobs to stale data, and turned each root cause into an alert or runbook so the next one was caught sooner.",
+        "source": "resume",
+        "verified": true,
+        "group": "Reliability and team"
+      },
+      {
+        "text": "Designed Grafana dashboards and alerts behind the team's reconciliation and backup runs, covering API health, job status, and capacity metrics for the storage products.",
+        "source": "resume",
+        "verified": true,
+        "group": "Reliability and team"
+      },
+      {
+        "text": "Owned the scheduling layer behind the team's reconciliation runs, covering Autosys job definitions and their triggers.",
+        "source": "resume",
+        "verified": true,
+        "group": "Reliability and team"
+      },
+      {
+        "text": "Mentored new hires and junior engineers, walking them through the systems and reviewing their code changes.",
+        "source": "resume",
+        "verified": true,
+        "group": "Reliability and team"
       }
     ],
-    "skills": ["Java", "Spring Boot", "Hibernate", "JavaScript", "SQL", "JUnit", "Gitlab CI/CD"],
-    "logo": "assets/gs-logo.webp",
-    "notes": "[[TODO: confirm the title — the resume PDF says \"Java Software Developer (Contract)\", the legacy site says \"Java Software Developer\"]]"
+    "logo": "assets/gs-logo.webp"
   },
   {
     "company": "University of Utah",
     "role": "Web Software Developer",
     "start": "Aug 2023",
     "end": "Aug 2024",
-    "summary": "Designed integrated academic management ecosystems by building custom applications that streamline faculty scheduling, analyze educational engagement patterns, and track student field progress.",
+    "summary": "Built faculty scheduling and student field-tracking applications, plus the integrations and deployment pipeline behind them.",
     "highlights": [
       {
-        "text": "Designed an application to support easy scheduling of class meetings using advanced JavaScript and React functionalities supported by a Java SpringBoot, Hibernate backend, reducing administrative workload by 40%.",
-        "source": "resume",
-        "verified": false,
-        "note": "[[TODO: confirm the 40% figure and its measurement basis]]"
-      },
-      {
-        "text": "Analyzed Zoom meeting interactions and related details by establishing streamlined API connections, incorporating C++ web scraping techniques and utilizing OAuth 2.0 tokens for secure access.",
+        "text": "Built a Java/Spring Boot, Hibernate, React, and PostgreSQL scheduling application for faculty, reducing administrative workload by ~40%.",
         "source": "resume",
         "verified": true
       },
       {
-        "text": "Engineered a Student Field Tracker app integrating AngularJS, C# and ASP.NET with GraphQL APIs and MS SQL Server, increasing data retrieval speed by 60%.",
+        "text": "Shipped the Student Field Tracker in Angular, TypeScript, C#, ASP.NET, and SQL Server, with ~60% faster retrieval.",
         "source": "resume",
-        "verified": false,
-        "note": "[[TODO: confirm the 60% figure and its measurement basis]]"
+        "verified": true
       },
       {
-        "text": "Collaborated with the cloud team to integrate the database and deploy the codebase using AWS DevOps pipelines, enhancing cloud application performance.",
+        "text": "Integrated Zoom APIs with OAuth 2.0 and C++ web scraping to analyze meeting engagement, then built the visualizations on top of it.",
+        "source": "resume",
+        "verified": true
+      },
+      {
+        "text": "Automated deployment of the application and its database through AWS DevOps pipelines.",
         "source": "resume",
         "verified": true
       }
     ],
-    "skills": ["Java", "C#", "Spring Boot", ".NET", "Hibernate", "React", "Angular", "SQL", "AWS"],
-    "logo": "assets/uofu-logo.png",
-    "notes": "The legacy site and the resume PDF both end this role in Aug 2024. The unused AIChatbot dataset says \"Present\", but it is not a source of truth."
+    "logo": "assets/uofu-logo.png"
   },
   {
     "company": "Grid Elevated",
     "role": "Software Development Intern",
     "start": "Jan 2023",
     "end": "Aug 2023",
-    "summary": "Designed secure, real-time enterprise data platforms that transformed how clients interact with and leverage their business data, combining robust data streaming capabilities with creative interfaces that significantly enhanced operational efficiency.",
+    "summary": "Built real-time streaming and the client-facing interface on top of it, including the encrypted transport for client data.",
     "highlights": [
       {
-        "text": "Deployed Apache Kafka for real-time data streaming, reducing data latency and improving data processing.",
+        "text": "Deployed Apache Kafka for real-time streaming, so downstream services consumed data as it was produced instead of waiting on scheduled batch runs.",
         "source": "resume",
         "verified": true
       },
       {
-        "text": "Engineered robust SSL/TLS encryption standards that safeguarded the transport of client data, resulting in zero data breaches reported over a 6-month period and bolstering client confidence in service reliability.",
+        "text": "Built the client-facing React app and its Redux store on a Flask API, plus the SSL/TLS transport layer in C++, with zero reported breaches over six months.",
         "source": "resume",
-        "verified": false,
-        "note": "[[TODO: confirm the zero-breach, six-month claim and what period it covers]]"
+        "verified": true
       },
       {
-        "text": "Created a high-performance, client-accessible website with React.js, Redux, JavaScript, and Python, implementing reusable UI components and performance optimization techniques, driving a 40% surge in client engagement.",
+        "text": "Cleaned and reshaped client data in Python before it moved downstream.",
         "source": "resume",
-        "verified": false,
-        "note": "[[TODO: confirm the 40% engagement figure and how it was measured]]"
+        "verified": true
       },
       {
-        "text": "Integrated the database in AWS RDS and hosted the codebase in AWS EC2, thus improving scalability.",
+        "text": "Hosted the application on AWS EC2 with its database on RDS.",
         "source": "resume",
         "verified": true
       }
     ],
-    "skills": ["Apache Kafka", "Python", "SSL/TLS Encryption", "React.js", "Redux", "AWS RDS", "AWS EC2"],
     "logo": "assets/grid-elevated-logo.jpeg"
   },
   {
@@ -93,60 +128,45 @@
     "role": "Software Engineering Consultant",
     "start": "Oct 2021",
     "end": "Jul 2022",
-    "summary": "Developed mission-critical payment processing microservices with comprehensive test automation and containerized deployments, delivering improved transaction accuracy while maintaining zero-downtime releases.",
+    "summary": "Built domestic and overseas payment flows in Java Spring Boot microservices, with the testing and release automation around them.",
     "highlights": [
       {
-        "text": "Developed and optimized secure transaction processing workflows in Java Spring Boot Microservices and Spring MVC with Maven, streamlining payment processes for clients, enhancing transaction accuracy by 30%.",
-        "source": "resume",
-        "verified": false,
-        "note": "[[TODO: confirm the 30% transaction-accuracy figure and its measurement basis]]"
-      },
-      {
-        "text": "Enhanced system reliability through rigorous TDD practices, performing frequent unit tests with JUnit and Mockito, resulting in a decrease in production errors.",
+        "text": "Built domestic and overseas client payment flows in Java Spring Boot microservices and Spring MVC.",
         "source": "resume",
         "verified": true
       },
       {
-        "text": "Streamlined the CI/CD process through Jenkins and Kubernetes, achieving a reduction in deployment errors and maintaining seamless application availability across different release versions.",
+        "text": "Tested transaction workflows with JUnit and Mockito before release, catching defects in review, not production.",
         "source": "resume",
         "verified": true
       },
       {
-        "text": "Facilitated agile frameworks to construct and administer detailed user stories via Atlassian Jira and Confluence.",
+        "text": "Automated the release path with Jenkins and Kubernetes, cutting deployment errors across releases.",
         "source": "resume",
         "verified": true
       }
     ],
-    "skills": ["Java Spring Boot", "Microservices", "JUnit", "Mockito", "CI/CD", "Jenkins", "Kubernetes"],
     "logo": "assets/jpmc-logo.jpeg",
-    "notes": "[[TODO: the legacy summary claims \"zero-downtime releases\"; the resume only claims fewer deployment errors and seamless availability across versions. Verify the stronger claim or soften it.]]"
+    "notes": "Legacy summary preserved: \"Developed mission-critical payment processing microservices with comprehensive test automation and containerized deployments, delivering improved transaction accuracy while maintaining zero-downtime releases.\" [[TODO: confirm the zero-downtime claim before restoring it; the rendered summary is limited to resume-supported facts.]]"
   },
   {
     "company": "John Wiley & Sons, Inc.",
     "role": "Software Developer Intern",
     "start": "May 2021",
     "end": "Oct 2021",
-    "summary": "Built and optimized comprehensive web platforms that integrated modern frontend technologies with robust backend services, while establishing automated testing frameworks to ensure seamless cross-browser functionality.",
+    "summary": "Built an online store end to end as the internship's final deliverable, with Java APIs, a React front end and the SQL behind the catalog and orders.",
     "highlights": [
       {
-        "text": "Designed innovative user-friendly interfaces with technologies like React.js, HTML5 and CSS3, JavaScript and jQuery while simultaneously, developing robust server-side logic and APIs using Java, Python.",
+        "text": "Built a Spring Boot, React, and MySQL online store end to end, the internship's final deliverable, with Java APIs.",
         "source": "resume",
         "verified": true
       },
       {
-        "text": "Transformed complex data systems across SQL and NoSQL databases, boosting retrieval efficiency by 40%.",
+        "text": "Wrote the SQL and NoSQL queries behind the store's catalog and order data, with JUnit covering the core flows.",
         "source": "resume",
-        "verified": false,
-        "note": "[[TODO: confirm the 40% retrieval-efficiency figure and its measurement basis]]"
-      },
-      {
-        "text": "Championed the development of 18 comprehensive automation test scenarios aimed at ensuring cross-browser compatibility, which resulted in a 90% success rate during the initial testing phase, enhancing user experience.",
-        "source": "resume",
-        "verified": false,
-        "note": "[[TODO: confirm the 18-scenario, 90%-success figures and what the initial testing phase covered]]"
+        "verified": true
       }
     ],
-    "skills": ["React.js", "HTML5", "CSS3", "JavaScript", "jQuery", "Java", "Python", "SQL", "NoSQL"],
     "logo": "assets/john-wiley-logo.jpeg"
   }
 ]
